@@ -48,3 +48,21 @@ def getCurrentWorkingDirectory : IO Unit := do
   let mut cwd ← IO.currentDir
   IO.println s!"Current working directory: {cwd}"
 ```
+
+# Checking metadata for path
+
+%%%
+tag := "checking-metadata-for-path"
+number := false
+%%%
+
+{index}[Checking Metadata for Path]
+{index}[Check File Size]
+
+To check metadata for a path, you can use the `System.FilePath.metadata` function, which can tell you metadata like filetype, size, access time, etc. 
+
+```lean
+def checkFileSize (path : System.FilePath) : IO Unit := do
+  let metadata ← System.FilePath.metadata path
+  IO.println s!"Size of {path}: {metadata.byteSize} bytes"
+```
