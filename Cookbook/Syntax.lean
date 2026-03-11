@@ -1,5 +1,5 @@
 import VersoManual
-import Cookbook.Syntax.quasiQuotes
+import Cookbook.Syntax.QuasiQuotes
 import Cookbook.Syntax.introducingTermsPythonsForComprehensionInLean
 import Cookbook.Syntax.introducingCommandsCheckingThatSomethingCanBeProvedByGrind
 import Cookbook.Syntax.addingSyntaxAndSyntaxCategories
@@ -17,7 +17,7 @@ In Lean, code is first _parsed_ into syntax, which is then _elaborated_ into exp
 
 In this chapter we give recipes for matching, creating and transforming syntax.
 
-{include 1 Cookbook.Syntax.quasiQuotes}
+{include 1 Cookbook.Syntax.QuasiQuotes}
 {include 1 Cookbook.Syntax.introducingTermsPythonsForComprehensionInLean}
 {include 1 Cookbook.Syntax.introducingCommandsCheckingThatSomethingCanBeProvedByGrind}
 {include 1 Cookbook.Syntax.addingSyntaxAndSyntaxCategories}

@@ -1,5 +1,5 @@
 import VersoManual
-import Cookbook.Expressions.kindsofExpressions
+import Cookbook.Expressions.TypesOfExpressions
 import Cookbook.Expressions.displayingExpressionsInInfoView
 import Cookbook.Expressions.syntaxStringsFromExpressions
 import Cookbook.Expressions.matchingExpressionsExactMatch
@@ -19,7 +19,7 @@ number := false
 
 In this chapter we collect recipes to manipulate expressions including building and pattern-matching.
 
-{include 1 Cookbook.Expressions.kindsofExpressions}
+{include 1 Cookbook.Expressions.TypesOfExpressions}
 {include 1 Cookbook.Expressions.displayingExpressionsInInfoView}
 {include 1 Cookbook.Expressions.syntaxStringsFromExpressions}
 {include 1 Cookbook.Expressions.matchingExpressionsExactMatch}
