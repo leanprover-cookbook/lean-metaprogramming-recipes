@@ -17,3 +17,31 @@ number := false
 %%%
 
 {index}[Creating directories]
+
+To create directories, we use functions from the `IO.FS.createDir` module. This will create a single directory at the specified path. If the parent directories do not exist, it will throw an error.
+
+```lean
+def createDirectory (path : System.FilePath) : IO Unit := do
+  try
+    IO.FS.createDir path
+    IO.println s!"Directory '{path}' created successfully."
+  catch e =>
+    IO.println s!"Failed to create directory '{path}': {e}"
+
+```
+
+If you want to create a directory along with any necessary parent directories, you can use `IO.FS.createDirAll`. This will create the entire directory structure specified in the path if it does not already exist.
+
+```lean
+def createDirectoryAll (path : System.FilePath) : IO Unit := do
+  try
+    IO.FS.createDirAll path
+    IO.println s!"Directory '{path}' created successfully."
+catch e =>
+    IO.println s!"Failed to create directory '{path}': {e}"
+
+-- Useful Tip: String value also works here
+#eval createDirectory "testDir/subDir"
+```
+
+Notice that `String` (like `"testdir/subdir"`) works even though the functions expect a `System.FilePath`. This is because Lean has a *coercion* (an instance of `Coe String System.FilePath`) that automatically converts string literals into file path objects when needed. 

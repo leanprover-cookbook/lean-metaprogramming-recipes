@@ -11,9 +11,99 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Writing to a file" =>
 
+# How to write to a file
+
 %%%
 tag := "writing-to-file"
 number := false
 %%%
 
 {index}[Writing to a file]
+
+
+Writing to a file in Lean can be done using the `IO.FS` module. To create a new file and write a string to it, you can use `IO.FS.Handle.mk` to create a file handle using a string path and the `IO.FS.Mode.write` mode to indicate that you want to write to the file. The `file` has type `IO.FS.Handle`, which means you are given the handle to the file and can do operations on it.
+
+To write a string to the file, you can use the `putStr` method on the file handle. This will overwrite the contents of the file with the string you provide. If the file does not exist, it will be created.
+
+```lean
+def writeToFile (path : String) (s : String) : IO Unit := do
+  let file := ← IO.FS.Handle.mk path IO.FS.Mode.write
+  file.putStr s
+```
+
+# How to append text to a file
+
+%%%
+tag := "appending-to-file"
+number := false
+%%%
+
+{index}[Appending to a file]
+
+To append text to a file instead of overwriting it, you can use the `IO.FS.Mode.append` mode when creating the file handle. This will allow you to add new content to the end of the file without deleting the existing content. Note that it will not add a newline character automatically, you would have to include it.
+
+```lean
+def appendToFile (path : String) (s : String) : IO Unit := do
+  let file := ← IO.FS.Handle.mk path IO.FS.Mode.append
+  file.putStr s
+```
+
+Instead if you wanted to write the string in the beginning of the file and keep the existing content, you can read the existing content first, then write the new string followed by the old content.
+
+```lean
+def prependToFile (path : String) (s : String) : IO Unit := do
+  let file := ← IO.FS.Handle.mk path IO.FS.Mode.read
+  let oldContent ← file.readToEnd
+  let file := ← IO.FS.Handle.mk path IO.FS.Mode.write
+  file.putStr (s ++ oldContent)
+```
+
+# How to write to JSON files
+
+%%%
+tag := "writing-to-json"
+number := false
+%%%
+
+{index}[Writing to JSON files]
+
+To write to a JSON file, you can use the `Lean.Json` module to convert your data into JSON format. If you are writing a fresh JSON file, you can create a JSON object and then write it to the file or if you want to load and write to an existing JSON file, you can read the existing content, modify it, and then write it back to the file. Refer {ref "reading-from-json"}[Reading from JSON] for how to read from a JSON file.
+
+
+1. If you are making a new JSON file:
+```lean
+def writeToJsonFile (path : System.FilePath) (data : Json) : IO Unit := do
+  let file := ← IO.FS.Handle.mk path IO.FS.Mode.write
+  file.putStr (toString data)
+```
+
+2. Writing JSON data inside the function and not as an argument:
+
+```lean 
+def writeJsonDataToFile (path : System.FilePath) : IO Unit := do
+  let data : Json := Json.mkObj [("name", "Alice"), ("age", 30)]
+  -- you can also use the json macro:
+  let _data' : Json := json% {
+    name: "Alice",
+    age: 30
+  }
+  IO.FS.writeFile path (toString data)
+  -- IO.FS.writeFile path (toString _data')
+```
+
+3. Saving a custom structure using `ToJson`:
+
+The most common way to write JSON is by defining a structure and deriving a `ToJson` instance. This allows you to convert Lean objects directly to JSON.
+
+```lean
+structure User where
+  name : String
+  age  : Nat
+  isAdmin : Bool
+deriving ToJson, FromJson
+
+def saveUser (path : System.FilePath) (user : User) : IO Unit := do
+  -- .pretty(2) formats the JSON with an indent of 2 spaces
+  IO.FS.writeFile path (toJson user).pretty
+```
+
