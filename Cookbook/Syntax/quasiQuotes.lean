@@ -11,7 +11,7 @@ set_option pp.rawOnError true
 #doc (Manual) "Quasi-Quotes: Creating and Matching Syntax" =>
 
 %%%
-tag := "title-as-it-is"
+tag := "quasi-quotes"
 number := false
 %%%
 
