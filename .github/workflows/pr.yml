@@ -16,17 +16,16 @@ jobs:
 
       - name: Check for Case Mismatches (PascalCase)
         run: |
-          # Check only the Cookbook directory and the template file
-          # This ensures we don't accidentally flag config files in the root.
-          LOWERCASE_FILES=$(git ls-files Cookbook/ TemplateRecipe.lean | grep '\.lean$' | grep -E '(^|/)[a-z]')
-          if [ ! -z "$LOWERCASE_FILES" ]; then
-            echo "Error: The following files have lowercase names in the Git index:"
+          # Git Index check for any .lean file starting with a lowercase letter in Cookbook/
+          LOWERCASE_FILES=$(git ls-files Cookbook/ TemplateRecipe.lean | grep '\.lean$' | grep -E '(^|/)[a-z]' || true)
+          if [ -n "$LOWERCASE_FILES" ]; then
+            echo "::error::The following files have lowercase names in the Git index:"
             echo "$LOWERCASE_FILES"
-            echo "Lean 4 and case-sensitive systems (Linux) require PascalCase."
-            echo "Please rename them locally using 'git mv <old> <new>'."
+            echo "Lean 4 and case-sensitive systems (Linux) require PascalCase for imports."
+            echo "To fix this on macOS, run: git mv path/to/lowercase.lean path/to/PascalCase.lean"
             exit 1
           fi
-          echo "All .lean files are correctly PascalCased in the Git index."
+          echo "All checked .lean files are correctly PascalCased."
 
       - name: Lean Action (Build)
         uses: leanprover/lean-action@v1
