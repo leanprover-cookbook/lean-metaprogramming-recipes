@@ -11,11 +11,11 @@ set_option pp.rawOnError true
 #doc (Manual) "title" =>
 
 %%%
-tag := "title-as-it-is"
+tag := "tag-similar-to-title"
 number := false
 %%%
 
-{index}[Title]
+{index}[Similar To Title]
 
 # Your recipe subheaders, etc
 

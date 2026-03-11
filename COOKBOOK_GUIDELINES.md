@@ -46,7 +46,8 @@ Please go through the [BuildingRecipe.lean](./Cookbook/BuildingRecipe.lean) on m
    - Do not use symbols or numbers in file names. Use words to describe them (e.g., `And` instead of `&`, `Zero` instead of `0`, etc.).
    - The file name should be meaningful based on the recipe content. AVoid using generic names or adjectives, like `AnEasyMacro.lean`, `AUsefulTactic.lean`, etc. If you think the recipe is easy or useful, you can index it accordingly or you can mention about that in the description, which the Verso Search will pick up for finding your recipe.
 
-> Certain Exceptions to the above rules exist like a basic `HelloWorldTactic.lean` recipe can be named to get started. If you would like, please use this as a getting started recipe in a new chapter. You can subinclude multiple recipes in the same file to give basic codes for getting started with a topic.
+> Certain Exceptions to the above rules exist like a basic `HelloWorldTactic.lean` and `Miscellaneous.lean` recipe can be named to get started. If you would like, please use this as a getting started recipe in a new chapter. You can subinclude multiple recipes in the same file to give basic codes for getting started with a topic.
+> `Miscellaneous.lean` can be used for recipes that are trivial, small and not very important to have their own file, but you still want to include them in the chapter. You can have as many miscellaneous recipes as you want in this file.
 
 3. **Titles**: Use descriptive and user-friendly titles for the recipe that can be easily understood by readers. The title should give a clear idea of what the recipe is about without being too technical.
    - Title's first letter of first word should be capitalized, rest is upto you.
@@ -55,7 +56,7 @@ Please go through the [BuildingRecipe.lean](./Cookbook/BuildingRecipe.lean) on m
 
 - **Atomic Examples**: Keep each recipe focused on one specific problem.
 
-- **Indexing**: Add index entries for key concepts: `{index}[Recipe Title]`. The title of recipe and index naming should be the same.
+- **Indexing**: Add index entries for key concepts: `{index}[Recipe Title]`. The title of recipe and index naming should be the similar.
 
 - **Explain the "Why"**: Don't just show code; explain the approach and mention any "Pro-tips", but avoid excessive conceptual explanations unless necessary, by this we mean that refer any other official documentation/books for conceptual explanations, but if no other resources exist, then you can add a brief conceptual explanation but it should be concise and to the point.
 
