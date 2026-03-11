@@ -59,3 +59,45 @@ def spawnExternalProgram (cmd : String) (args : Array String) : IO Unit := do
 -- #eval spawnExternalProgram "touch" #["test.txt"]
 ```
 
+# Application: File Compression and Decompression
+
+%%%
+tag := "file-compression-decompression"
+number := false
+%%%
+
+{index}[File Compression and Decompression]
+
+Lean does not have built-in support for file compression, but we can easily call external programs like `gzip` or `zip` to perform these tasks.
+
+Using the functions defined above, we can easily perform common system tasks like compressing files or creating archives.
+
+1. Using `gzip`
+
+The `gzip` command is a standard tool for single-file compression.
+
+```lean
+def compressFile (path : System.FilePath) : IO Unit := do
+  let _ ← runExternalProgram "gzip" #["-k", path.toString]
+  IO.println s!"Compressed {path}"
+```
+
+2. Creating a `.zip` Archive
+
+To archive multiple files or directories, we can use the `zip` utility.
+
+```lean
+def createArchive (archiveName : String) (files : Array String) : IO Unit := do
+  let _ ← runExternalProgram "zip" (#[archiveName] ++ files)
+  IO.println s!"Created archive {archiveName}"
+```
+
+To decompress a `.zip` file, we can use the `unzip` command:
+
+```lean
+def decompressArchive (archiveName : String) : IO Unit := do
+  let _ ← runExternalProgram "unzip" #["-o", archiveName]
+  IO.println s!"Decompressed archive {archiveName}"
+```
+
+For any other compression formats, you can similarly call the appropriate command-line tool using the `runExternalProgram` function.
