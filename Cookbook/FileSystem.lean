@@ -3,6 +3,7 @@ import Cookbook.FileSystem.ReadingFromFile
 import Cookbook.FileSystem.WritingToFile
 import Cookbook.FileSystem.RunningAnExternalProgram
 import Cookbook.FileSystem.CreatingDirectories
+import Cookbook.FileSystem.ListDirectory
 import Cookbook.FileSystem.DeletingFileOrDirectory
 import Cookbook.FileSystem.ReadWriteJson
 import Cookbook.FileSystem.ReadWriteJsonl
@@ -20,6 +21,7 @@ number := false
 {include 1 Cookbook.FileSystem.ReadingFromFile}
 {include 1 Cookbook.FileSystem.WritingToFile}
 {include 1 Cookbook.FileSystem.CreatingDirectories}
+{include 1 Cookbook.FileSystem.ListDirectory}
 {include 1 Cookbook.FileSystem.DeletingFileOrDirectory}
 {include 1 Cookbook.FileSystem.RunningAnExternalProgram}
 {include 1 Cookbook.FileSystem.ReadWriteJson}

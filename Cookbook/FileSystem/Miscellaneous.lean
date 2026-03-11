@@ -66,3 +66,39 @@ def checkFileSize (path : System.FilePath) : IO Unit := do
   let metadata ← System.FilePath.metadata path
   IO.println s!"Size of {path}: {metadata.byteSize} bytes"
 ```
+
+# Checking if a path is absolute or relative 
+
+%%%
+tag := "checking-if-path-is-absolute-or-relative"
+number := false
+%%%
+
+{index}[Checking if Path is Absolute or Relative]
+
+```lean
+def checkAbsolutePath (path₁ path₂: System.FilePath) : IO Unit := do
+  if path₁.isAbsolute then
+    IO.println s!"{path₁} is an absolute path"
+  else
+    IO.println s!"{path₁} is not an absolute path"
+
+  if path₂.isRelative then
+    IO.println s!"{path₂} is a relative path"
+  else
+    IO.println s!"{path₂} is not a relative path"
+```
+
+# Normalizing a file path
+
+%%%
+tag := "normalizing-file-path"
+number := false
+%%%
+
+To normalize a file path, which means to resolve any `.` or `..` components and remove redundant separators and make it OS-compatible, you can use the `normalize` method.
+
+```lean
+def normalizePath (path: System.FilePath) : IO Unit := do
+  IO.println s!"Normalized path: {path.normalize}"
+```

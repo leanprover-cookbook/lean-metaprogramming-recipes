@@ -5,6 +5,7 @@ import Cookbook.Overview
 import Cookbook.Expressions
 import Cookbook.Syntax
 import Cookbook.FileSystem
+import Cookbook.IO
 import Cookbook.MaintainingState
 import Cookbook.Tactics
 import Cookbook.Index
@@ -57,6 +58,8 @@ Lean 4.
 {include 1 Cookbook.Tactics}
 
 {include 1 Cookbook.FileSystem}
+
+{include 1 Cookbook.IO}
 
 {include 1 Cookbook.MaintainingState}
 
