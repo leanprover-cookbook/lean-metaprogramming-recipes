@@ -42,13 +42,24 @@ number := false
 
 To append text to a file instead of overwriting it, you can use the `IO.FS.Mode.append` mode when creating the file handle. This will allow you to add new content to the end of the file without deleting the existing content. Note that it will not add a newline character automatically, you would have to include it.
 
+*Important:* `flush` is necessary to ensure that the file handler writes the content to the file immediately. Otherwise, the content may be buffered and not written until later.
+
 ```lean
 def appendToFile (path : String) (s : String) : IO Unit := do
   let file := ← IO.FS.Handle.mk path IO.FS.Mode.append
   file.putStr s
-```
+  file.flush
 
-Instead if you wanted to write the string in the beginning of the file and keep the existing content, you can read the existing content first, then write the new string followed by the old content.
+-- Another way
+def appendToFile' (path : System.FilePath) (s : String) : IO Unit := do
+  IO.FS.withFile path IO.FS.Mode.append fun handle =>
+    handle.putStr s
+
+```
+Note, `withFile` is recommended because it ensures the handle is closed and the buffer is flushed, even if an exception is thrown.
+
+
+Now if you wanted to write the string in the beginning of the file and keep the existing content, you can read the existing content first, then write the new string followed by the old content.
 
 ```lean
 def prependToFile (path : String) (s : String) : IO Unit := do
@@ -56,5 +67,11 @@ def prependToFile (path : String) (s : String) : IO Unit := do
   let oldContent ← file.readToEnd
   let file := ← IO.FS.Handle.mk path IO.FS.Mode.write
   file.putStr (s ++ oldContent)
+  file.flush
+
+-- Another way
+def prependToFile' (path : System.FilePath) (s : String) : IO Unit := do
+  let oldContent ← IO.FS.readFile path
+  IO.FS.writeFile path (s ++ oldContent)
 ```
 
