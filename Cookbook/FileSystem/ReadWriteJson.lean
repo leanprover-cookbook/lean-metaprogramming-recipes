@@ -9,7 +9,29 @@ open Cookbook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Writing to JSON File" =>
+#doc (Manual) "Handling JSON Files" =>
+
+{index}[Handling JSON files]
+
+# How to read a JSON file
+
+%%%
+tag := "reading-json-file"
+number := false
+%%%
+
+{index}[Reading a JSON file]
+
+To read a JSON file, you can use the `Json` module in Lean as `import Lean.Data.Json`. You can read the file as a string and then parse it using `Json.parse`:
+
+```lean
+def readJsonFile (path : System.FilePath) : IO Json := do
+  let content ← IO.FS.readFile path
+  match Json.parse content with
+  | Except.ok json => return json
+  | Except.error err =>
+    throw <| IO.userError s!"Failed to parse JSON: {err}"
+```
 
 # How to write to JSON files
 
