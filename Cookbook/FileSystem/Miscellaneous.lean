@@ -102,3 +102,23 @@ To normalize a file path, which means to resolve any `.` or `..` components and 
 def normalizePath (path: System.FilePath) : IO Unit := do
   IO.println s!"Normalized path: {path.normalize}"
 ```
+
+# Renaming a file path
+
+%%%
+tag := "renaming-file-path"
+number := false
+%%%
+
+{index}[Renaming a File Path]
+
+To rename a file path, you can use the `System.FilePath.rename` function, which takes the old path and the new path as arguments.
+
+```lean
+def renameFile (oldPath newPath : System.FilePath): IO Unit := do
+  try 
+    IO.FS.rename oldPath newPath
+    IO.println s!"Renamed {oldPath} to {newPath}"
+  catch e =>
+    IO.eprintln s!"Failed to rename {oldPath} to {newPath}: {e}"
+```

@@ -26,7 +26,11 @@ Writing to a file in Lean can be done using the `IO.FS` module. To create a new 
 To write a string to the file, you can use the `putStr` method on the file handle. This will overwrite the contents of the file with the string you provide. If the file does not exist, it will be created.
 
 ```lean
-def writeToFile (path : String) (s : String) : IO Unit := do
+def writeToFile (path : System.FilePath) (s : String) : IO Unit := do
+  IO.FS.writeFile path s
+
+-- Another way where you use file handle directly
+def writeToFile' (path : String) (s : String) : IO Unit := do
   let file := ← IO.FS.Handle.mk path IO.FS.Mode.write
   file.putStr s
 ```
