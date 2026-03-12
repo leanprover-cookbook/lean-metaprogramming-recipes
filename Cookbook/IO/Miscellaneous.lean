@@ -9,7 +9,7 @@ open Cookbook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Miscellaneous" =>
+#doc (Manual) "Miscellaneous IO" =>
 
 # Get a Random Number
 
