@@ -52,7 +52,7 @@ where
       for p in subParts do part p
   block : Block Manual → StateT (HashMap String String) IO Unit
     | .other which contents => do
-      if which.name == ``Block.savedLean then
+      if which.name == ``savedLeanBlock then
         let .arr #[.str fn, .str code] := which.data
           | logError s!"Failed to deserialize saved Lean data {which.data}"
         modify fun saved =>
@@ -60,7 +60,7 @@ where
             let prior := prior.getD ""
             some (prior ++ code ++ "\n")
 
-      if which.name == ``Block.savedImport then
+      if which.name == ``savedImportBlock then
         let .arr #[.str fn, .str code] := which.data
           | logError s!"Failed to deserialize saved Lean import data {which.data}"
         modify fun saved =>
@@ -166,6 +166,14 @@ def customCodeCss : CssFile where
 .header-title-wrapper {
   display: flex;
   align-items: center;
+}
+
+.contributors {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d0d7de;
+  font-size: 0.9rem;
+  color: #6e7781;
 }
 "#
 
