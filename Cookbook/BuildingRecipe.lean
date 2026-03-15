@@ -1,21 +1,23 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
 
 #doc (Manual) "How to build a Recipe" =>
-
 %%%
 tag := "building-recipe"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[How to build a Recipe]
 
@@ -47,6 +49,10 @@ Inside each header/subheader you can define a tag like this-
 tag := "my-tag"
 number := false
 %%%
+
+::: contributors
+:::
+
 ```
 
 This way, you can refer to this section later using the tag.
@@ -91,16 +97,18 @@ import Cookbook.Lean
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
 
-open Cookbook
 
 set_option pp.rawOnError true
 
 #doc (Manual) "title" =>
-
 %%%
 tag := "title-as-it-is"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Title]
 

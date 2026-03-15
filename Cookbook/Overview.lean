@@ -1,15 +1,18 @@
 import VersoManual
+import Cookbook.Lean
 import Cookbook.Overview.CodeSyntaxExpressions
 import Cookbook.Overview.MonadsInPractice
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "What is Metaprogramming?" =>
-
 %%%
 tag := "overview"
 number := false
 %%%
+
+::: contributors
+:::
 
 Meta programming in Lean refers to the ability to write code that manipulates other code. As code is represented by strings, the simpleminded way to do meta programming is to manipulate strings. However, this is  very error-prone and not very powerful or efficient.
 

@@ -169,11 +169,27 @@ def customCodeCss : CssFile where
 }
 
 .contributors {
-  margin-top: 3rem;
-  padding-top: 1rem;
-  border-top: 1px solid #d0d7de;
+  margin-top: 2rem;
   font-size: 0.9rem;
-  color: #6e7781;
+  color: #1f2328;
+  font-family: var(--verso-structure-font-family);
+  font-weight: 400;
+}
+
+.contributors strong {
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.contributor-link {
+  color: #1f2328;
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.contributor-link:hover {
+  text-decoration: underline;
+  color: #0969da;
 }
 "#
 

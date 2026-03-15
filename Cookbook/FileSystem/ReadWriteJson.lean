@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -19,6 +18,10 @@ set_option pp.rawOnError true
 tag := "reading-json-file"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Reading a JSON file]
 
@@ -39,6 +42,10 @@ def readJsonFile (path : System.FilePath) : IO Json := do
 tag := "writing-json-file"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Writing to JSON files]
 

@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -15,6 +14,10 @@ set_option pp.rawOnError true
 tag := "running-an-external-program"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Running an external program]
 
@@ -65,6 +68,10 @@ def spawnExternalProgram (cmd : String) (args : Array String) : IO Unit := do
 tag := "file-compression-decompression"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[File Compression and Decompression]
 

@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -21,6 +20,10 @@ JSONL (JSON Lines) is a format where each line is a valid JSON object. This is p
 tag := "reading-jsonl-file"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Reading JSONL files]
 
@@ -45,6 +48,10 @@ def readJsonlFile (path : System.FilePath) : IO (Array Json) := do
 tag := "writing-jsonl-file"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Writing JSONL files]
 

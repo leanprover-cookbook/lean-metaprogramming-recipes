@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -17,6 +16,10 @@ set_option pp.rawOnError true
 tag := "list-directory"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Listing contents of a directory]
 
@@ -37,6 +40,10 @@ Each `DirEntry` contains the `fileName` (the name of the file or directory itsel
 tag := "recursive-directory-traversal"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Recursive directory traversal]
 {index}[Walking a directory tree]

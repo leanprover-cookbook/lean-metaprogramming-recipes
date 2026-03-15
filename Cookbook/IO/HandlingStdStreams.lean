@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -16,12 +15,19 @@ tag := "handling-std-streams"
 number := false
 %%%
 
+::: contributors
+:::
+
 # How to Read from Stdin
 
 %%%
 tag := "read-stdin"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Reading from Stdin]
 

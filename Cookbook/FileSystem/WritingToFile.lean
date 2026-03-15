@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -17,6 +16,10 @@ set_option pp.rawOnError true
 tag := "writing-to-file"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Writing to a file]
 
@@ -41,6 +44,10 @@ def writeToFile' (path : String) (s : String) : IO Unit := do
 tag := "appending-to-file"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Appending to a file]
 

@@ -1,10 +1,9 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -17,6 +16,7 @@ number := false
 
 ::: contributors
 :::
+
 
 {index}[Types of Expressions]
 

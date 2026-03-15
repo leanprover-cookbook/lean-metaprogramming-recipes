@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -17,6 +16,10 @@ set_option pp.rawOnError true
 tag := "tasks-and-concurrency"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Tasks and Concurrency]
 
@@ -61,6 +64,10 @@ def computeSomething : Nat :=
 tag := "parallel-io"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Parallel IO]
 

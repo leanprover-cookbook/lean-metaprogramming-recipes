@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -17,6 +16,10 @@ set_option pp.rawOnError true
 tag := "time-measurement"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Timing performance]
 {index}[Put a Process to Sleep]

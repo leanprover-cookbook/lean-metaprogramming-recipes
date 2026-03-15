@@ -1,8 +1,7 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
-open Cookbook
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "Index" =>
 
@@ -15,7 +14,7 @@ number := false
 
 # Project Contributors
 
-This cookbook is a community effort. Thanks to everyone who has contributed:
+This cookbook is a community effort. Thanks to everyone who has contributed and hoping the Lean Community will find this useful!
 
-::: hallOfFame
+::: allContributors
 :::

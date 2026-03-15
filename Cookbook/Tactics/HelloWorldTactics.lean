@@ -1,10 +1,9 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -14,6 +13,10 @@ set_option pp.rawOnError true
 tag := "hello-world-tactics"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Hello World Tactic]
 

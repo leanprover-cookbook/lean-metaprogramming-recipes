@@ -1,4 +1,5 @@
 import VersoManual
+import Cookbook.Lean
 import Cookbook.Tactics.HelloWorldTactics
 import Cookbook.Tactics.TacticUsingMacro
 import Cookbook.Tactics.TacticUsingElaborators
@@ -8,7 +9,7 @@ import Cookbook.Tactics.WritingTacticsThatCloseGoals
 import Cookbook.Tactics.WritingTacticsGivingNewGoals
 import Cookbook.Tactics.TryingDifferentNaturalNumbers
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "Tactics" =>
 
@@ -16,6 +17,10 @@ open Verso.Genre Manual
 tag := "tactics"
 number := false
 %%%
+
+::: contributors
+:::
+
 {include 1 Cookbook.Tactics.HelloWorldTactics}
 {include 1 Cookbook.Tactics.TacticUsingMacro}
 {include 1 Cookbook.Tactics.TacticUsingElaborators}

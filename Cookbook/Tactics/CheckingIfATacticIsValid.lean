@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -15,5 +14,9 @@ set_option pp.rawOnError true
 tag := "checking-if-a-tactic-is-valid"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Checking validity of Tactics]

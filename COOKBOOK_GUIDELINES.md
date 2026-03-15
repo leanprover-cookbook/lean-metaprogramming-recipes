@@ -73,6 +73,14 @@ To see what the recipe and cookbook will look like, you can go to `lean-metaprog
 
 - _No AI Slop_. Please write the content yourself. Since this is meant for you to write code easily, the more AI Slop there is (with complicated jargon and less precise explanations), the less useful it will be. If you need help, ask in discussions or reach out on Lean zulip.
 
+## Contributor Acknowledgment
+
+We acknowledge and appreciate the contributions of all contributors to this cookbook. Thank you so much. We add at the top of the recipe the name of the contributor and a link to the commits pushed on the repository by the contributor, so that they can get credit for their work. However, we do not put the name of the contributor which only involve administrative work like import fix, better index name, an extra empty line, etc. We only put the name of the contributor who contributed to the content of the recipe, like writing code, writing explanations, adding references, etc.
+
+This is done using by picking up the contributor's name using `git` and since it uses the history of the file, it will not only pick up the name of the actual authors, but people who did administrative work like formatting the file if any issue, adding new lines, fixing imports, etc. This makes it harder to find to tag the actual authors for any questions or clarifications for the recipe. But we do give credit to everyone whoever has even a single commit, in `Cookbook Contributors` section at the end of `Index`.
+
+Since we use `git` history to pick up the contributor's name, you donot add the name of the contributor manually in the recipe anywhere, and it's automatically picked up and added to the recipe.
+
 ## Building and Previewing
 
 The output will be in `_out/html-multi`. You can serve it locally using any static file server (e.g., `python3 -m http.server -d _out/html-multi`).

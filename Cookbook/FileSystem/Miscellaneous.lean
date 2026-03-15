@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -17,6 +16,10 @@ set_option pp.rawOnError true
 tag := "concatenating-file-paths"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Concatenating file paths]
 
@@ -39,6 +42,10 @@ tag := "getting-current-working-directory"
 number := false
 %%%
 
+::: contributors
+:::
+
+
 {index}[Getting Current Working Directory]
 
 In order to get the current working directory(cwd), we can use the `IO.currentDir` API.
@@ -55,6 +62,10 @@ def getCurrentWorkingDirectory : IO Unit := do
 tag := "checking-metadata-for-path"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Checking Metadata for Path]
 {index}[Check File Size]
@@ -73,6 +84,10 @@ def checkFileSize (path : System.FilePath) : IO Unit := do
 tag := "checking-if-path-is-absolute-or-relative"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Checking if Path is Absolute or Relative]
 
@@ -96,6 +111,9 @@ tag := "normalizing-file-path"
 number := false
 %%%
 
+::: contributors
+:::
+
 To normalize a file path, which means to resolve any `.` or `..` components and remove redundant separators and make it OS-compatible, you can use the `normalize` method.
 
 ```lean
@@ -109,6 +127,10 @@ def normalizePath (path: System.FilePath) : IO Unit := do
 tag := "renaming-file-path"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Renaming a File Path]
 
