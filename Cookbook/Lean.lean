@@ -29,6 +29,23 @@ def excludedAuthors : List String := [
 initialize contributorCache : IO.Ref (HashMap (Option String) (List (String × String))) ← IO.mkRef {}
 
 /--
+Adds a contributor to the list, or updates their name if a "better" one is found for the same email.
+Better means: has spaces (likely a full name) or is simply longer.
+-/
+def addOrUpdateContributor (pairs : List (String × String)) (name email : String) : List (String × String) :=
+  match pairs.findIdx? (·.2 == email) with
+  | some idx =>
+    let (oldName, _) := pairs[idx]!
+    let isBetter := (name.contains ' ' && !oldName.contains ' ') || 
+                    (name.length > oldName.length && !(oldName.contains ' ' && !name.contains ' '))
+    if isBetter then
+      pairs.set idx (name, email)
+    else
+      pairs
+  | none =>
+    if pairs.any (·.1 == name) then pairs else pairs ++ [(name, email)]
+
+/--
 Fetches unique authors (Name × Email) for a given file.
 Uses `git blame` to ignore people who only added boilerplate or metadata.
 -/
@@ -94,16 +111,14 @@ def getContributors (file? : Option String) : IO (List (String × String)) := do
           
         if isMeaningful then
           if currentName != "" && !excludedAuthors.contains currentName && !excludedAuthors.contains currentMail then
-            if !pairs.any (·.1 == currentName) then
-              pairs := pairs ++ [(currentName, currentMail)]
+            pairs := addOrUpdateContributor pairs currentName currentMail
   else
     -- Log parsing mode (for global index)
     for line in lines do
       match line.splitOn "|" with
       | [name, email] => 
         if !excludedAuthors.contains name && !excludedAuthors.contains email then
-          if !pairs.any (·.1 == name) then
-            pairs := pairs ++ [(name, email)]
+          pairs := addOrUpdateContributor pairs name email
       | _ => continue
 
   contributorCache.modify (·.insert file? pairs)
