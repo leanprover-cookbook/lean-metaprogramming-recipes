@@ -1,4 +1,5 @@
 import VersoManual
+import Cookbook.Lean
 import Cookbook.Expressions.TypesOfExpressions
 import Cookbook.Expressions.DisplayingExpressionsInInfoView
 import Cookbook.Expressions.SyntaxStringsFromExpressions
@@ -8,7 +9,7 @@ import Cookbook.Expressions.BuildingExpressionsForFunctionApplications
 import Cookbook.Expressions.BuildingExpressionsWithVariablesFunctionsAndDependentFunctionTypes
 import Cookbook.Expressions.ReplacingCodeUsingTryThis
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "Working with Expressions" =>
 
@@ -16,6 +17,9 @@ open Verso.Genre Manual
 tag := "expressions"
 number := false
 %%%
+
+::: contributors
+:::
 
 In this chapter we collect recipes to manipulate expressions including building and pattern-matching.
 

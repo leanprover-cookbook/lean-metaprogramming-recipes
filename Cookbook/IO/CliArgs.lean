@@ -1,24 +1,26 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
 #doc (Manual) "Parsing Command Line Arguments" =>
 
-%%%
-tag := "parsing-cli-args"
-number := false
-%%%
+::: contributors
+:::
 
 {index}[Parsing Command Line Arguments]
 
 # Parsing Command Line Arguments
+
+%%%
+tag := "parsing-cli-args"
+number := false
+%%%
 
 In Lean 4, the most common and idiomatic way to access command-line arguments is to define your `main` function to accept a `List String`. When you run your executable, Lean automatically populates this list with the arguments provided.
 
@@ -39,7 +41,11 @@ For many tools, you just need to check for specific flags or a single input file
 def parseArgs (args : List String) : IO Unit := do
   match args with
   | [] | ["--help"] | ["-h"] =>
-    IO.println "Usage: mytool [OPTIONS] [FILE]\n\nOptions:\n  -h, --help     Show this help\n  -v, --version  Show version"
+    IO.println "Usage: mytool [OPTIONS] [FILE]\n"
+    IO.println "Options:"
+    IO.println "  -h, --help     Show this help"
+    IO.println "  -v, --version  Show version"
+
   | ["--version"] | ["-v"] =>
     IO.println "mytool version 1.0.0"
   | [filename] =>
@@ -61,7 +67,8 @@ structure CliConfig where
 deriving Repr
 
 /-- Recursively parses arguments into a CliConfig structure. -/
-partial def parseConfig (args : List String) (cfg : CliConfig := {}) : CliConfig :=
+partial def parseConfig (args : List String) (cfg : CliConfig := {})
+  : CliConfig :=
   match args with
   | [] => cfg
   | "-v" :: rest | "--verbose" :: rest =>

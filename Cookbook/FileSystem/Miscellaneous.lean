@@ -1,15 +1,19 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
 #doc (Manual) "Miscellaneous FileSystem Usages" =>
+
+::: contributors
+:::
+
+These are some miscellaneous File System usages that you might find useful when working with file paths in Lean.
 
 # How to concatenate file paths
 
@@ -38,6 +42,7 @@ This object you can use like usual since the new path is still a `System.FilePat
 tag := "getting-current-working-directory"
 number := false
 %%%
+
 
 {index}[Getting Current Working Directory]
 

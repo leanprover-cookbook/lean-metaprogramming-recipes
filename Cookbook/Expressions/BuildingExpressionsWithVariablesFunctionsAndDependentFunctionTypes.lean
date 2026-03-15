@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -15,6 +14,10 @@ set_option pp.rawOnError true
 tag := "building-expressions-with-variables-functions-and-dependent-function-types"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Building expressions with variables, functions, and dependent function types]
 

@@ -83,4 +83,25 @@ If `lake exe` panics with `executed 'sorry'`:
 
 1. Check your `+error` blocks. Ensure the error message matches the Lean output **perfectly**.
 2. Ensure every `+error` block has a `(name := ...)` argument.
-3. If all else fails, remove the `+error` or `leanOutput` and use a standard code block until the mismatch is found.
+3. If all else fails, remove the `+error` or `leanOutput` and use a standard code block until the mismatch
+
+## Contributor Acknowledgment
+
+We acknowledge and appreciate the contributions of all contributors to this cookbook. Thank you so much! We add at the top of the recipe the name of the contributor and a link to the commits pushed on the repository by the contributor, so that they can get credit for their work. However, we do not put the name of the contributor which only involve administrative work like import fix, better index name, an extra empty line, small typos. etc. We only put the name of the contributor who contributed to the content of the recipe, like writing code, writing explanations, adding references, etc.
+
+**Why this is Done?** This is a similar idea that Mathlib has -
+
+```
+Regarding the list of authors: We don't have strict rules on what contributions qualify for inclusion there. The general idea is that the people listed there should be the ones we would reach out to if we had questions about the design or development of the Lean code.
+```
+
+We would like to follow the similar idea. That's all.
+
+If you are worried about I am only fixing a small typo, but I donot want to get added to the list of contributors, we have set a limit of `15` characters, which if exceeded in 1 commit, you will get added. This threshold is arbitrary and good enough hopefully to not add people who fix typos. Again, this is only for above mentioned reason and for our convenience.
+
+> This was added in [#15](https://github.com/leanprover-cookbook/lean-metaprogramming-recipes/pull/15) and hence the 15 character limit :-)
+
+**Do I add my Name somewhere?**
+
+No, this is automatically done using by picking up the contributor's name using `git` and since it uses the history of the file, it will not only pick up the name of the actual authors, but people who did administrative work as mentioned above won't be added. This makes it harder to find to tag the actual authors for any questions or clarifications for the recipe. But we do give credit to everyone whoever has even a single commit, in `Cookbook Contributors` section at the end of `Index`. Since we use `git` history to pick up the contributor's name, you donot add the name of the contributor manually in the recipe anywhere, and it's automatically picked up and added to the recipe.
+is found.

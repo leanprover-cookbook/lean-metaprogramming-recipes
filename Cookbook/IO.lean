@@ -1,4 +1,5 @@
 import VersoManual
+import Cookbook.Lean
 import Cookbook.IO.HandlingStdStreams
 import Cookbook.IO.CliArgs
 import Cookbook.IO.EnvironmentVars
@@ -6,7 +7,7 @@ import Cookbook.IO.TimePerformanceMeasure
 import Cookbook.IO.TasksAndConcurrency
 import Cookbook.IO.Miscellaneous
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "I/O and Processes" =>
 
@@ -14,6 +15,10 @@ open Verso.Genre Manual
 tag := "io"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[I/O and Processes]
 

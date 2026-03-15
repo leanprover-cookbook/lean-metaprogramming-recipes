@@ -1,15 +1,17 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
 #doc (Manual) "Environment Variables" =>
+
+::: contributors
+:::
 
 # Reading Environment Variables
 
@@ -17,6 +19,7 @@ set_option pp.rawOnError true
 tag := "reading-environment-variables"
 number := false
 %%%
+
 
 {index}[Reading Environment Variables]
 
@@ -36,6 +39,10 @@ def checkUser : IO Unit := do
 tag := "setting-environment-variables"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Setting Environment Variables]
 

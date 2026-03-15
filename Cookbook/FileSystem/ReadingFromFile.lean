@@ -1,11 +1,10 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -16,9 +15,10 @@ tag := "reading-from-file"
 number := false
 %%%
 
-{index}[Reading from a file]
+::: contributors
+:::
 
-# How to read from a file in Lean
+{index}[Reading from a file]
 
 Reading from a file is needs to be done in the `IO` monad, using the `IO.FS` module.
 

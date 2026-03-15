@@ -1,10 +1,9 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -14,6 +13,10 @@ set_option pp.rawOnError true
 tag := "kinds-of-expressions"
 number := false
 %%%
+
+::: contributors
+:::
+
 
 {index}[Types of Expressions]
 
@@ -87,3 +90,4 @@ These are given by the `proj` constructor and represent projections from structu
 ## `mdata` expressions
 
 These are given by the `mdata` constructor and represent expressions with metadata. They consist of a metadata object and an expression. Metadata can be used to attach additional information to an expression, such as source location information or annotations.
+

@@ -1,14 +1,12 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 open Lean Elab Meta Tactic Command
-open Cookbook
 
 set_option pp.rawOnError true
-
 
 #doc (Manual) "How to build a Recipe" =>
 
@@ -16,6 +14,9 @@ set_option pp.rawOnError true
 tag := "building-recipe"
 number := false
 %%%
+
+::: contributors
+:::
 
 {index}[How to build a Recipe]
 
@@ -31,6 +32,8 @@ A typical recipe should have the following structure:
 4. Any explanation required or referencing other resources for further reading.
 5. Any more follow up usecases of this solution in a subsection, for example, for reading a file, you can also mention on how to read a JSON, CSV, etc. filetypes. No need for another recipe for each filetype. Please do add Tags and Index to each of the subheader for easy referencing.
 6. Please do mention any other debugging tips, expected errors, further usage of the solution, etc.
+
+You can find this template in the repository [here](https://github.com/leanprover-cookbook/lean-metaprogramming-recipes/blob/main/TemplateRecipe.lean).
 
 # Adding Sections
 
@@ -52,6 +55,20 @@ number := false
 This way, you can refer to this section later using the tag.
 
 *How to get the link to the tag?* - You can find the tag in the URL when you navigate to that section on the website after clicking on the header.
+
+
+# Contributor Section
+
+Every page at the top contains the contributors section, just below the `#doc (Manual) "Title" =>` line. These are automatically picked up from `git` and you don't have to do anything. Details on who is acknowledged as a contributor for that page is mentioned in [COOKBOOK\_GUIDELINES](../COOKBOOK_GUIDELINES.md) file. 
+
+Note that only once at the top of the page, you need to add the line below to show the contributors section.
+
+```
+::: contributors
+:::
+```
+
+Verso follows a strict rule of where you can place the `:::` block. You cannot place this block above `%%%` block, it has to be below it. Hence it is advised to keep this contributor block at the top of the page, as mentioned above. If you have `%%%` block below `#doc` line, then contributor block should be below the `%%%` block. See other recipes for examples.
 
 # Formatting Text
 
@@ -76,35 +93,7 @@ Expected errors must be explicitly marked with `+error`. If the error message do
 
 You can link to other sections using their tags: {ref "building-recipe"}[Back to top].
 
-## Other Notes
+## Marginal Notes
 
 You can add marginal notes like this.{margin}[Marginal notes are great for extra context.]
 
-# Template Recipe
-
-You can find this template in the repository [here](https://github.com/leanprover-cookbook/lean-metaprogramming-recipes/blob/main/templateRecipe.lean).
-
-```
-import VersoManual
-import Cookbook.Lean
-
-open Verso.Genre Manual
-open Verso.Genre.Manual.InlineLean
-
-open Cookbook
-
-set_option pp.rawOnError true
-
-#doc (Manual) "title" =>
-
-%%%
-tag := "title-as-it-is"
-number := false
-%%%
-
-{index}[Title]
-
-# Your recipe subheaders, etc
-
-Write here about your recipe...
-```

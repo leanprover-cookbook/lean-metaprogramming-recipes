@@ -52,7 +52,7 @@ where
       for p in subParts do part p
   block : Block Manual → StateT (HashMap String String) IO Unit
     | .other which contents => do
-      if which.name == ``Block.savedLean then
+      if which.name == ``savedLeanBlock then
         let .arr #[.str fn, .str code] := which.data
           | logError s!"Failed to deserialize saved Lean data {which.data}"
         modify fun saved =>
@@ -60,7 +60,7 @@ where
             let prior := prior.getD ""
             some (prior ++ code ++ "\n")
 
-      if which.name == ``Block.savedImport then
+      if which.name == ``savedImportBlock then
         let .arr #[.str fn, .str code] := which.data
           | logError s!"Failed to deserialize saved Lean import data {which.data}"
         modify fun saved =>
@@ -82,7 +82,7 @@ where
 def customCodeCss : CssFile where
   filename := "custom-code.css"
   contents :=
-    r#" :root {
+    r##" :root {
   --verso-code-keyword-color: #cf222e; /* Muted Red-Purple */
   --verso-code-const-color: #0550ae;   /* Deep Blue */
   --verso-code-var-color: #24292f;     /* Near Black */
@@ -167,7 +167,42 @@ def customCodeCss : CssFile where
   display: flex;
   align-items: center;
 }
-"#
+
+.contributors {
+  margin-top: 2rem;
+  font-size: 1.05rem;
+  color: #1f2328;
+  font-family: var(--verso-structure-font-family);
+  font-weight: 400;
+}
+
+.contributors strong {
+  font-weight: 600;
+  color: #1f2328;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.contributor-link {
+  color: #1f2328;
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.contributor-link:hover {
+  text-decoration: underline;
+  color: #0969da;
+}
+
+/* Hide specific pages from the landing page TOC section */
+.section-toc li:has(a[href*="#building-recipe"]),
+.section-toc li:has(a[href*="#cookbook-contributors"]),
+/* Hide specific pages from the sidebar's global book chapter list */
+.split-toc.book tr:has(a[href*="#building-recipe"]),
+.split-toc.book tr:has(a[href*="#cookbook-contributors"]) {
+  display: none !important;
+}
+"##
 
 def customJs : JsFile where
   filename := "custom.js"

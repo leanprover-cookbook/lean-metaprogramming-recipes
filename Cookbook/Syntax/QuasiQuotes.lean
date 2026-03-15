@@ -1,10 +1,9 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -14,6 +13,9 @@ set_option pp.rawOnError true
 tag := "quasi-quotes"
 number := false
 %%%
+
+::: contributors
+:::
 
 {index}[Quasi-Quotes: Creating and Matching Syntax]
 

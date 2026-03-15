@@ -1,4 +1,5 @@
 import VersoManual
+import Cookbook.Lean
 import Cookbook.FileSystem.ReadingFromFile
 import Cookbook.FileSystem.WritingToFile
 import Cookbook.FileSystem.RunningAnExternalProgram
@@ -9,7 +10,7 @@ import Cookbook.FileSystem.ReadWriteJson
 import Cookbook.FileSystem.ReadWriteJsonl
 import Cookbook.FileSystem.Miscellaneous
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "File System" =>
 
@@ -17,6 +18,9 @@ open Verso.Genre Manual
 tag := "file-system"
 number := false
 %%%
+
+::: contributors
+:::
 
 This chapter covers most FileSystem operations, such as reading and writing files, creating directories, listing directory contents, etc. We mainly use the `System.FilePath`, `IO.FS` modules from the Lean standard library.
 

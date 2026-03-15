@@ -1,10 +1,11 @@
 import VersoManual
+import Cookbook.Lean
 import Cookbook.Syntax.QuasiQuotes
 import Cookbook.Syntax.IntroducingTermsPythonsForComprehensionInLean
 import Cookbook.Syntax.IntroducingCommandsCheckingThatSomethingCanBeProvedByGrind
 import Cookbook.Syntax.AddingSyntaxAndSyntaxCategories
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "Syntax and Macros" =>
 
@@ -12,6 +13,9 @@ open Verso.Genre Manual
 tag := "syntax"
 number := false
 %%%
+
+::: contributors
+:::
 
 In Lean, code is first _parsed_ into syntax, which is then _elaborated_ into expressions. The easiest way to create new tactics, commands and terms is to work at the syntax level, with new syntax mapped to existing syntax. Functions that transform syntax are called _macros_.
 

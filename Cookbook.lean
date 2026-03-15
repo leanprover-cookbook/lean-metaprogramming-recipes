@@ -11,6 +11,7 @@ import Cookbook.Tactics
 import Cookbook.Index
 import Cookbook.BuildingRecipe
 import Cookbook.Elaboration
+import Cookbook.CookbookContributors
 
 open Verso.Genre Manual
 open Verso.Genre.Manual.InlineLean
@@ -45,7 +46,15 @@ The recipes in this cookbook are NOT meant to replace other resources like Theor
 
 We hope that this resource will be helpful for both beginners
 and experienced programmers looking to deepen their understanding of
-Lean 4.
+Lean 4. 
+
+*More Information*
+
+Check out [How to build a Recipe](How-to-build-a-Recipe/) to contribute to the cookbook if you want to share your own recipes or examples.
+
+Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who have helped make this cookbook possible.
+
+
 
 {include 1 Cookbook.Overview}
 
@@ -63,6 +72,8 @@ Lean 4.
 
 {include 1 Cookbook.MaintainingState}
 
+{include 0 Cookbook.Index}
+
 {include 0 Cookbook.BuildingRecipe}
 
-{include 0 Cookbook.Index}
+{include 0 Cookbook.CookbookContributors}

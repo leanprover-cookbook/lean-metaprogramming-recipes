@@ -1,6 +1,7 @@
 import VersoManual
+import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "Index" =>
 
