@@ -95,25 +95,15 @@ Expected errors must be explicitly marked with `+error`. If the error message do
 
 ## Cross-References
 
-You can link to other sections using their tags.
-
-*Syntax:* `{ref "tag-name"}[link text]`
-
-*Effect:* {ref "building-recipe"}[Back to top].
+You can link to other sections using their tags like: `{ref "tag-name"}[link text]`. This would give effect as: {ref "building-recipe"}[Back to top].
 
 ## Marginal Notes
 
-You can add marginal notes that appear in the side margin.
-
-*Syntax:* `{margin}[Marginal text]`
-
-*Effect:* {margin}[Marginal notes are great for extra context.]
+You can add marginal notes that appear in the side margin like: `{margin}[Marginal text]`. This would give effect as: {margin}[Marginal notes are great for extra context.]
 
 ## Indexing
 
-To add a term to the index, use the `{index}` role. This will not render anything in the text but will add the entry to the generated index.
-
-*Syntax:* `{index}[Term to index]`
+To add a term to the index, use the `{index}` role. This will not render anything in the text but will add the entry to the generated index, like: `{index}[Term to index]`
 
 
 # Contributor Section
