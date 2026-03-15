@@ -21,7 +21,6 @@ number := false
 %%%
 
 {index}[Timing performance]
-{index}[Put a Process to Sleep]
 
 Lean 4 provides high-precision monotonic clocks for measuring performance and functions for pausing execution.
 

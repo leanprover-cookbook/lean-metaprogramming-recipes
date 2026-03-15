@@ -82,7 +82,7 @@ where
 def customCodeCss : CssFile where
   filename := "custom-code.css"
   contents :=
-    r#" :root {
+    r##" :root {
   --verso-code-keyword-color: #cf222e; /* Muted Red-Purple */
   --verso-code-const-color: #0550ae;   /* Deep Blue */
   --verso-code-var-color: #24292f;     /* Near Black */
@@ -193,7 +193,16 @@ def customCodeCss : CssFile where
   text-decoration: underline;
   color: #0969da;
 }
-"#
+
+/* Hide specific pages from the landing page TOC section */
+.section-toc li:has(a[href*="#building-recipe"]),
+.section-toc li:has(a[href*="#cookbook-contributors"]),
+/* Hide specific pages from the sidebar's global book chapter list */
+.split-toc.book tr:has(a[href*="#building-recipe"]),
+.split-toc.book tr:has(a[href*="#cookbook-contributors"]) {
+  display: none !important;
+}
+"##
 
 def customJs : JsFile where
   filename := "custom.js"

@@ -125,7 +125,8 @@ def getContributors (file? : Option String) : IO (List (String × String)) := do
   tallies := filterMinorContributions tallies file?.isSome
 
   let mut finalPairs : List (String × String) := []
-  for (email, (name, _)) in tallies.toList do
+  let sortedContributors := tallies.toList.toArray.qsort (fun a b => a.2.1.toLower < b.2.1.toLower)
+  for (email, (name, _)) in sortedContributors do
     if !finalPairs.any (·.1 == name) then
       finalPairs := finalPairs ++ [(name, email)]
 
