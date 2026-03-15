@@ -22,7 +22,9 @@ number := false
 
 {index}[Listing contents of a directory]
 
-To list the contents of a directory, we use the `readDir` method on a `System.FilePath`. This returns an `Array IO.FS.DirEntry` containing information about each file and subdirectory.
+To list the contents of a directory, we use the {lean}`System.FilePath.readDir` method on a
+{lean}`System.FilePath`. This returns an {lean}`Array IO.FS.DirEntry` containing
+information about each file and subdirectory.
 
 ```lean
 def listDirectory (path : System.FilePath) : IO Unit := do
@@ -31,7 +33,8 @@ def listDirectory (path : System.FilePath) : IO Unit := do
     IO.println entry.fileName
 ```
 
-Each `DirEntry` contains the `fileName` (the name of the file or directory itself) and its full `path`. You can also use `entry.path.isDir` to check if an entry is a directory.
+Each {lean}`IO.FS.DirEntry` contains the `fileName` (the name of the file or
+directory itself) and its full `path`. 
 
 # Recursive directory traversal
 
@@ -43,7 +46,10 @@ number := false
 {index}[Recursive directory traversal]
 {index}[Walking a directory tree]
 
-If you want to list all files in a directory tree recursively, you can use the `walkDir` method.
+If you want to list all files in a directory tree recursively, you can use the
+{lean}`System.FilePath.walkDir` method.
+
+*Note*: You can use {lean}`System.FilePath.isDir` method to check if an entry is a directory.
 
 ```lean
 def listAllFiles (path : System.FilePath) : IO Unit := do
@@ -54,7 +60,9 @@ def listAllFiles (path : System.FilePath) : IO Unit := do
 
 ## Filtering during traversal
 
-`walkDir` takes an optional `enter` parameter—a function that decides whether to recurse into a given subdirectory. This is useful for skipping large or irrelevant folders like `.git` or `.lake`.
+{lean}`System.FilePath.walkDir` takes an optional `enter` parameter—a function that
+decides whether to recurse into a given subdirectory. This is useful for
+skipping large or irrelevant folders like `.git` or `.lake`.
 
 ```lean
 def listSourceFiles (path : System.FilePath) : IO Unit := do

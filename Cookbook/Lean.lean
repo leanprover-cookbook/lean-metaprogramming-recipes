@@ -23,7 +23,8 @@ def excludedAuthors : List String := [
   "github-actions[bot]",
   "noreply@github.com",
   "copilot",
-  "github-copilot[bot]"
+  "github-copilot[bot]",
+  "Not Committed Yet"
 ]
 
 initialize contributorCache : IO.Ref (HashMap (Option String) (List (String × String))) ← IO.mkRef {}

@@ -20,7 +20,7 @@ number := false
 
 {index}[Running an external program]
 
-In order to run an external program from inside a Lean file, we can use the `IO.Process` API. The easiest way is to use `IO.Process.run`, which takes a `SpawnArgs` structure and returns the command's stdout as a `String`.
+In order to run an external program from inside a Lean file, we can use {lean}`IO.Process.run`, which takes a {lean}`IO.Process.SpawnArgs` structure and returns the command's stdout as a {lean}`String`.
 
 ```lean
 def runExternalProgram (cmd : String) (args : Array String) : IO String :=
@@ -32,7 +32,7 @@ def runExternalProgram (cmd : String) (args : Array String) : IO String :=
 -- #eval runExternalProgram "curl" #["https://www.example.com"]
 ```
 
-If the program fails (returns a non-zero exit code), `IO.Process.run` will throw an exception. To handle the output more gracefully and see the exit code and stderr, you can use `IO.Process.output`.
+If the program fails (returns a non-zero exit code), {lean}`IO.Process.run` will throw an exception. To handle the output more gracefully and see the exit code and stderr, you can use {lean}`IO.Process.output`.
 
 ```lean
 def runExternalWithOutput (cmd : String) (args : Array String) : IO Unit := do
@@ -46,7 +46,7 @@ def runExternalWithOutput (cmd : String) (args : Array String) : IO Unit := do
     IO.println s!"Command failed with exit code {out.exitCode}: {out.stderr}"
 ```
 
-If you want to know more information about the process, such as its PID, you can use `IO.Process.spawn` to start the process and get a `Process` object.
+If you want to know more information about the process, such as its PID, you can use {lean}`IO.Process.spawn` to start the process and get a `IO.Process` object.
 
 ```lean
 def spawnExternalProgram (cmd : String) (args : Array String) : IO Unit := do
@@ -102,4 +102,4 @@ def decompressArchive (archiveName : String) : IO Unit := do
   IO.println s!"Decompressed archive {archiveName}"
 ```
 
-For any other compression formats, you can similarly call the appropriate command-line tool using the `runExternalProgram` function.
+For any other compression formats, you can similarly call the appropriate command-line tool using the {name}`runExternalProgram` function.

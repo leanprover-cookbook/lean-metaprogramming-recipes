@@ -22,7 +22,7 @@ tag := "parsing-cli-args"
 number := false
 %%%
 
-In Lean 4, the most common and idiomatic way to access command-line arguments is to define your `main` function to accept a `List String`. When you run your executable, Lean automatically populates this list with the arguments provided.
+In Lean 4, the most common and idiomatic way to access command-line arguments is to define your `main` function to accept a {lean}`List String`. When you run your executable, Lean automatically populates this list with the arguments provided.
 
 ```lean
 def getCliArgs (args : List String) : IO Unit := do

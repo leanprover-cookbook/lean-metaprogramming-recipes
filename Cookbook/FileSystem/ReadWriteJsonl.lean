@@ -27,7 +27,7 @@ number := false
 
 {index}[Reading JSONL files]
 
-To read a JSONL file, we use `IO.FS.lines` to get an array of strings and then parse each non-empty line.
+To read a JSONL file, we use {lean}`IO.FS.lines` to get an array of strings and then parse each non-empty line.
 
 ```lean
 def readJsonlFile (path : System.FilePath) : IO (Array Json) := do
@@ -51,7 +51,7 @@ number := false
 
 {index}[Writing JSONL files]
 
-When writing JSONL, each object must be rendered as a single line without internal newlines. You can use `.compress` to ensure the output is compact.
+When writing JSONL, each object must be rendered as a single line without internal newlines. You can use {lean}`Lean.Json.compress` to ensure the output is compact.
 
 1. Writing an array of JSON objects
 

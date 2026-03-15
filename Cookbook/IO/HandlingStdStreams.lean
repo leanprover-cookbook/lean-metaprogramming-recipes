@@ -27,7 +27,7 @@ number := false
 
 {index}[Reading from Stdin]
 
-To read from `stdin`, you can use the `(← IO.getStdin).getLine` function, which reads a line of input from the standard input stream and returns it as a string.
+To read from `stdin`, you can use the {lean}`IO.FS.Stream.getLine` function, which reads a line of input from the standard input stream and returns it as a {lean}`IO String`.
 
 ```lean
 def readFromStdin : IO Unit := do
@@ -37,7 +37,7 @@ def readFromStdin : IO Unit := do
   IO.println s!"You entered: {input.trimAscii}"
 ```
 
-For more complex input handling, you can use `IO.getStdin` directly to read characters or the entire content until EOF.
+For more complex input handling, you can use {lean}`IO.getStdin` directly to read characters or the entire content until EOF.
 
 ```lean
 def readAllFromStdin : IO String := do
@@ -50,7 +50,10 @@ def readAllFromStdin : IO String := do
 A common pattern in CLI tools is to request specific types of data (like numbers) and re-prompt the user if the input is invalid.
 
 ```lean
-/-- Repeatedly prompts the user until a valid natural number within range is provided. -/
+/--
+Repeatedly prompts the user until a valid natural number within range is
+provided.
+-/
 partial def getBoundedNat (prompt : String) (low high : Nat) : IO Nat := do
   IO.print s!"{prompt} ({low}-{high}): "
   (← IO.getStdout).flush
@@ -73,17 +76,17 @@ def playerInput : IO Unit := do
   let age ← getBoundedNat "Enter age" 1 150
   let level ← getBoundedNat "Enter starting level" 1 99
   
-  IO.println s!"\nWelcome, {name.trim}!"
+  IO.println s!"\nWelcome, {name.trimAscii}!"
   IO.println s!"Stats: Age {age}, Level {level}"
 ```
 
-In this example, we use `partial` for `getBoundedNat` because it is a recursive function that might theoretically run forever if the user never provides valid input.
+In this example, we use `partial` for {lean}`getBoundedNat` because it is a recursive function that might theoretically run forever if the user never provides valid input.
 
 # How to Print to Stdout and Stderr
 
 {index}[Printing to Stdout and Stderr]
 
-You can print to `stdout` and `stderr` using the `IO.println` and `IO.eprintln` functions, respectively. Just like any other language, the `ln` is used to add a newline at the end of the output.
+You can print to `stdout` and `stderr` using the {name}`IO.println` and {name}`IO.eprintln` functions, respectively. Just like any other language, the `ln` is used to add a newline at the end of the output.
 
 ```lean
 def printToStdout : IO Unit := do

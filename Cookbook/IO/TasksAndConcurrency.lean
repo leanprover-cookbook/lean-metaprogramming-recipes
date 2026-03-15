@@ -23,11 +23,11 @@ number := false
 
 {index}[Tasks and Concurrency]
 
-Lean 4 supports lightweight concurrency through `Task`. You can spawn tasks to perform IO in the background and wait for their results later.
+Lean 4 supports lightweight concurrency through {lean}`Task`. You can spawn tasks to perform {lean}`IO` in the background and wait for their results later.
 
 ## Spawning Background Tasks
 
-You can use `IO.asTask` to run an IO action in a background thread. It returns a `Task` that will eventually contain the result (wrapped in an `Except`).
+You can use {lean}`IO.asTask` to run an {lean}`IO` action in a background thread. It returns a {lean}`Task` that will eventually contain the result (wrapped in an {lean}`Except`).
 
 ```lean
 def backgroundWork : IO Unit := do
@@ -49,14 +49,13 @@ def backgroundWork : IO Unit := do
 
 ## Spawning Tasks without `IO`
 
-If you have a pure computation that is very heavy, you can use `Task.spawn` to run it in parallel without the `IO` monad.
+If you have a pure computation that is very heavy, you can use {lean}`Task.spawn` to run it in parallel without the {lean}`IO` monad.
 
 ```lean
 def computeSomething : Nat :=
   let t := Task.spawn (fun _ => 2 + 2)
   t.get
 ```
-
 
 # Parallel IO
 
@@ -68,7 +67,7 @@ number := false
 
 {index}[Parallel IO]
 
-One of the most powerful uses of tasks is running multiple IO operations at the same time.
+One of the most powerful uses of tasks is running multiple {lean}`IO` operations at the same time.
 
 ```lean
 def runParallel : IO Unit := do

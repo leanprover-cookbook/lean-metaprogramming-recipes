@@ -23,7 +23,7 @@ number := false
 
 {index}[Get a Random Number]
 
-You can get a random number with lower `low` and upper `high` bounds using the `IO.rand` function.
+You can get a random number with lower `low` and upper `high` bounds using the {lean}`IO.rand` function.
 
 ```lean
 def getRandomNumber (low high : Nat) : IO Unit := do
@@ -41,7 +41,7 @@ number := false
 
 {index}[Putting a Process to Sleep]
 
-You can pause the current thread using `IO.sleep`. It takes the duration in *milliseconds*.
+You can pause the current thread using {lean}`IO.sleep`. It takes the duration in *milliseconds*.
 
 ```lean
 def delayedHello : IO Unit := do
@@ -50,5 +50,5 @@ def delayedHello : IO Unit := do
   IO.println "Hello Lean!"
 ```
 
-Note that `IO.sleep` is non-blocking for other Lean tasks; it only pauses the current execution flow.
+Note that {lean}`IO.sleep` is non-blocking for other Lean tasks; it only pauses the current execution flow.
 

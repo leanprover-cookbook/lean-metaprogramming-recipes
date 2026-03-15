@@ -23,7 +23,7 @@ number := false
 
 {index}[Reading Environment Variables]
 
-You can use `IO.getEnv` to retrieve the value of an environment variable. Since a variable might not be set, it returns an `Option String`.
+You can use {lean}`IO.getEnv` to retrieve the value of an environment variable. Since a variable might not be set, it returns an {lean}`Option String`.
 
 ```lean
 def checkUser : IO Unit := do
@@ -40,15 +40,11 @@ tag := "setting-environment-variables"
 number := false
 %%%
 
-::: contributors
-:::
-
-
 {index}[Setting Environment Variables]
 
 Setting environment variables for the *current* process is less common in pure Lean code. Usually, you set environment variables when spawning a new child process to configure its environment.
 
-When using `IO.Process.spawn`, you can pass an `env` array to specify variables for the new process:
+When using {lean}`IO.Process.spawn`, you can pass an `env` array to specify variables for the new process:
 
 ```lean
 def runWithCustomEnv : IO Unit := do

@@ -24,7 +24,7 @@ number := false
 
 {index}[Reading a JSON file]
 
-To read a JSON file, you can use the `Json` module in Lean as `import Lean.Data.Json`. You can read the file as a string and then parse it using `Json.parse`:
+To read a JSON file, you can use the {lean}`Lean.Json` module in Lean as `import Lean.Data.Json`. You can read the file as a string and then parse it using {lean}`Lean.Json.parse`:
 
 ```lean
 def readJsonFile (path : System.FilePath) : IO Json := do
@@ -44,7 +44,7 @@ number := false
 
 {index}[Writing to JSON files]
 
-To write to a JSON file, you can use the `Lean.Json` module to convert your data into JSON format. If you are writing a fresh JSON file, you can create a JSON object and then write it to the file or if you want to load and write to an existing JSON file, you can read the existing content, modify it, and then write it back to the file. Refer {ref "reading-json-file"}[Reading from JSON] for how to read from a JSON file.
+To write to a JSON file, you can use the {lean}`Lean.Json` module to convert your data into JSON format. If you are writing a fresh JSON file, you can create a JSON object and then write it to the file or if you want to load and write to an existing JSON file, you can read the existing content, modify it, and then write it back to the file. Refer {ref "reading-json-file"}[Reading from JSON] for how to read from a JSON file.
 
 
 1. If you are making a new JSON file:
@@ -68,9 +68,9 @@ def writeJsonDataToFile (path : System.FilePath) : IO Unit := do
   -- IO.FS.writeFile path (toString _data')
 ```
 
-3. Saving a custom structure using `ToJson`:
+3. Saving a custom structure using {lean}`Lean.ToJson`:
 
-The most common way to write JSON is by defining a structure and deriving a `ToJson` instance. This allows you to convert Lean objects directly to JSON.
+The most common way to write JSON is by defining a structure and deriving a {lean}`Lean.ToJson` instance. This allows you to convert Lean objects directly to JSON.
 
 ```lean
 structure User where

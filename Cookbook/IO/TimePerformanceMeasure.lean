@@ -38,7 +38,7 @@ def timeTask : IO Unit := do
 
 ## High-Precision Timing (Nanoseconds)
 
-If you need even higher precision, you can use `IO.monoNanosNow`.
+If you need even higher precision, you can use {lean}`IO.monoNanosNow`.
 
 ```lean
 def preciseTiming : IO Unit := do

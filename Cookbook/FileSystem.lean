@@ -11,6 +11,7 @@ import Cookbook.FileSystem.ReadWriteJsonl
 import Cookbook.FileSystem.Miscellaneous
 
 open Verso.Genre Manual Cookbook
+open Verso.Genre.Manual.InlineLean
 
 #doc (Manual) "File System" =>
 
@@ -22,7 +23,7 @@ number := false
 ::: contributors
 :::
 
-This chapter covers most FileSystem operations, such as reading and writing files, creating directories, listing directory contents, etc. We mainly use the `System.FilePath`, `IO.FS` modules from the Lean standard library.
+This chapter covers most FileSystem operations, such as reading and writing files, creating directories, listing directory contents, etc. We mainly use the {name}`System.FilePath` type and the `IO.FS` module from the Lean standard library.
 
 This chapter also adds recipes for other important file formats, such as JSON and JSONL, which are commonly used.
 

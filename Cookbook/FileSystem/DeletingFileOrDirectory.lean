@@ -22,7 +22,9 @@ number := false
 
 {index}[Deleting a file]
 
-You can delete a file using `IO.FS.removeFile` function. It returns an `IO Unit` which means it performs the action of deleting the file but does not return any value.
+You can delete a file using {lean}`IO.FS.removeFile` function. It returns
+an {lean}`IO Unit` which means it performs the action of deleting the file but
+does not return any value.
 
 ```lean
 def deleteFile (path : String) : IO Unit := do
@@ -42,7 +44,9 @@ number := false
 
 {index}[Deleting a directory]
 
-You can delete a directory using `IO.FS.removeDir` function to delete an empty directory. If you want to delete all the contents inside the directory, use `IO.FS.removeDirAll`
+You can delete a directory using {lean}`IO.FS.removeDir` function to delete an
+empty directory. If you want to delete all the contents inside the directory,
+use {lean}`IO.FS.removeDirAll`
 
 ```lean
 def deleteEmptyDir (path : String) : IO Unit := do
@@ -52,4 +56,5 @@ def deleteDir (path: String) : IO Unit := do
   IO.FS.removeDirAll path
 ```
 
-Refer to {ref "creating-directories"}[Creating directories] section bottom to know more about why `String` works as a file path here.
+Refer to {ref "creating-directories"}[Creating directories] section bottom to
+know more about why {lean}`String` works as a file path here.
