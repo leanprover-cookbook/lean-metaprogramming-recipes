@@ -29,21 +29,25 @@ def excludedAuthors : List String := [
 initialize contributorCache : IO.Ref (HashMap (Option String) (List (String × String))) ← IO.mkRef {}
 
 /--
-Adds a contributor to the list, or updates their name if a "better" one is found for the same email.
-Better means: has spaces (likely a full name) or is simply longer.
+Adds or updates an author's contribution tally.
+Uses a heuristic to prefer full names (with spaces) or longer names for the same email.
 -/
-def addOrUpdateContributor (pairs : List (String × String)) (name email : String) : List (String × String) :=
-  match pairs.findIdx? (·.2 == email) with
-  | some idx =>
-    let (oldName, _) := pairs[idx]!
-    let isBetter := (name.contains ' ' && !oldName.contains ' ') || 
-                    (name.length > oldName.length && !(oldName.contains ' ' && !name.contains ' '))
-    if isBetter then
-      pairs.set idx (name, email)
-    else
-      pairs
-  | none =>
-    if pairs.any (·.1 == name) then pairs else pairs ++ [(name, email)]
+def updateTallies (tallies : HashMap String (String × Nat)) (name email : String) (weight : Nat) : HashMap String (String × Nat) :=
+  tallies.alter email fun
+    | some (n, w) =>
+      let isBetter := (name.contains ' ' && !n.contains ' ') || 
+                      (name.length > n.length && !(n.contains ' ' && !name.contains ' '))
+      some (if isBetter then name else n, w + weight)
+    | none => some (name, weight)
+
+/--
+Filters out authors who haven't contributed enough "meaningful" characters.
+Set threshold to 0 or comment out the call to this function to disable.
+-/
+def filterMinorContributions (tallies : HashMap String (String × Nat)) (isFile : Bool) : HashMap String (String × Nat) :=
+  let threshold := if isFile then 15 else 1
+  tallies.toList.foldl (init := {}) fun acc (email, (name, weight)) =>
+    if weight >= threshold then acc.insert email (name, weight) else acc
 
 /--
 Fetches unique authors (Name × Email) for a given file.
@@ -68,11 +72,10 @@ def getContributors (file? : Option String) : IO (List (String × String)) := do
 
   if out.exitCode != (0 : UInt32) then return []
   
-  let mut pairs : List (String × String) := []
   let lines := out.stdout.splitOn "\n"
+  let mut tallies : HashMap String (String × Nat) := {}
 
   if file?.isSome then
-    -- Blame parsing mode: state machine to find meaningful content
     let mut currentName := ""
     let mut currentMail := ""
     let mut foundHeader := false
@@ -87,17 +90,13 @@ def getContributors (file? : Option String) : IO (List (String × String)) := do
         let rawContent := line.drop 1
         let content := rawContent.trimAscii
         
-        -- State: Metadata blocks
         if content.startsWith "%%%" then
           inMetadata := !inMetadata
           continue
-        
-        -- State: Header trigger
         if content.startsWith "#doc" then
           foundHeader := true
           continue
           
-        -- Criteria for "meaningful content"
         let isMeaningful := 
           foundHeader && 
           !inMetadata && 
@@ -105,24 +104,33 @@ def getContributors (file? : Option String) : IO (List (String × String)) := do
           !content.startsWith "import " &&
           !content.startsWith "open " &&
           !content.startsWith "set_option " &&
-          !content.startsWith ":::" && -- Ignore all directive tags (::: contributors, etc)
+          !content.startsWith ":::" &&
           !content.startsWith "{index}" &&
           !content.startsWith "{include"
           
         if isMeaningful then
           if currentName != "" && !excludedAuthors.contains currentName && !excludedAuthors.contains currentMail then
-            pairs := addOrUpdateContributor pairs currentName currentMail
+            -- Note: Using rawContent.toString.length to get character count of the meaningful line
+            tallies := updateTallies tallies currentName currentMail rawContent.toString.length
   else
-    -- Log parsing mode (for global index)
     for line in lines do
       match line.splitOn "|" with
       | [name, email] => 
         if !excludedAuthors.contains name && !excludedAuthors.contains email then
-          pairs := addOrUpdateContributor pairs name email
+          tallies := updateTallies tallies name email 1
       | _ => continue
 
-  contributorCache.modify (·.insert file? pairs)
-  return pairs
+  -- OPTIONAL: Filter out minor contributions (e.g. < 15 meaningful characters)
+  -- To disable this restriction, simply comment out the line below.
+  tallies := filterMinorContributions tallies file?.isSome
+
+  let mut finalPairs : List (String × String) := []
+  for (email, (name, _)) in tallies.toList do
+    if !finalPairs.any (·.1 == name) then
+      finalPairs := finalPairs ++ [(name, email)]
+
+  contributorCache.modify (·.insert file? finalPairs)
+  return finalPairs
 
 block_extension contributorsBlock (authors : List (String × String)) (file : Option String := none) (fetched : Bool := false) where
   data := 
