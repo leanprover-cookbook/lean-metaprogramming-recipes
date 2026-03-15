@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Handling JSONL File" =>
 
+
+::: contributors
+:::
+
 {index}[Handling JSONL files]
 
 JSONL (JSON Lines) is a format where each line is a valid JSON object. This is particularly useful for large datasets as it allows for stream processing and is less sensitive to file corruption than a single large JSON array.
@@ -20,10 +24,6 @@ JSONL (JSON Lines) is a format where each line is a valid JSON object. This is p
 tag := "reading-jsonl-file"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Reading JSONL files]
 
@@ -48,10 +48,6 @@ def readJsonlFile (path : System.FilePath) : IO (Array Json) := do
 tag := "writing-jsonl-file"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Writing JSONL files]
 

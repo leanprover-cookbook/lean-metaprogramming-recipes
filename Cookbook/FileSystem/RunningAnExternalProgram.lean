@@ -18,7 +18,6 @@ number := false
 ::: contributors
 :::
 
-
 {index}[Running an external program]
 
 In order to run an external program from inside a Lean file, we can use the `IO.Process` API. The easiest way is to use `IO.Process.run`, which takes a `SpawnArgs` structure and returns the command's stdout as a `String`.
@@ -68,10 +67,6 @@ def spawnExternalProgram (cmd : String) (args : Array String) : IO Unit := do
 tag := "file-compression-decompression"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[File Compression and Decompression]
 

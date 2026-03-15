@@ -9,18 +9,17 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Code, Syntax, and Expressions" =>
 
-%%%
-tag := "code-syntax-expressions"
-number := false
-%%%
-
 ::: contributors
 :::
-
 
 {index}[Code, Syntax, and Expressions]
 
 # Internal Representations of Code
+
+%%%
+tag := "code-syntax-expressions"
+number := false
+%%%
 
 Both `Syntax` and `Expr` are types defined in the Lean core library, and they are used extensively in meta programming. Lean provides a rich API for working with both `Syntax` and `Expr`.
 

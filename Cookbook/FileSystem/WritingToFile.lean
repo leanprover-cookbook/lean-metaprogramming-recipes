@@ -10,6 +10,9 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Writing to a file" =>
 
+::: contributors
+:::
+
 # How to write to a file
 
 %%%
@@ -17,12 +20,7 @@ tag := "writing-to-file"
 number := false
 %%%
 
-::: contributors
-:::
-
-
 {index}[Writing to a file]
-
 
 Writing to a file in Lean can be done using the `IO.FS` module. To create a new file and write a string to it, you can use `IO.FS.Handle.mk` to create a file handle using a string path and the `IO.FS.Mode.write` mode to indicate that you want to write to the file. The `file` has type `IO.FS.Handle`, which means you are given the handle to the file and can do operations on it.
 
@@ -44,10 +42,6 @@ def writeToFile' (path : String) (s : String) : IO Unit := do
 tag := "appending-to-file"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Appending to a file]
 

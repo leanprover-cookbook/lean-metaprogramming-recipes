@@ -14,11 +14,10 @@ tag := "monads-in-practice"
 number := false
 %%%
 
+{index}[Monads in Practise]
+
 ::: contributors
 :::
-
-
-{index}[Title]
 
 # Monads in Practice: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`
 

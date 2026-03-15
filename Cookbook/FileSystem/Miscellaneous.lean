@@ -10,16 +10,17 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Miscellaneous FileSystem Usages" =>
 
+::: contributors
+:::
+
+These are some miscellaneous File System usages that you might find useful when working with file paths in Lean.
+
 # How to concatenate file paths
 
 %%%
 tag := "concatenating-file-paths"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Concatenating file paths]
 
@@ -42,9 +43,6 @@ tag := "getting-current-working-directory"
 number := false
 %%%
 
-::: contributors
-:::
-
 
 {index}[Getting Current Working Directory]
 
@@ -63,10 +61,6 @@ tag := "checking-metadata-for-path"
 number := false
 %%%
 
-::: contributors
-:::
-
-
 {index}[Checking Metadata for Path]
 {index}[Check File Size]
 
@@ -84,10 +78,6 @@ def checkFileSize (path : System.FilePath) : IO Unit := do
 tag := "checking-if-path-is-absolute-or-relative"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Checking if Path is Absolute or Relative]
 
@@ -111,9 +101,6 @@ tag := "normalizing-file-path"
 number := false
 %%%
 
-::: contributors
-:::
-
 To normalize a file path, which means to resolve any `.` or `..` components and remove redundant separators and make it OS-compatible, you can use the `normalize` method.
 
 ```lean
@@ -127,10 +114,6 @@ def normalizePath (path: System.FilePath) : IO Unit := do
 tag := "renaming-file-path"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Renaming a File Path]
 

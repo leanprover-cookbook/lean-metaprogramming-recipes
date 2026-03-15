@@ -25,10 +25,6 @@ tag := "read-stdin"
 number := false
 %%%
 
-::: contributors
-:::
-
-
 {index}[Reading from Stdin]
 
 To read from `stdin`, you can use the `(← IO.getStdin).getLine` function, which reads a line of input from the standard input stream and returns it as a string.

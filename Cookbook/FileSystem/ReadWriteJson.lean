@@ -10,6 +10,9 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Handling JSON Files" =>
 
+::: contributors
+:::
+
 {index}[Handling JSON files]
 
 # How to read a JSON file
@@ -18,10 +21,6 @@ set_option pp.rawOnError true
 tag := "reading-json-file"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Reading a JSON file]
 
@@ -42,10 +41,6 @@ def readJsonFile (path : System.FilePath) : IO Json := do
 tag := "writing-json-file"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Writing to JSON files]
 

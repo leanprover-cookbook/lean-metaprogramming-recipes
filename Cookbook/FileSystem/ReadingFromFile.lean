@@ -18,10 +18,7 @@ number := false
 ::: contributors
 :::
 
-
 {index}[Reading from a file]
-
-# How to read from a file in Lean
 
 Reading from a file is needs to be done in the `IO` monad, using the `IO.FS` module.
 

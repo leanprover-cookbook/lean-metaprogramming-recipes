@@ -10,15 +10,15 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Environment Variables" =>
 
+::: contributors
+:::
+
 # Reading Environment Variables
 
 %%%
 tag := "reading-environment-variables"
 number := false
 %%%
-
-::: contributors
-:::
 
 
 {index}[Reading Environment Variables]

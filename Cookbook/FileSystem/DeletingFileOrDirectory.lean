@@ -10,16 +10,15 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Deleting a file or Directory" =>
 
+::: contributors
+:::
+
 # How to delete a file
 
 %%%
 tag := "deleting-a-file"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Deleting a file]
 
@@ -40,10 +39,6 @@ def deleteFile (path : String) : IO Unit := do
 tag := "delete-a-directory"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Deleting a directory]
 

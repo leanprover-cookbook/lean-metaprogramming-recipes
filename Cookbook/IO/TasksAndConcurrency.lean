@@ -10,15 +10,15 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Tasks and Concurrency" =>
 
+::: contributors
+:::
+
 # Tasks and Concurrency
 
 %%%
 tag := "tasks-and-concurrency"
 number := false
 %%%
-
-::: contributors
-:::
 
 
 {index}[Tasks and Concurrency]
@@ -64,9 +64,6 @@ def computeSomething : Nat :=
 tag := "parallel-io"
 number := false
 %%%
-
-::: contributors
-:::
 
 
 {index}[Parallel IO]

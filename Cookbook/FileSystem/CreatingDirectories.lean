@@ -18,7 +18,6 @@ number := false
 ::: contributors
 :::
 
-
 {index}[Creating directories]
 
 To create directories, we use functions from the `IO.FS.createDir` module. This will create a single directory at the specified path. If the parent directories do not exist, it will throw an error.

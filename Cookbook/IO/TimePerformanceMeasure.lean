@@ -10,16 +10,15 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Time Measurement of Process" =>
 
+::: contributors
+:::
+
 # Timing a Process for Performance Measurement
 
 %%%
 tag := "time-measurement"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Timing performance]
 {index}[Put a Process to Sleep]

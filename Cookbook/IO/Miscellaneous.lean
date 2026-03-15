@@ -10,15 +10,15 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Miscellaneous IO" =>
 
+::: contributors
+:::
+
 # Get a Random Number
 
 %%%
 tag := "get-a-random-number"
 number := false
 %%%
-
-::: contributors
-:::
 
 
 {index}[Get a Random Number]
@@ -37,9 +37,6 @@ def getRandomNumber (low high : Nat) : IO Unit := do
 tag := "sleep-process"
 number := false
 %%%
-
-::: contributors
-:::
 
 
 {index}[Putting a Process to Sleep]

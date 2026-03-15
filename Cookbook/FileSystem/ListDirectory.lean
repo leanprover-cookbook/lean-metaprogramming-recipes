@@ -10,16 +10,15 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Listing Directory" =>
 
+::: contributors
+:::
+
 # Listing contents of a directory
 
 %%%
 tag := "list-directory"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Listing contents of a directory]
 
@@ -40,10 +39,6 @@ Each `DirEntry` contains the `fileName` (the name of the file or directory itsel
 tag := "recursive-directory-traversal"
 number := false
 %%%
-
-::: contributors
-:::
-
 
 {index}[Recursive directory traversal]
 {index}[Walking a directory tree]

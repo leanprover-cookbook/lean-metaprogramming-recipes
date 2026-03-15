@@ -17,7 +17,6 @@ number := false
 ::: contributors
 :::
 
-
 {index}[Quasi-Quotes: Creating and Matching Syntax]
 
 # Quasi-Quotes
