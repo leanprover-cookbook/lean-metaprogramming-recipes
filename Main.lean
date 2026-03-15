@@ -170,7 +170,7 @@ def customCodeCss : CssFile where
 
 .contributors {
   margin-top: 2rem;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: #1f2328;
   font-family: var(--verso-structure-font-family);
   font-weight: 400;
@@ -179,6 +179,8 @@ def customCodeCss : CssFile where
 .contributors strong {
   font-weight: 600;
   color: #1f2328;
+  display: inline-block;
+  margin-right: 4px;
 }
 
 .contributor-link {

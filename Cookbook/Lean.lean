@@ -5,11 +5,15 @@ Author: David Thrane Christiansen
 -/
 
 import VersoManual
+import Std.Data.HashMap
 
 open Verso.Genre Manual
 open Verso.Doc Elab
 open Verso.ArgParse
 open Lean
+open Std (HashMap)
+
+set_option quotPrecheck false
 
 namespace Cookbook
 
@@ -22,11 +26,16 @@ def excludedAuthors : List String := [
   "github-copilot[bot]"
 ]
 
+initialize contributorCache : IO.Ref (HashMap (Option String) (List (String × String))) ← IO.mkRef {}
+
 /--
 Fetches unique authors (Name × Email) for a given file.
 Uses `git blame` to ignore people who only added boilerplate or metadata.
 -/
 def getContributors (file? : Option String) : IO (List (String × String)) := do
+  if let some cached := (← contributorCache.get).get? file? then
+    return cached
+
   let out ← match file? with
     | some file => 
       IO.Process.output { 
@@ -40,7 +49,7 @@ def getContributors (file? : Option String) : IO (List (String × String)) := do
         args := #["log", "--format=%aN|%aE"] 
       }
 
-  if out.exitCode != 0 then return []
+  if out.exitCode != (0 : UInt32) then return []
   
   let mut pairs : List (String × String) := []
   let lines := out.stdout.splitOn "\n"
@@ -97,17 +106,29 @@ def getContributors (file? : Option String) : IO (List (String × String)) := do
             pairs := pairs ++ [(name, email)]
       | _ => continue
 
+  contributorCache.modify (·.insert file? pairs)
   return pairs
 
-block_extension contributorsBlock (authors : List (String × String)) where
-  data := Lean.Json.arr (authors.toArray.map fun (n, e) => Lean.Json.arr #[Lean.Json.str n, Lean.Json.str e])
-  traverse _ _ _ := pure none
+block_extension contributorsBlock (authors : List (String × String)) (file : Option String := none) (fetched : Bool := false) where
+  data := 
+    let authorsJson := authors.toArray.map fun (n, e) => Lean.Json.arr #[Lean.Json.str n, Lean.Json.str e]
+    let fileJson := match file with | some f => Lean.Json.str f | none => Lean.Json.null
+    Lean.Json.arr #[fileJson, Lean.Json.arr authorsJson, Lean.Json.bool fetched]
+  traverse _ data contents := do
+    match data with
+    | Lean.Json.arr #[fileJson, Lean.Json.arr _, .bool false] =>
+        let file := match fileJson with | Lean.Json.str f => some f | _ => none
+        let authors ← getContributors file
+        let authorsJson' := authors.toArray.map fun (n, e) => Lean.Json.arr #[Lean.Json.str n, Lean.Json.str e]
+        let data' := Lean.Json.arr #[fileJson, Lean.Json.arr authorsJson', .bool true]
+        return some (Block.other { name := ``contributorsBlock, data := data' } contents)
+    | _ => return none
   toTeX := none
   toHtml :=
     open Verso.Output.Html in
     some fun _ _ _ data _ => do
       let authors : List (String × String) := match data with
-        | .arr ks => ks.toList.filterMap fun 
+        | .arr #[_, .arr ks, .bool _] => ks.toList.filterMap fun 
             | .arr #[.str n, .str e] => some (n, e)
             | _ => none
         | _ => []
@@ -130,15 +151,15 @@ block_extension contributorsBlock (authors : List (String × String)) where
 def contributors : DirectiveExpanderOf Unit
   | (), _ => do
     let file ← getFileName
-    let authors ← liftM <| getContributors (some file)
-    let descr ← ``(contributorsBlock $(quote authors))
+    let authors : List (String × String) := []
+    let descr ← ``(contributorsBlock $(quote authors) (some $(quote file)) false)
     ``(Verso.Doc.Block.other $(descr) #[])
 
 @[directive]
 def allContributors : DirectiveExpanderOf Unit
   | (), _ => do
-    let authors ← liftM <| getContributors none
-    let descr ← ``(contributorsBlock $(quote authors))
+    let authors : List (String × String) := []
+    let descr ← ``(contributorsBlock $(quote authors) none false)
     ``(Verso.Doc.Block.other $(descr) #[])
 
 block_extension savedLeanBlock (file : String) (source : String) where
@@ -186,35 +207,3 @@ def savedComment : CodeBlockExpanderOf Unit
     let comment := s!"/-!\n{str}\n-/"
     let descr ← ``(savedLeanBlock $(quote (← getFileName)) $(quote comment))
     ``(Verso.Doc.Block.other $(descr) #[])
-
-/--
-Recursively appends a contributors block to every Part.
--/
-partial def autoAddContributors (p : Part Manual) (file? : Option String := none) : IO (Part Manual) := do
-  let currentFile := 
-    p.content.findSome? fun 
-      | .other descr _ => 
-        if descr.name == ``savedLeanBlock then
-          match descr.data with
-          | .arr #[.str f, _] => some f
-          | _ => none
-        else none
-      | _ => none
-  let file := currentFile.getD (file?.getD "")
-  
-  -- Only add if we found a file and it's not already there
-  let mut newContent := p.content
-  if file != "" && p.subParts.isEmpty then 
-     let authors ← getContributors (some file)
-     if !authors.isEmpty then
-       let descr : Genre.Block Manual := { 
-         name := ``contributorsBlock, 
-         data := Lean.Json.arr (authors.toArray.map fun (n, e) => Lean.Json.arr #[Lean.Json.str n, Lean.Json.str e]) 
-       }
-       newContent := newContent.push (Block.other descr #[])
-
-  let newSubParts ← p.subParts.mapM (autoAddContributors · (some file))
-  return { p with 
-    content := newContent,
-    subParts := newSubParts
-  }
