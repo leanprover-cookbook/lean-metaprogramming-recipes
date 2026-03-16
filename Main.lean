@@ -91,7 +91,7 @@ def customCodeCss : CssFile where
 
 .hl.lean.block {
   background-color: #f6f8fa;
-  padding: 1.5rem 1rem 1rem 1rem;
+  padding: 1rem 1rem 1rem 1rem;
   border-radius: 8px;
   border: 1px solid #d0d7de;
   position: relative;
@@ -114,13 +114,20 @@ def customCodeCss : CssFile where
   font-weight: 600;
 }
 
-/* Style for the 'Try it!' button */
-.try-it-button {
+/* Style for the code block action container and buttons */
+.code-block-actions {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.try-it-button, .copy-button {
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   background-color: #ffffff;
   border: 1px solid #d0d7de;
@@ -132,11 +139,15 @@ def customCodeCss : CssFile where
   text-decoration: none;
   font-family: var(--verso-structure-font-family);
   transition: all 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-  z-index: 10;
   box-shadow: 0 1px 0 rgba(27, 31, 35, 0.04);
+  cursor: pointer;
 }
 
-.try-it-button:hover {
+.copy-button {
+  padding: 3px 6px;
+}
+
+.try-it-button:hover, .copy-button:hover {
   background-color: #f3f4f6;
   border-color: #0969da;
   color: #0969da;
@@ -209,24 +220,48 @@ def customJs : JsFile where
   contents :=
     r#"
 window.addEventListener('load', () => {
-  // 1. Add 'Try it!' buttons to code blocks
+  // 1. Add 'Try it!' and 'Copy' buttons to code blocks
   const blocks = document.querySelectorAll('code.hl.lean.block');
   blocks.forEach(block => {
     const code = block.innerText;
+    
+    // Create actions container
+    const actions = document.createElement('div');
+    actions.className = 'code-block-actions';
+    
+    // Copy button
+    const copyButton = document.createElement('button');
+    copyButton.className = 'copy-button';
+    copyButton.title = 'Copy to clipboard';
+    const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    const checkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+    copyButton.innerHTML = copyIcon;
+    
+    copyButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(code).then(() => {
+        copyButton.innerHTML = checkIcon;
+        setTimeout(() => {
+          copyButton.innerHTML = copyIcon;
+        }, 2000);
+      });
+    });
+    
+    // Try it button
     const header = "import Lean\nopen Lean Meta Elab Tactic Term Command\n-- If any imports are missing from the default header, please manually add them.\n\n";
     const url = 'https://live.lean-lang.org/#code=' + encodeURIComponent(header + code);
-    
-    const button = document.createElement('a');
-    button.href = url;
-    button.target = '_blank';
-    button.className = 'try-it-button';
-    button.title = 'Open in Lean 4 Web Editor';
-    button.innerHTML = `
+    const tryItButton = document.createElement('a');
+    tryItButton.href = url;
+    tryItButton.target = '_blank';
+    tryItButton.className = 'try-it-button';
+    tryItButton.title = 'Open in Lean 4 Web Editor';
+    tryItButton.innerHTML = `
       <svg width="12" height="12" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       <span>Try it!</span>
     `;
     
-    block.appendChild(button);
+    actions.appendChild(copyButton);
+    actions.appendChild(tryItButton);
+    block.appendChild(actions);
   });
 });
 "#
