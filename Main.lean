@@ -87,6 +87,7 @@ def customCodeCss : CssFile where
   --verso-code-const-color: #0550ae;   /* Deep Blue */
   --verso-code-var-color: #24292f;     /* Near Black */
   --verso-code-color: #24292f;
+  --verso-code-comment-color: #22863a;
 }
 
 .hl.lean.block {
@@ -98,20 +99,33 @@ def customCodeCss : CssFile where
   line-height: 1.45;
   font-size: 0.95em;
   margin: 1.5em 0;
-}
-
-.hl.lean .literal.string {
-  color: #0a3069;
-}
-
-.hl.lean .doc-comment, .hl.lean .comment {
-  color: #6e7781;
+  color: #22863a;
   font-style: italic;
 }
 
-.hl.lean .sort {
-  color: #953800;
-  font-weight: 600;
+.hl.lean.block .token {
+  font-style: normal !important;
+}
+
+.hl.lean.block .keyword {
+  color: #cf222e !important;
+}
+
+.hl.lean.block .const {
+  color: #0550ae !important;
+}
+
+.hl.lean.block .var {
+  color: #24292f !important;
+}
+
+.hl.lean.block .literal.string {
+  color: #0a3069 !important;
+}
+
+.hl.lean.block .sort {
+  color: #953800 !important;
+  font-weight: 600 !important;
 }
 
 /* Style for the code block action container and buttons */
