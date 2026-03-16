@@ -50,10 +50,9 @@ def readAllFromStdin : IO String := do
 A common pattern in CLI tools is to request specific types of data (like numbers) and re-prompt the user if the input is invalid.
 
 ```lean
-/--
-Repeatedly prompts the user until a valid natural number within range is
-provided.
--/
+
+/-- Repeatedly prompts the user until a valid natural number
+within range is provided. -/
 partial def getBoundedNat (prompt : String) (low high : Nat) : IO Nat := do
   IO.print s!"{prompt} ({low}-{high}): "
   (← IO.getStdout).flush

@@ -35,9 +35,8 @@ def createDirectory (path : System.FilePath) : IO Unit := do
 -- Another way is to check for existance before creating the directory.
 def safeCreateDir (path : System.FilePath) : IO Unit := do
   if ← path.pathExists then
-    if ! (← path.isDir) then
-      throw <| IO.userError 
-        s!"Path '{path}' already exists and is not a directory."
+    if ! (← path.isDir) then throw <| IO.userError s!"Path '{path}' 
+      already exists and is not a directory."
     else
       IO.println s!"Directory '{path}' already exists."
   else
