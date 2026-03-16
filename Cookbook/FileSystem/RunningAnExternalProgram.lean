@@ -70,7 +70,9 @@ number := false
 
 {index}[File Compression and Decompression]
 
-Lean does not have built-in support for file compression, but we can easily call external programs like `gzip` or `zip` to perform these tasks.
+Lean does not have built-in support for file compression, but we can easily call external programs like `gzip` or `zip` to perform these tasks. 
+
+*Warning*: Since we are using external programs, these are system-dependent and make sure to have the necessary tools installed on your system. Change the commands accordingly for different operating systems or compression formats.
 
 Using the functions defined above, we can easily perform common system tasks like compressing files or creating archives.
 

@@ -33,14 +33,14 @@ def checkUser : IO Unit := do
   | none      => IO.println "Could not find USER variable."
 ```
 
-# Setting Environment Variables
+# Setting Environment Variables for Child Process
 
 %%%
-tag := "setting-environment-variables"
+tag := "setting-environment-variables-child-process"
 number := false
 %%%
 
-{index}[Setting Environment Variables]
+{index}[Setting Environment Variables for Child Process]
 
 Setting environment variables for the *current* process is less common in pure Lean code. Usually, you set environment variables when spawning a new child process to configure its environment.
 
