@@ -301,7 +301,7 @@ def config : RenderConfig where
   emitTeX := false
   emitHtmlSingle := .no
   emitHtmlMulti := .immediately
-  htmlDepth := 2
+  htmlDepth := 3
   extraCssFiles := {customCodeCss}
   extraJsFiles := {customJs}
   logo := some "lean_logo.svg"

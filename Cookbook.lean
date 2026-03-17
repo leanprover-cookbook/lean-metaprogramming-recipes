@@ -5,6 +5,7 @@ import Cookbook.Overview
 import Cookbook.Expressions
 import Cookbook.Syntax
 import Cookbook.FileSystem
+import Cookbook.DataStructures
 import Cookbook.IO
 import Cookbook.MaintainingState
 import Cookbook.Tactics
@@ -67,6 +68,8 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 {include 1 Cookbook.Tactics}
 
 {include 1 Cookbook.FileSystem}
+
+{include 1 Cookbook.DataStructures}
 
 {include 1 Cookbook.IO}
 
