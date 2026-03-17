@@ -36,7 +36,7 @@ number := false
 If your JSON uses `snake_case` but your Lean code uses `camelCase`,
 you can manually implement {name}`ToJson` and {name}`FromJson` instances.
 
-The {name}`instance` keyword in Lean is used to provide an implementation for a *type class*. In this case, {name}`ToJson` and {name}`FromJson` are type classes that define how a type should be converted to and from {lean}`Json`. By defining these instances manually, you gain full control over the mapping process, allowing you to bridge the gap between different naming conventions or data structures.
+The `instance` keyword in Lean is used to provide an implementation for a *type class*. In this case, {name}`ToJson` and {name}`FromJson` are type classes that define how a type should be converted to and from {lean}`Json`. By defining these instances manually, you gain full control over the mapping process, allowing you to bridge the gap between different naming conventions or data structures.
 
 ```lean
 structure Person where
