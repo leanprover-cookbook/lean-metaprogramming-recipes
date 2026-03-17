@@ -27,11 +27,12 @@ Writing to a file in Lean can be done using the {lean}`IO.FS.writeFile` function
 To write a string to the file, you can use the {lean}`IO.FS.Handle.putStr` method on the file handle. This will overwrite the contents of the file with the string you provide. If the file does not exist, it will be created.
 
 ```lean
-def writeToFile (path : System.FilePath) (s : String) : IO Unit := do
+def writeToFile (path : System.FilePath) (s : String)
+    : IO Unit := do
   IO.FS.writeFile path s
 
 -- Another way where you use file handle directly
-def writeToFile' (path : String) (s : String) : IO Unit := do
+def writeToFile' (path s : String) : IO Unit := do
   let file := ← IO.FS.Handle.mk path IO.FS.Mode.write
   file.putStr s
 ```
@@ -50,13 +51,14 @@ To append text to a file instead of overwriting it, you can use the {lean}`IO.FS
 *Important:* `flush` is necessary to ensure that the file handler writes the content to the file immediately. Otherwise, the content may be buffered and not written until later.
 
 ```lean
-def appendToFile (path : String) (s : String) : IO Unit := do
+def appendToFile (path s : String) : IO Unit := do
   let file := ← IO.FS.Handle.mk path IO.FS.Mode.append
   file.putStr s
   file.flush
 
 -- Another way
-def appendToFile' (path : System.FilePath) (s : String) : IO Unit := do
+def appendToFile' (path : System.FilePath) (s : String)
+    : IO Unit := do
   IO.FS.withFile path IO.FS.Mode.append fun handle =>
     handle.putStr s
 
@@ -67,7 +69,7 @@ Note, {lean}`IO.FS.withFile` is recommended because it ensures the handle is clo
 Now if you wanted to write the string in the beginning of the file and keep the existing content, you can read the existing content first, then write the new string followed by the old content.
 
 ```lean
-def prependToFile (path : String) (s : String) : IO Unit := do
+def prependToFile (path s : String) : IO Unit := do
   let file := ← IO.FS.Handle.mk path IO.FS.Mode.read
   let oldContent ← file.readToEnd
   let file := ← IO.FS.Handle.mk path IO.FS.Mode.write
@@ -75,7 +77,8 @@ def prependToFile (path : String) (s : String) : IO Unit := do
   file.flush
 
 -- Another way
-def prependToFile' (path : System.FilePath) (s : String) : IO Unit := do
+def prependToFile' (path : System.FilePath) (s : String)
+    : IO Unit := do
   let oldContent ← IO.FS.readFile path
   IO.FS.writeFile path (s ++ oldContent)
 ```

@@ -8,7 +8,7 @@ rev = "v4.28.0"
 
 [[lean_lib]]
 name = "Cookbook"
-moreLeanArgs = ["-Dverso.code.warnLineLength=80"]
+moreLeanArgs = ["-Dverso.code.warnLineLength=60"]
 
 [[lean_exe]]
 name = "lean-cookbook"

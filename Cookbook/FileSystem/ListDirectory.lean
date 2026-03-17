@@ -66,10 +66,11 @@ skipping large or irrelevant folders like `.git` or `.lake`.
 
 ```lean
 def listSourceFiles (path : System.FilePath) : IO Unit := do
-  -- Only enter directories that aren't hidden or build artifacts
+  /- Only enter directories that aren't
+    hidden or build artifacts -/
   let filter (p : System.FilePath) : IO Bool := do
     let name := p.fileName.getD ""
-    return name != ".git" && name != ".lake" && name != "_out"
+    return name != ".git" && name != ".lake"
 
   let files ← path.walkDir (enter := filter)
   for f in files do

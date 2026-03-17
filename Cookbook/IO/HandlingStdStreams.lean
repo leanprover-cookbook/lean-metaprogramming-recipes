@@ -53,7 +53,8 @@ A common pattern in CLI tools is to request specific types of data (like numbers
 
 /-- Repeatedly prompts the user until a valid natural number
 within range is provided. -/
-partial def getBoundedNat (prompt : String) (low high : Nat) : IO Nat := do
+partial def getBoundedNat (prompt : String)
+    (low high : Nat) : IO Nat := do
   IO.print s!"{prompt} ({low}-{high}): "
   (← IO.getStdout).flush
   let input ← (← IO.getStdin).getLine
@@ -112,20 +113,21 @@ def showProgressBar (n: Nat) : IO Unit := do
     let progress := i * 10
     let filled := String.ofList (List.replicate i '#')
     let empty := String.ofList (List.replicate (10-i) '-')
-    -- \r moves the cursor back to the start of the current line
+    -- \r moves the cursor back to the
+    -- start of the current line
     IO.print s!"\rProgress: [{filled}{empty}] {progress}%"
     (← IO.getStdout).flush
     IO.sleep 200 -- Sleep for 200ms
   IO.println "\nTask Complete!"
 
 def showSpinner (n: Nat) : IO Unit := do
-  let spinnerChars := ["|", "/", "-", "\\"]
+  let spinChars := ["|", "/", "-", "\\"]
   for i in [1:n] do
-    let spinnerChar := spinnerChars[i % spinnerChars.length]!
-    IO.print s!"\rProcessing... {spinnerChar}"
+    let spinChar := spinChars[i % spinChars.length]!
+    IO.print s!"\rProcessing... {spinChar}"
     (← IO.getStdout).flush
     IO.sleep 100 -- 100ms is a better speed for a spinner
-  IO.print "\rDone!          " -- Overwrite with spaces to clear the line
+  IO.print "\rDone!          "
   IO.println ""
 
 
@@ -144,8 +146,8 @@ If you want to bold, italics, or add colors to the text, you can do so with ANSI
 
 ```lean
 /-- Wraps a string in ANSI escape codes for coloring. -/
-def colorize (text : String) (colorCode : String) : String :=
-  s!"\x1b[{colorCode}m{text}\x1b[0m"
+def colorize (msg : String) (colorCode : String) : String :=
+  s!"\x1b[{colorCode}m{msg}\x1b[0m"
 
 def printStatus : IO Unit := do
   IO.println s!"Status: {colorize "SUCCESS" "32"}" -- Green

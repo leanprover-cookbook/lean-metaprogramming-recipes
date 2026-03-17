@@ -23,33 +23,37 @@ number := false
 In order to run an external program from inside a Lean file, we can use {lean}`IO.Process.run`, which takes a {lean}`IO.Process.SpawnArgs` structure and returns the command's stdout as a {lean}`String`.
 
 ```lean
-def runExternalProgram (cmd : String) (args : Array String) : IO String :=
+def runExternalProgram (cmd : String) (args : Array String)
+    : IO String :=
   IO.Process.run {
     cmd := cmd
     args := args
   }
 
--- #eval runExternalProgram "curl" #["https://www.example.com"]
+-- #eval runExternalProgram "curl" #["https://www.test.com"]
 ```
 
 If the program fails (returns a non-zero exit code), {lean}`IO.Process.run` will throw an exception. To handle the output more gracefully and see the exit code and stderr, you can use {lean}`IO.Process.output`.
 
 ```lean
-def runExternalWithOutput (cmd : String) (args : Array String) : IO Unit := do
+def runExternalWithOutput (cmd : String)
+    (args : Array String) : IO Unit := do
   let out ← IO.Process.output {
     cmd := cmd
     args := args
   }
   if out.exitCode == 0 then
-    IO.println s!"Command succeeded with output: {out.stdout}"
+    IO.println s!"Command succeeded: {out.stdout}"
   else
-    IO.println s!"Command failed with exit code {out.exitCode}: {out.stderr}"
+    IO.println s!"Command failed. Exit Code: {out.exitCode},
+      Error: {out.stderr}"
 ```
 
 If you want to know more information about the process, such as its PID, you can use {lean}`IO.Process.spawn` to start the process and get a `IO.Process` object.
 
 ```lean
-def spawnExternalProgram (cmd : String) (args : Array String) : IO Unit := do
+def spawnExternalProgram (cmd : String) 
+    (args : Array String) : IO Unit := do
   let proc ← IO.Process.spawn {
     cmd := cmd
     args := args
@@ -91,7 +95,8 @@ def compressFile (path : System.FilePath) : IO Unit := do
 To archive multiple files or directories, we can use the `zip` utility.
 
 ```lean
-def createArchive (archiveName : String) (files : Array String) : IO Unit := do
+def createArchive (archiveName : String) 
+    (files : Array String) : IO Unit := do
   let _ ← runExternalProgram "zip" (#[archiveName] ++ files)
   IO.println s!"Created archive {archiveName}"
 ```

@@ -28,7 +28,8 @@ You can get a random number with lower `low` and upper `high` bounds using the {
 ```lean
 def getRandomNumber (low high : Nat) : IO Unit := do
   let random ← IO.rand low high
-  IO.println s!"Random number between {low} and {high}: {random}"
+  IO.println s!"Random number between 
+    {low} and {high}: {random}"
 ```
 
 # Putting a Process to Sleep

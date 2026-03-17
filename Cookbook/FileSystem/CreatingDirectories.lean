@@ -32,10 +32,12 @@ def createDirectory (path : System.FilePath) : IO Unit := do
   catch e =>
     IO.println s!"Failed to create directory '{path}': {e}"
 
--- Another way is to check for existance before creating the directory.
+/-- Another way is to check for existance
+  before creating the directory. -/
 def safeCreateDir (path : System.FilePath) : IO Unit := do
   if ← path.pathExists then
-    if ! (← path.isDir) then throw <| IO.userError s!"Path '{path}' 
+    if ! (← path.isDir) then
+      throw <| IO.userError s!"Path '{path}' 
       already exists and is not a directory."
     else
       IO.println s!"Directory '{path}' already exists."
@@ -50,7 +52,7 @@ you can use {name}`IO.FS.createDirAll`. This will create the entire directory
 structure specified in the path if it does not already exist.
 
 ```lean
-def createDirectoryAll (path : System.FilePath) : IO Unit := do
+def createSubDirAll (path : System.FilePath) : IO Unit := do
   try
     IO.FS.createDirAll path
     IO.println s!"Directory '{path}' created successfully."
@@ -58,7 +60,7 @@ catch e =>
     IO.println s!"Failed to create directory '{path}': {e}"
 
 -- Useful Tip: String value also works here
-#eval createDirectory "testDir/subDir"
+#eval createSubDirAll "testDir/subDir"
 ```
 
 Notice that {lean}`String` (like `"testdir/subdir"`) works even though the

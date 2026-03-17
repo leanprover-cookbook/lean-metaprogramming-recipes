@@ -27,11 +27,12 @@ number := false
 To concatenate file paths, you can use the {lean}`System.FilePath` module. You can create a file path using {lean}`System.mkFilePath` and then concatenate it with another path using the `/` operator:
 
 ```lean
-def concatPaths (base : System.FilePath) (sub : String) : System.FilePath :=
-  base / System.mkFilePath [sub]
+def concatPaths (base : System.FilePath) (sub : String)
+  : System.FilePath := base / System.mkFilePath [sub]
 
-#eval concatPaths (System.mkFilePath ["home", "user"]) "documents"
-#eval System.mkFilePath ["home", "user"] / System.mkFilePath ["documents"]
+#eval concatPaths (System.mkFilePath ["home", "user"]) "dir"
+#eval System.mkFilePath ["home", "user"] 
+  / System.mkFilePath ["dir"]
 ```
 
 This object you can use like usual since the new path is still a {lean}`System.FilePath` object.
@@ -82,7 +83,8 @@ number := false
 {index}[Checking if Path is Absolute or Relative]
 
 ```lean
-def checkAbsolutePath (path₁ path₂: System.FilePath) : IO Unit := do
+def checkAbsolutePath (path₁ path₂: System.FilePath)
+  : IO Unit := do
   if path₁.isAbsolute then
     IO.println s!"{path₁} is an absolute path"
   else
@@ -120,10 +122,12 @@ number := false
 To rename a file path, you can use the {lean}`IO.FS.rename` function, which takes the old path and the new path as arguments.
 
 ```lean
-def renameFile (oldPath newPath : System.FilePath): IO Unit := do
+def renameFile (oldPath newPath : System.FilePath) :
+  IO Unit := do
   try 
     IO.FS.rename oldPath newPath
     IO.println s!"Renamed {oldPath} to {newPath}"
   catch e =>
-    IO.eprintln s!"Failed to rename {oldPath} to {newPath}: {e}"
+    IO.eprintln s!"Failed to rename {oldPath} to {newPath}:
+      Error Found: {e}"
 ```

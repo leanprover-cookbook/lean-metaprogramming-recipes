@@ -51,7 +51,8 @@ def parseArgs (args : List String) : IO Unit := do
   | [filename] =>
     IO.println s!"Processing file: {filename}"
   | _ =>
-    IO.eprintln "Error: Unknown or too many arguments. Use --help for usage."
+    IO.eprintln "Error: Unknown or too many arguments.
+      Use --help for usage."
     IO.Process.exit 1
 ```
 
@@ -66,9 +67,10 @@ structure CliConfig where
   inputFiles : List String := []
 deriving Repr
 
-/-- Recursively parses arguments into a CliConfig structure. -/
-partial def parseConfig (args : List String) (cfg : CliConfig := {})
-  : CliConfig :=
+/-- Recursively parses arguments
+  into a CliConfig structure. -/
+partial def parseConfig (args : List String)
+  (cfg : CliConfig := {}) : CliConfig :=
   match args with
   | [] => cfg
   | "-v" :: rest | "--verbose" :: rest =>
@@ -76,7 +78,8 @@ partial def parseConfig (args : List String) (cfg : CliConfig := {})
   | "-o" :: file :: rest | "--output" :: file :: rest =>
     parseConfig rest { cfg with outputFile := some file }
   | file :: rest =>
-    parseConfig rest { cfg with inputFiles := cfg.inputFiles ++ [file] }
+    parseConfig rest { cfg with inputFiles :=
+      cfg.inputFiles ++ [file] }
 
 def runParser (args : List String) : IO Unit := do
   let cfg := parseConfig args

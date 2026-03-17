@@ -30,7 +30,8 @@ number := false
 To read a JSONL file, we use {lean}`IO.FS.lines` to get an array of strings and then parse each non-empty line.
 
 ```lean
-def readJsonlFile (path : System.FilePath) : IO (Array Json) := do
+def readJsonlFile (path : System.FilePath) :
+    IO (Array Json) := do
   let lines ← IO.FS.lines path
   let mut result := #[]
   for line in lines do
@@ -38,7 +39,8 @@ def readJsonlFile (path : System.FilePath) : IO (Array Json) := do
     if line.isEmpty then continue
     match Json.parse line with
     | .ok j => result := result.push j
-    | .error err => throw <| IO.userError s!"Failed to parse line: {err}"
+    | .error err =>
+      throw <| IO.userError s!"Failed to parse line: {err}"
   return result
 ```
 
@@ -56,9 +58,11 @@ When writing JSONL, each object must be rendered as a single line without intern
 1. Writing an array of JSON objects
 
 ```lean
-def writeJsonlFile (path : System.FilePath) (data : Array Json) : IO Unit := do
+def writeJsonlFile (path : System.FilePath)
+  (data : Array Json) : IO Unit := do
   let lines := data.map (·.compress)
-  IO.FS.writeFile path (String.intercalate "\n" lines.toList ++ "\n")
+  IO.FS.writeFile path (String.intercalate "\n"
+    lines.toList ++ "\n")
 ```
 
 2. Writing custom structures to JSONL
@@ -72,7 +76,8 @@ structure LogEntry where
   message   : String
 deriving ToJson
 
-def writeLogs (path : System.FilePath) (logs : Array LogEntry) : IO Unit := do
+def writeLogs (path : System.FilePath)
+    (logs : Array LogEntry) : IO Unit := do
   IO.FS.withFile path .write fun handle => do
     for log in logs do
       handle.putStrLn (toJson log).compress

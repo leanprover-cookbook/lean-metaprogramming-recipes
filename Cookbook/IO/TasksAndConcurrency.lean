@@ -82,7 +82,8 @@ def runParallel : IO Unit := do
   let r1 ← IO.wait t1
   let r2 ← IO.wait t2
   
-  IO.println s!"Results: T₁ = {r1.toOption.getD ""}, T₂ = {r2.toOption.getD ""}"
+  IO.println s!"Results: T₁ = {r1.toOption.getD ""}, 
+    T₂ = {r2.toOption.getD ""}"
 ```
 
 In this example, the total wait time is approximately 1 second, even though we performed two 1-second sleeps, because they ran in parallel.
