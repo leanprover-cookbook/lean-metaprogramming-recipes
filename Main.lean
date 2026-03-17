@@ -304,5 +304,9 @@ def config : RenderConfig where
   htmlDepth := 2
   extraCssFiles := {customCodeCss}
   extraJsFiles := {customJs}
+  logo := some "lean_logo.svg"
+  extraHead := #[.tag "link" #[("rel", "icon"), ("href", "lean_logo.svg"), ("type", "image/svg+xml")] .empty]
+  extraFilesHtml := [("assets/lean_logo.svg", "lean_logo.svg")]
 
-def main := manualMain (%doc Cookbook) (extraSteps := [buildExercises]) (config := config)
+def main (args : List String) : IO UInt32 := do
+  manualMain (%doc Cookbook) (options := args) (config := config) (extraSteps := [buildExercises])
