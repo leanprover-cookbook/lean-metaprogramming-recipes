@@ -1,10 +1,10 @@
 import VersoManual
 import Cookbook.Lean
-import Lean.Data.Json
-import Cookbook.DataStructures.JSON.JsonObject
-import Cookbook.DataStructures.JSON.ReadWriteJsonFile
-import Cookbook.DataStructures.JSON.AccessingModifyingJson
-import Cookbook.DataStructures.JSON.Miscellaneous
+import Lake.Toml
+import Cookbook.DataStructures.TOML.ParsingToml
+import Cookbook.DataStructures.TOML.EncodingDecodingToml
+import Cookbook.DataStructures.TOML.NestedToml
+import Cookbook.DataStructures.TOML.ReadWriteTomlFile
 
 open Verso.Genre Manual Cookbook Lean
 open Verso.Genre.Manual.InlineLean
@@ -23,7 +23,7 @@ number := false
 
 Working with `Lake.Toml` is not as straightforward as working with {lean}`Json`, but hopefully the following sections will provide you with the necessary tools to handle `Lake.Toml` data effectively in Lean.
 
-{include 1 Cookbook.DataStructures.JSON.JsonObject}
-{include 1 Cookbook.DataStructures.JSON.AccessingModifyingJson}
-{include 1 Cookbook.DataStructures.JSON.ReadWriteJsonFile}
-{include 1 Cookbook.DataStructures.JSON.Miscellaneous}
+{include 1 Cookbook.DataStructures.TOML.ParsingToml}
+{include 1 Cookbook.DataStructures.TOML.EncodingDecodingToml}
+{include 1 Cookbook.DataStructures.TOML.NestedToml}
+{include 1 Cookbook.DataStructures.TOML.ReadWriteTomlFile}
