@@ -24,14 +24,14 @@ number := false
 ::: contributors
 :::
 
-Working with files involves reading strings from disk and passing them to our parser, or taking a {name}`Table` and pretty-printing it back to a file. We will use the {name}`ServerConfig` structure defined in the previous section.
+Working with files involves reading strings from disk and passing them to our parser, or taking a {name}`Table` and pretty-printing it back to a file. We will use the {name}`ServiceConfig` structure defined in the previous section.
 
 # Reading TOML Files
 
 To read a TOML file, we read the file content as a string, parse it into a {name}`Table`, and then decode that table into a Lean structure.
 
 ```lean
-def loadConfig (path : System.FilePath) : CoreM ServerConfig := do
+def loadConfig (path : System.FilePath) : CoreM ServiceConfig := do
   -- 1. Read the raw string from the file
   let content ← IO.FS.readFile path
   
@@ -40,7 +40,7 @@ def loadConfig (path : System.FilePath) : CoreM ServerConfig := do
   
   -- 3. Wrap in a Value and decode
   let val := Value.table' .missing table
-  let result : EStateM.Result Unit (Array DecodeError) ServerConfig := 
+  let result : EStateM.Result Unit (Array DecodeError) ServiceConfig := 
     decodeToml val #[]
     
   match result with
@@ -55,7 +55,7 @@ def loadConfig (path : System.FilePath) : CoreM ServerConfig := do
 To write TOML, we convert our Lean structure into a {name}`Value` using `toToml`, extract the underlying {name}`Table`, and then use `ppTable` to format it as a standard multi-line TOML string.
 
 ```lean
-def saveConfig (path : System.FilePath) (cfg : ServerConfig) : IO Unit := do
+def saveConfig (path : System.FilePath) (cfg : ServiceConfig) : IO Unit := do
   -- 1. Convert Lean structure to a TOML Value
   let val := toToml cfg
   
@@ -72,10 +72,10 @@ def saveConfig (path : System.FilePath) (cfg : ServerConfig) : IO Unit := do
 
 ```lean
 def egRoundTrip : CoreM String := do
-  let path : System.FilePath := "server_config.toml"
-  let config : ServerConfig := {
+  let path : System.FilePath := "service_config.toml"
+  let config : ServiceConfig := {
     name := "Production",
-    endpoints := #[{ host := "127.0.0.1", port := 80 }]
+    addresses := #[{ host := "127.0.0.1", port := 80 }]
   }
   
   -- Save it

@@ -30,13 +30,13 @@ def getAge (j : Json) : Except String Nat :=
 
 #eval getAge (json% { "name": "Alice", "age": 30 })
 
-def getValue (j : Json) (key : String) : Json :=
+def getJsonValue (j : Json) (key : String) : Json :=
   let val := j.getObjVal? key
   match val with
   | .ok v => v
   | .error err => panic! s!"Key '{key}' not found: {err}"
 
-#eval getValue (json% { "name": "Alice", "age": 30 }) "age"
+#eval getJsonValue (json% { "name": "Alice", "age": 30 }) "age"
 ```
 
 To get all the keys in a {lean}`Json` object, you can simply match on the {lean}`Json.obj` constructor:
