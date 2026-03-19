@@ -36,7 +36,7 @@ def getJsonValue (j : Json) (key : String) : Json :=
   | .ok v => v
   | .error err => panic! s!"Key '{key}' not found: {err}"
 
-#eval getJsonValue (json% { "name": "Alice", "age": 30 }) "age"
+#eval getJsonValue (json% { "name": "Bob", "age": 7 }) "age"
 ```
 
 To get all the keys in a {lean}`Json` object, you can simply match on the {lean}`Json.obj` constructor:

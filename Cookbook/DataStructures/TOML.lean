@@ -3,10 +3,10 @@ import Cookbook.Lean
 import Lake.Toml
 import Cookbook.DataStructures.TOML.ParsingToml
 import Cookbook.DataStructures.TOML.AccessingModifyingToml
-import Cookbook.DataStructures.TOML.NestedToml
+import Cookbook.DataStructures.TOML.HandlingNestedToml
+import Cookbook.DataStructures.TOML.ReadWriteTomlFile
 import Cookbook.DataStructures.TOML.JsonTomlConversion
 import Cookbook.DataStructures.TOML.LakefileToml
-import Cookbook.DataStructures.TOML.ReadWriteTomlFile
 
 open Verso.Genre Manual Cookbook Lean
 open Verso.Genre.Manual.InlineLean
@@ -36,7 +36,7 @@ Working with `Lake.Toml` is not as straightforward as working with {lean}`Json`,
 
 {include 1 Cookbook.DataStructures.TOML.ParsingToml}
 {include 1 Cookbook.DataStructures.TOML.AccessingModifyingToml}
-{include 1 Cookbook.DataStructures.TOML.NestedToml}
+{include 1 Cookbook.DataStructures.TOML.HandlingNestedToml}
 {include 1 Cookbook.DataStructures.TOML.ReadWriteTomlFile}
 {include 1 Cookbook.DataStructures.TOML.JsonTomlConversion}
 {include 1 Cookbook.DataStructures.TOML.LakefileToml}

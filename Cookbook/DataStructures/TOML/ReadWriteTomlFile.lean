@@ -1,7 +1,7 @@
 import VersoManual
 import Cookbook.Lean
 import Lake.Toml
-import Cookbook.DataStructures.TOML.NestedToml
+import Cookbook.DataStructures.TOML.HandlingNestedToml
 
 open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean

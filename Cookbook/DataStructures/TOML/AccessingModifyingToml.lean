@@ -30,8 +30,6 @@ transform TOML tables into Lean structures and vice versa.
 
 To transform TOML into Lean types, we primarily use two methods: high-level type-safe decoding via the {name}`Lake.DecodeToml` class, and low-level extraction using {name}`Lake.Toml.Table` methods.
 
-## Core Decoding Methods
-
 1. *decodeTable*: Converts a generic {name}`Lake.Toml.Value` into a {lean}`Table`. This is how you "open the box" to access the keys inside a nested section.
 2. *decode*: A high-level method on {lean}`Table` that retrieves a key and immediately converts it to a Lean type (like {lean}`String`).
 3. *decodeValue*: A low-level method that simply retrieves the raw {name}`Lake.Toml.Value` for a key.

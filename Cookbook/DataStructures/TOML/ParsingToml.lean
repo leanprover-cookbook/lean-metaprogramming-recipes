@@ -69,5 +69,5 @@ role = \"user\"
 #eval egNestedParse
 ```
 
-More about Nested TOML handling in {ref "nested-toml"}[Nested TOML] section.
+More about Nested TOML handling in {ref "handling-nested-toml"}[Handling Nested TOML] section.
 

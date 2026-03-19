@@ -22,78 +22,116 @@ number := false
 ::: contributors
 :::
 
-Lean 4 uses `lakefile.toml` for package configuration. While you usually edit this file manually, you might want to read or update it programmatically using `Lake.Toml`.
+Lean 4 uses *lakefile.toml* for package configuration. While you usually edit this file manually, you might want to read or update it programmatically using `Lake.Toml`.
 
 # Parsing a lakefile.toml
 
-A typical `lakefile.toml` contains a `[[lean_lib]]` or `[[lean_exe]]` section and a `[package]` section. We can define structures that match these and use the tools we've learned to parse them.
+%%%
+tag := "parsing-lakefile-toml"
+number := false
+%%%
+
+{index}[Parsing lakefile.toml]
+
+A *lakefile.toml* is essentially a TOML table. We can define structures to match specific sections like `[[lean_lib]]` or `[[require]]`.
 
 ```lean
-structure PackageConfig where
+structure LibConfig where
   name : String
-  version : Option String := none
+  moreLeanArgs : Array String
 deriving Inhabited, Repr
 
-instance : DecodeToml PackageConfig where
+instance : DecodeToml LibConfig where
   decode v := do
     let tbl ← v.decodeTable
-    let name ← tbl.decode `name
-    let version ← tbl.decode? `version
-    return { name, version }
+    return { 
+      name := ← tbl.decode `name, 
+      moreLeanArgs := ← tbl.decode `moreLeanArgs 
+    }
 
-def readPackageName (input : String) : CoreM String := do
-  let table ← parseToml input
-  -- Access the [package] section
-  let pkgVal := getTomlValue table "package"
-  let res : EStateM.Result Unit (Array DecodeError) PackageConfig := 
-    decodeToml pkgVal #[]
-  match res with
-  | .ok cfg _ => return cfg.name
-  | .error _ errs => 
-    throwError s!"Decode error: {errs.toList.map (·.msg)}"
+/-- Reads the library name from the [[lean_lib]] section -/
+def readLibName (path : System.FilePath) : 
+    CoreM String := do
+  let content ← IO.FS.readFile path
+  let table ← parseToml content
 
-#eval readPackageName "[package]\nname = \"my_project\""
+  let libVal : Value := getTomlValue table "lean_lib"
+  
+  -- We decode to Array lean_lib 
+  -- since it's an array of tables
+  let result : EStateM.Result Unit (Array DecodeError) 
+    (Array LibConfig) := decodeToml libVal #[]
+  
+  match result with
+  | .ok libs _ => 
+      match (libs[0]? : Option LibConfig) with
+      | some { name := n, moreLeanArgs := args } =>
+          return s!"Library name: {n} and Args: {args}"
+      | none => return "No library found"
+  | .error .. => return "Failed to decode lean_lib section."
+
+#eval readLibName "lakefile.toml"
 ```
 
 # Updating Dependencies in lakefile.toml
 
-If you want to add a dependency to your `lakefile.toml`, you can manipulate the `[[require]]` array of tables.
+%%%
+tag := "updating-lakefile-toml"
+number := false
+%%%
+
+{index}[Updating lakefile.toml]
+
+To add a dependency, we define a structure that matches the `[[require]]` format, decode the existing list, and then push our new entry.
 
 ```lean
 structure Dependency where
   name : String
-  scope : String := ""
+  git  : String
+  rev  : String
 deriving Inhabited, Repr
 
 instance : DecodeToml Dependency where
   decode v := do
     let tbl ← v.decodeTable
-    let name ← tbl.decode `name
-    let scope ← tbl.decode? `scope
-    return { name, scope := scope.getD "" }
+    return { 
+      name := ← tbl.decode `name, 
+      git  := ← tbl.decode `git,
+      rev  := ← tbl.decode `rev 
+    }
 
 instance : ToToml Dependency where
   toToml d := Value.table .missing <| Table.empty
     |> Table.insert `name d.name
-    |> Table.insert `scope d.scope
+    |> Table.insert `git  d.git
+    |> Table.insert `rev  d.rev
 
-def addDependency (input : String) (dep : Dependency) : CoreM String := do
-  let table ← parseToml input
+def addDependency (path : System.FilePath) 
+  (dep : Dependency) : CoreM Unit := do
+  let content ← IO.FS.readFile path
+  let table ← parseToml content
   
-  -- 1. Get existing dependencies or start with empty array
-  let result : EStateM.Result Unit (Array DecodeError) (Array Dependency) := 
-    (table.decode `require).run #[]
+  -- 1. Extract the existing array
+  let reqVal : Value := getTomlValue table "require"
+  let result : EStateM.Result Unit (Array DecodeError) 
+    (Array Dependency) := decodeToml reqVal #[]
+    
   let deps := match result with
     | .ok d _ => d
     | .error .. => #[]
     
-  -- 2. Add the new dependency
-  let updatedDeps := deps.push dep
-  
-  -- 3. Update the table and pretty-print
-  let updatedTable := updateValue table "require" updatedDeps
-  return ppTable updatedTable
 
-#eval addDependency "[package]\nname = \"my_project\"" 
-  { name := "mathlib", scope := "leanprover-community" }
+  let updatedDeps := deps.push dep
+  let updatedTable := 
+    updateValue table "require" updatedDeps
+
+  IO.FS.writeFile path (ppTable updatedTable)
+
+/-
+#eval addDependency "lakefile.toml" { 
+  name := "mathlib", 
+  git := "https://github.com/leanprover-community/mathlib4",
+  rev := "v4.11.0" 
+}
+-/
 ```

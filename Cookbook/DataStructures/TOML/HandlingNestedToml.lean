@@ -15,19 +15,29 @@ set_option pp.rawOnError true
 #doc (Manual) "Nested TOML & Arrays of Tables" =>
 
 %%%
-tag := "nested-toml"
+tag := "handling-nested-toml"
 number := false
 %%%
 
-{index}[Nested TOML]
-{index}[TOML Arrays of Tables]
+{index}[Handling Nested TOML]
 
 ::: contributors
 :::
 
 TOML supports nested structures through tables (sections like `[server]`) and arrays of tables (indicated by `[[endpoints]]`). These are handled by nesting {name}`DecodeToml` and {name}`ToToml` instances.
 
+In `Lake.Toml`, you may see both {name}`Value.table` and {name}`Value.table'`. They are almost identical:
+*   *`Value.table'`*: The raw constructor for the {name}`Lake.Toml.Value` inductive type.
+*   *`Value.table`*: A shorthand for `table'` that is often used for clarity. 
+
+Both take two arguments: a {name}`Lean.Syntax` (usually `.missing` for manual creation) and a {name}`Lake.Toml.Table`.
+
 # Defining Nested Structures
+
+%%%
+tag := "defining-nested-toml"
+number := false
+%%%
 
 First, we define our Lean structures and provide the logic to convert them to and from TOML.
 
@@ -71,6 +81,11 @@ instance : ToToml ServiceConfig where
 
 # Encoding (Representing as TOML)
 
+%%%
+tag := "encoding-nested-toml"
+number := false
+%%%
+
 To see what the nested structure looks like in TOML format, we use {name}`Lake.Toml.ppTable`.
 
 ```lean
@@ -93,7 +108,14 @@ def egEncodeNested : CoreM String := do
 
 # Decoding (Reading and Accessing)
 
-When reading, we use {name}`decodeToml` to transform the entire table back into our {name}`ServiceConfig` structure.
+%%%
+tag := "decoding-nested-toml"
+number := false
+%%%
+
+{index}[Reading Nested TOML]
+
+When reading, you can either decode the entire file at once or target a specific nested section.
 
 ```lean
 def egDecodeNested : CoreM String := do
@@ -107,20 +129,49 @@ port = 3000
   let table ← parseToml input
   let val := Value.table' .missing table
   
-  -- 1. Use decodeToml for the whole structure
-  let result : EStateM.Result Unit (Array DecodeError) ServiceConfig := 
-    decodeToml val #[]
+  let result : EStateM.Result Unit (Array DecodeError) 
+    ServiceConfig := decodeToml val #[]
   match result with
-  | .ok cfg _ => 
-    return s!"Config '{cfg.name}' has {cfg.addresses.size} addresses."
+  | .ok cfg _ => return s!"Config '{cfg.name}' 
+      has {cfg.addresses.size} addresses."
   | .error _ e => 
-    let msgs := e.toList.map (fun (err : DecodeError) => err.msg)
-    throwError s!"Error: {msgs}"
+      throwError s!"Error: {e.toList.map (·.msg)}"
 
 #eval egDecodeNested
 ```
 
+If you only want one part of a complex TOML file, you can extract the raw {name}`Value` first and then decode just that part.
+
+```lean
+def egDecodeSection : CoreM String := do
+  let input := "
+[server]
+name = \"Backend\"
+[[addresses]]
+host = \"127.0.0.1\"
+port = 80
+"
+  let table ← parseToml input
+  
+  -- Extract the [server] section as a raw Value
+  let serverVal : Value := getTomlValue table "server"
+  
+  -- Decode that Value into a specific structure
+  let result : EStateM.Result Unit (Array DecodeError) 
+    Address := decodeToml serverVal #[]
+    
+  match result with
+  | .ok addr _ => return s!"Server host is {addr.host}"
+  | .error _ e => 
+      throwError s!"Error: {e.toList.map (·.msg)}"
+```
+
 # Modifying Nested TOML
+
+%%%
+tag := "modifying-nested-toml"
+number := false
+%%%
 
 To modify a nested structure, you can either update the Lean object and re-encode it, or use helper functions like {name}`decodeTomlValue` and {name}`updateValue` to manipulate the {name}`Table` directly.
 
@@ -129,23 +180,23 @@ def egModifyNested : CoreM String := do
   let input := "name = \"Dev\"\naddresses = []"
   let table ← parseToml input
 
-  -- 1. Retrieve the existing array of addresses
-  -- We use decodeTomlValue for a type-safe retrieval
-  let addresses : Array Address ← match (decodeTomlValue table "addresses" : Except String (Array Address)) with
+  -- Retrieve the existing array of addresses
+  let addresses : Array Address ← 
+    match (decodeTomlValue table "addresses" : 
+    Except String (Array Address)) with
     | .ok v => pure v
     | .error _ => pure #[]
 
-  -- 2. Add a new address to the array
-  let newAddress : Address := { host := "127.0.0.1", port := 5000 }
+  -- Add a new address to the array
+  let newAddress : Address := 
+    { host := "127.0.0.1", port := 5000 }
   let updatedAddresses := addresses.push newAddress
     
-  -- 3. Update the 'addresses' key in the table
-  let updatedTable := updateValue table "addresses" updatedAddresses
+  -- Update the table and pretty-print
+  let finalTable := updateValue 
+    (updateValue table "addresses" updatedAddresses) 
+    "name" "Dev-Local"
   
-  -- 4. Rename the service using updateValue
-  let finalTable := updateValue updatedTable "name" "Dev-Local"
-  
-  -- 5. Format the result back to TOML
   return ppTable finalTable
 
 #eval egModifyNested
