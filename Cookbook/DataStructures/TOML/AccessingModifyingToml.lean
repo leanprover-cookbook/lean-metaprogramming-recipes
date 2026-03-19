@@ -45,9 +45,9 @@ deriving Inhabited, Repr
 
 instance : DecodeToml ToolConfig where
   decode v := do
-    -- 1. Cast the generic Value to a Table
+    -- Cast the generic Value to a Table
     let tbl ← v.decodeTable
-    -- 2. Decode specific keys into Lean types
+    -- Decode specific keys into Lean types
     let name ← tbl.decode `name
     let version ← tbl.decode `version
     let active ← tbl.decode? `active
@@ -64,7 +64,7 @@ def getTomlValue [DecodeToml α] [Inhabited α]
   | .error _ errs => panic! 
       s!"Failed to get '{key}': {errs.toList.map (·.msg)}"
 
-/-- A safe helper to decode a
+/-- Another safe helper to decode a
   specific key into a Lean type. -/
 def decodeTomlValue [DecodeToml α] (table : Table) 
     (key : String) : Except String α :=
@@ -75,7 +75,7 @@ def decodeTomlValue [DecodeToml α] (table : Table)
 
 def egGetValue : CoreM String := do
   let input := "
-name = \"Lean4\"
+name = \"Dragonbot\"
 version = 4
 is_active = true
 "
@@ -87,7 +87,6 @@ is_active = true
   
   -- You can even get the raw 'Value' box if you want
   let _raw : Value := getTomlValue table "name"
-
   return s!"{name} v{ver} (Active: {act})"
 
 #eval egGetValue
@@ -98,7 +97,7 @@ is_active = true
 {index}[Encoding TOML]
 {index}[Modifying TOML objects]
 
-To convert Lean structures back to TOML, implement the {name}`Lake.ToToml` class. When creating a table, we use *Value.table .missing tbl* to wrap our dictionary into a TOML value.
+To convert Lean structures back to TOML, implement the {name}`Lake.ToToml` class. When creating a table, we use `Value.table .missing tbl` to wrap our dictionary into a TOML value.
 
 ```lean
 instance : ToToml ToolConfig where
@@ -107,7 +106,8 @@ instance : ToToml ToolConfig where
       |> Table.insert `name c.name
       |> Table.insert `version c.version
       |> Table.insert `active c.active
-    -- We use .missing because this Value is being generated programmatically
+    -- We use .missing because this Value 
+    -- is being generated programmatically
     Value.table .missing tbl
 
 def egTomlEncode (cfg : ToolConfig) : CoreM String := do

@@ -37,6 +37,6 @@ Working with `Lake.Toml` is not as straightforward as working with {lean}`Json`,
 {include 1 Cookbook.DataStructures.TOML.ParsingToml}
 {include 1 Cookbook.DataStructures.TOML.AccessingModifyingToml}
 {include 1 Cookbook.DataStructures.TOML.NestedToml}
+{include 1 Cookbook.DataStructures.TOML.ReadWriteTomlFile}
 {include 1 Cookbook.DataStructures.TOML.JsonTomlConversion}
 {include 1 Cookbook.DataStructures.TOML.LakefileToml}
-{include 1 Cookbook.DataStructures.TOML.ReadWriteTomlFile}

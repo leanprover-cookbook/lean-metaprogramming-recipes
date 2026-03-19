@@ -31,22 +31,20 @@ Working with files involves reading strings from disk and passing them to our pa
 To read a TOML file, we read the file content as a string, parse it into a {name}`Table`, and then decode that table into a Lean structure.
 
 ```lean
-def loadConfig (path : System.FilePath) : CoreM ServiceConfig := do
-  -- 1. Read the raw string from the file
+def loadTomlConfig (path : System.FilePath) : 
+    CoreM ServiceConfig := do
   let content ← IO.FS.readFile path
-  
-  -- 2. Parse the string into a Table
   let table ← parseToml content
-  
-  -- 3. Wrap in a Value and decode
+
   let val := Value.table' .missing table
-  let result : EStateM.Result Unit (Array DecodeError) ServiceConfig := 
-    decodeToml val #[]
-    
+  let result : EStateM.Result Unit (Array DecodeError)
+    ServiceConfig := decodeToml val #[]
+
   match result with
   | .ok cfg _ => return cfg
   | .error _ errs => 
-    let msgs := errs.toList.map (fun (e : DecodeError) => e.msg)
+    let msgs := errs.toList.map 
+      (fun (e : DecodeError) => e.msg)
     throwError s!"Failed to decode {path}: {msgs}"
 ```
 
@@ -55,16 +53,14 @@ def loadConfig (path : System.FilePath) : CoreM ServiceConfig := do
 To write TOML, we convert our Lean structure into a {name}`Value` using `toToml`, extract the underlying {name}`Table`, and then use `ppTable` to format it as a standard multi-line TOML string.
 
 ```lean
-def saveConfig (path : System.FilePath) (cfg : ServiceConfig) : IO Unit := do
-  -- 1. Convert Lean structure to a TOML Value
+def saveTomlConfig (path : System.FilePath) 
+  (cfg : ServiceConfig) : IO Unit := do
   let val := toToml cfg
   
-  -- 2. Extract the Table and pretty-print it
   let content := match val with
     | .table' _ tbl => ppTable tbl
     | _ => toString val -- Fallback to inline format
-    
-  -- 3. Write the string to disk
+
   IO.FS.writeFile path content
 ```
 
@@ -79,10 +75,10 @@ def egRoundTrip : CoreM String := do
   }
   
   -- Save it
-  saveConfig path config
+  saveTomlConfig path config
   
-  -- Load it back
-  let loaded ← loadConfig path
+  -- Load it back, just for demonstration
+  let loaded ← loadTomlConfig path
   return s!"Loaded config for: {loaded.name}"
 
 #eval egRoundTrip
