@@ -6,6 +6,6 @@
 
 - [ ] My code builds locally with `lake build lean-cookbook && lake exe lean-cookbook` and checked how it looks locally.
 - [ ] I have followed the methodology of cooking my recipe using [COOKBOOK_GUIDELINES.md](COOKBOOK_GUIDELINES.md).
-- [ ] I have added appropriate indexing for the recipe(if new recipe)
+- [ ] I have added my new recipe at appropriate index position(check it if not applicable).
 
 ## Any other remarks

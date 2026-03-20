@@ -5,6 +5,7 @@ import Cookbook.Overview
 import Cookbook.Expressions
 import Cookbook.Syntax
 import Cookbook.FileSystem
+import Cookbook.DataStructures
 import Cookbook.IO
 import Cookbook.MaintainingState
 import Cookbook.Tactics
@@ -54,6 +55,12 @@ Check out [How to build a Recipe](How-to-build-a-Recipe/) to contribute to the c
 
 Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who have helped make this cookbook possible.
 
+*Other References*
+- [Lean 4 Language Reference](https://lean-lang.org/doc/reference/latest/)
+- [Theorem Proving in Lean](https://leanprover.github.io/theorem_proving_in_lean4/)
+- [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
+- [Mathlib](https://leanprover-community.github.io/mathlib4_docs/)
+
 
 
 {include 1 Cookbook.Overview}
@@ -67,6 +74,8 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 {include 1 Cookbook.Tactics}
 
 {include 1 Cookbook.FileSystem}
+
+{include 1 Cookbook.DataStructures}
 
 {include 1 Cookbook.IO}
 
