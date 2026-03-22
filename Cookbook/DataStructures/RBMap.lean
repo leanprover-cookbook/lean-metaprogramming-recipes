@@ -163,98 +163,59 @@ partial def simulate (s : Scheduler) : IO Unit := do
         IO.println log
         s'.simulate
     | none => return ()
--- termination_by totalWork s
--- decreasing_by sorry 
+-- termination_by s.totalWork
+-- decreasing_by sorry
 
 end Scheduler
 
 def egRunSchedule : IO Unit := do
   let mut s := Scheduler.empty
-  let p1 := s.createProc 30 1
-  s := s.add p1
-  let p2 := s.createProc 40 2
-  s := s.add p2
-  let p3 := s.createProc 20 1
-  s := s.add p3
+  s := s.add (s.createProc 30 1)
+  s := s.add (s.createProc 40 2)
+  s := s.add (s.createProc 20 1)
 
   IO.println "Starting CFS Simulation..."
   s.simulate
 
-#eval egRunSchedule
+#eval! egRunSchedule
 ```
 
-# Application: Tracking Scopes in a Compiler
+# Application: Tracking Undefined Identifiers with RBTree
 
 %%%
-tag := "rbmap-scope-tracking"
+tag := "rbtree-tracking-undefined"
 number := false
 %%%
 
-{index}[Scope Tracking with RBMap]
+{index}[Tracking Undefined Identifiers with RBTree]
 
-When building a compiler or an interpreter, you need to track which variables are in scope at any given point. {lean}`RBMap` is an ideal structure for this because it allows for fast lookups and is persistent.
-
-In a functional compiler, we can represent an environment as a stack of maps (each map being one scope).
+The following example implements a simple "linter" that finds all undefined identifiers in a piece of syntax. Because {lean}`RBTree` is persistent, we can simply pass the set down to nested expressions. When we "insert" a new variable into the set for a `let` body, the original set remains unchanged for other branches of the syntax tree.
 
 ```lean
--- A type to represent our variables and their "types"
-inductive MyExpr where
-  | natType
-  | stringType
-deriving Repr, Inhabited
+/-- A simple linter that finds undefined variables 
+    in a piece of syntax. -/
+partial def findUndefined (stx : Syntax) 
+    (defined : NameSet := {}) : List Name :=
+  match stx with
+  | `($id:ident) => 
+    let n := id.getId.eraseMacroScopes
+    if defined.contains n then [] else [n]
+  | `(let $id:ident := $v; $body) =>
+    let errs1 := findUndefined v defined
+    -- Shadowing is handled automatically by the tree.
+    let errs2 := findUndefined body 
+      (defined.insert id.getId.eraseMacroScopes)
+    errs1 ++ errs2
+  | `($e1 + $e2) => 
+    findUndefined e1 defined ++ findUndefined e2 defined
+  | _ => 
+    -- Recursively check all other syntax components
+    stx.getArgs.toList.flatMap (findUndefined · defined)
 
-/-- An environment is a stack of scopes.
-  Each scope is an RBMap from Name to MyExpr. -/
-structure Env where
-  scopes : List (RBMap Name MyExpr Name.quickCmp) := [{}]
-deriving Inhabited
+def runLinterExample : CoreM Unit := do
+  let expr ← `(let y := 2; let z := x + 3; z * y)
+  let undef := findUndefined expr
+  IO.println s!"Undefined: {undef}"
 
-namespace Env
-
-/-- Enter a new nested scope -/
-def enterScope (e : Env) : Env :=
-  { e with scopes := RBMap.empty :: e.scopes }
-
-/-- Exit the current scope -/
-def exitScope (e : Env) : Env :=
-  match e.scopes with
-  | [] => e -- Should not happen in well-formed code
-  | _ :: rest => { e with scopes := rest }
-
-/-- Define a variable in the current (topmost) scope -/
-def define (e : Env) (name : Name) (type : MyExpr) : Env :=
-  match e.scopes with
-  | [] => { e with scopes := [RBMap.empty.insert name type] }
-  | top :: rest => { e with scopes := top.insert name type :: rest }
-
-/-- Look up a variable, searching from the innermost scope outwards -/
-def lookup (e : Env) (name : Name) : Option MyExpr :=
-  e.scopes.findSome? (·.find? name)
-
-end Env
-
-def runScopeExample : IO Unit := do
-  let mut env : Env := {}
-  
-  -- Define a global variable
-  env := env.define `global_count .natType
-  
-  -- Enter a nested function scope
-  env := env.enterScope
-  env := env.define `local_name .stringType
-  
-  IO.println s!"Looking up 'local_name': {repr (env.lookup `local_name)}"
-  IO.println s!"Looking up 'global_count': {repr (env.lookup `global_count)}"
-  
-  -- Exit the scope
-  env := env.exitScope
-  let check1 := env.lookup `local_name |>.isSome
-  let check2 := env.lookup `global_count |>.isSome
-  IO.println s!"After exiting scope, 'local_name' exists: {check1}"
-  IO.println s!"After exiting scope, 'global_count' exists: {check2}"
-
-#eval runScopeExample
+#eval show CoreM Unit from runLinterExample
 ```
-
-By using `RBMap` for each scope, we ensure that variable lookup remains $O(\log n)$, even in files with thousands of definitions.
-
