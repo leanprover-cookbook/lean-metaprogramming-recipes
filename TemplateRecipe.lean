@@ -11,6 +11,8 @@ set_option pp.rawOnError true
 %%%
 tag := "similar-to-title"
 number := false
+-- Optional: If you don't want the recipe to be split into multiple subpages, because of depth.
+htmlSplit := .never 
 %%%
 
 ::: contributors

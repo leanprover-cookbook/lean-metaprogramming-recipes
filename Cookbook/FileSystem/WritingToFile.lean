@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Writing to a file" =>
 
+%%%
+htmlSplit := .never
+%%%
+
 ::: contributors
 :::
 

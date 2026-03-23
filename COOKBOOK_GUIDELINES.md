@@ -23,9 +23,12 @@ Writing a new recipe is straightforward. Follow these steps to ensure your contr
 3. **Use the Template**: Copy the [TemplateRecipe.lean](./TemplateRecipe.lean) and modify it according to your recipe.
 
 **Note**:
-The `tag` should be your filename and it is Very important to add this for indexing and cross-referencing purposes. It should be in `kebab-case` and should match the file name (without the `.lean` extension) exactly. For example, `ReadingFromFile.lean` should have `tag := "reading-from-file"`.
 
-The `number := false` option is used to prevent automatic numbering of the recipe, which is generally preferred for individual recipes.
+- The `tag` should be your filename and it is Very important to add this for indexing and cross-referencing purposes. It should be in `kebab-case` and should match the file name (without the `.lean` extension) exactly. For example, `ReadingFromFile.lean` should have `tag := "reading-from-file"`.
+
+- The `number := false` option is used to prevent automatic numbering of the recipe, which is generally preferred for individual recipes.
+
+- The `htmlSplit := .never` option is used to keep the recipe in the same HTML file as the chapter without division in pages. This Cookbook uses `htmlDepth := 3`, which means till 3 levels of depth, any `#` header will divide the page into a sub pages. If you donot want to split the recipe into multiple pages and yet have to use `#` headers(since Verso doesn't allow directly using `##`), you can use `htmlSplit := .never` to prevent that.
 
 4. **Writing Recipe Content**: Follow the best practices outlined in this file and see [BuildingRecipe](./Cookbook/BuildingRecipe.lean) for an example of how to write different sections of the recipe.
 

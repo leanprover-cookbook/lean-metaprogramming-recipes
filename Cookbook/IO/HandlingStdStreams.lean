@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "handling-std-streams"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors

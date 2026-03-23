@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Parsing Command Line Arguments" =>
 
+%%%
+htmlSplit := .never
+%%%
+
 ::: contributors
 :::
 

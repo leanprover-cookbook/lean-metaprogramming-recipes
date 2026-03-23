@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "tactic-using-elaborators"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors

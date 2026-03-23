@@ -41,20 +41,25 @@ Use the `#` symbol for top-level section like below. Each chapter should start w
 
 You can use `##` for subheaders to organize your content into sections. You can use `*` for a bolding - *Like this*.
 
-## Tagging
+## Metadata and Tagging
 
-Inside each header/subheader you can define a tag like this-
+Inside each header/subheader you can define metadata like this-
 
 ```
 %%%
 tag := "my-tag"
 number := false
+htmlSplit := .never
 %%%
 ```
 
 This way, you can refer to this section later using the tag.
 
 *How to get the link to the tag?* - You can find the tag in the URL when you navigate to that section on the website after clicking on the header.
+
+- *Note 1*: The `htmlSplit := .never` is Optional and use only if you want to prevent the section from being split across multiple pages. Since this cookbook is built using Verso with `htmlDepth := 3`, till 3rd level of depth isn't reached, a `#` header will split the page into a subpage instead of keeping it in the same page. Thus to be sure you don't want any such breaking of page, add this line in your metadata.
+
+- *Note 2*: We use `number := false` to enforce that no numbering shuold happen since this cookbook is not particularly meant to be read in a linear order. It is meant to be read as a reference guide and readers can go where they want independent of previous chapters.
 
 
 # Formatting Text

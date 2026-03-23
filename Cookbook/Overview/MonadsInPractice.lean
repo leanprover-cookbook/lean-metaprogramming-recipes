@@ -12,6 +12,7 @@ set_option pp.rawOnError true
 %%%
 tag := "monads-in-practice"
 number := false
+htmlSplit := .never
 %%%
 
 {index}[Monads in Practise]

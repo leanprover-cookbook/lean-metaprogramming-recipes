@@ -9,6 +9,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Code, Syntax, and Expressions" =>
 
+%%%
+htmlSplit := .never
+%%%
+
 ::: contributors
 :::
 

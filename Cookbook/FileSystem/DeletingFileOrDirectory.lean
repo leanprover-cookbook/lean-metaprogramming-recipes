@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Deleting a file or Directory" =>
 
+%%%
+htmlSplit := .never
+%%%
+
 ::: contributors
 :::
 
@@ -34,7 +38,6 @@ def deleteFile (path : String) : IO Unit := do
   catch e =>
     IO.println s!"Failed to delete file {path}: {e}"
 ```
-
 # How to delete a directory
 
 %%%

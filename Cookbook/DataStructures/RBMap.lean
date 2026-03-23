@@ -15,6 +15,7 @@ set_option pp.rawOnError true
 %%%
 tag := "rbmap-rbtree"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors

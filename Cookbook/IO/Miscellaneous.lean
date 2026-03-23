@@ -13,6 +13,8 @@ set_option pp.rawOnError true
 ::: contributors
 :::
 
+These are some Miscellaneous IO functions that you might find useful in your Lean code.
+
 # Get a Random Number
 
 %%%

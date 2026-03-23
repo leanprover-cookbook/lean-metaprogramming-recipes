@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "checking-if-a-tactic-is-valid"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors

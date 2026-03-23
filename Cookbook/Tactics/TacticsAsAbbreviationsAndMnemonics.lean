@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "tactics-as-abbreviations-and-mnemonics"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors

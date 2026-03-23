@@ -10,6 +10,9 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Handling JSONL File" =>
 
+%%%
+htmlSplit := .never
+%%%
 
 ::: contributors
 :::

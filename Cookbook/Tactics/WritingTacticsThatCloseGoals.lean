@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "writing-tactics-that-close-goals"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors

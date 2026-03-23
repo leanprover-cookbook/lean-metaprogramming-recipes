@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "trying-different-natural-numbers"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors

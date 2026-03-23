@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Tasks and Concurrency" =>
 
+%%%
+htmlSplit := .never
+%%%
+
 ::: contributors
 :::
 

@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Time Measurement of Process" =>
 
+%%%
+htmlSplit := .never
+%%%
+
 ::: contributors
 :::
 

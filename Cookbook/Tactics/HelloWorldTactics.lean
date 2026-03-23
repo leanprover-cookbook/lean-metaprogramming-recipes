@@ -12,6 +12,7 @@ set_option pp.rawOnError true
 %%%
 tag := "hello-world-tactics"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors
