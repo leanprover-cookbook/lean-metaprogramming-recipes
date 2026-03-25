@@ -60,7 +60,7 @@ catch e =>
     IO.println s!"Failed to create directory '{path}': {e}"
 
 -- Useful Tip: String value also works here
-#eval createSubDirAll "testDir/subDir"
+-- #eval createSubDirAll "testDir/subDir"
 ```
 
 Notice that {lean}`String` (like `"testdir/subdir"`) works even though the

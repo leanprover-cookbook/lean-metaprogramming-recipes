@@ -3,7 +3,7 @@ import Cookbook.Lean
 import Cookbook.DataStructures.JSON
 import Cookbook.DataStructures.TOML
 import Cookbook.DataStructures.HashMap
-import Cookbook.DataStructures.RBMap
+import Cookbook.DataStructures.Trees
 
 open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
@@ -28,4 +28,4 @@ Lean 4 provides several built-in data structures and tools for managing them. Th
 
 {include 1 Cookbook.DataStructures.HashMap}
 
-{include 1 Cookbook.DataStructures.RBMap}
+{include 1 Cookbook.DataStructures.Trees}

@@ -44,7 +44,7 @@ inductive BinaryTree (α : Type) where
 deriving Inhabited, Repr
 ```
 
-- For recursive data structures, we often need to define a custom {lean}`BEq` instance if we want to check for equality between two trees. Check out [Lean Reference Recursive Instancel](https://lean-lang.org/doc/reference/latest/Type-Classes/Instance-Declarations/#recursive-instances) on how to define `instance BEq` for recursive data structures.
+- For recursive data structures, we often need to define a custom {lean}`BEq` instance if we want to check for equality between two trees. Check out [Lean Reference Recursive Instance](https://lean-lang.org/doc/reference/latest/Type-Classes/Instance-Declarations/#recursive-instances) on how to define `instance BEq` for recursive data structures.
 
 # Operations on Binary Tree
 
