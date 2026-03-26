@@ -21,21 +21,29 @@ number := false
 
 {index}[Adding syntax for commands]
 
-In this recipe, we define a custom command that tests whether a proposition can be solved automatically by the {lean}`grind` tactic. The goal is to provide a small command-line style tool that reports whether {lean}`grind` can close a goal.
+Lean allows you to define custom syntax for a `command`. One convenient way to do this is to use `elab`, which lets you specify both the syntax and its elaboration in one place.
 
-We start by introducing a new piece of syntax in the `command` category:
+# "Hello World" command
+{index}["Hello World" Command]
+
+We start with a simple example of a command that prints "Hello World". The following `elab` declaration tells Lean to parse `#helloWorld` as a command and explains what that command should do.
 
 ```lean
-syntax "#grindable?" term : command
+elab "#helloWorld" : command => do
+    logInfo "Hello World!"
+
+#helloWorld
 ```
+Here, `logInfo s` prints the string `s` in the InfoView.
 
-This tells Lean to parse inputs of the form `#grindable? <term>` as a command. Since the new syntax lives in the `command` category, we need a command elaborator to explain what the command should do after parsing.
+# Command for checking whether a proposition is solved by grind
+{index}[Command for checking whether a proposition is solved by grind]
+We define a custom command that tests whether a proposition can be solved automatically by the {lean}`grind` tactic. The goal is to provide a small command-line-style tool that reports whether {lean}`grind` can close a goal.
 
-One convenient way to do this is with `elab_rules`:
+Again, we can define the command directly with `elab`. In the declaration below, Lean parses inputs of the form `#grindable? <term>` as a command, and the elaborator says how that command should behave.
 
 ```lean
-elab_rules : command
-|`(command| #grindable? $t:term ) => do
+elab "#grindable?" t:term : command => do
     Command.liftTermElabM do
       try
         withoutErrToSorry do
@@ -61,14 +69,17 @@ Let's break down the specific metaprogramming functions used in the elaborator a
 - We write a `try … catch` block and place `withoutErrToSorry` inside the `try` block.
 - `elabTerm t none` elaborates the user-provided proposition into an expression.
 - Then `mkFreshExprMVar tExpr` creates a fresh metavariable goal whose type is that proposition.
-- {lean}`Elab.runTactic` runs the tactic {lean}`grind` on that fresh goal and returns a tuple of type {lean}`List MVarId × Term.State`.
+- {lean}`Elab.runTactic` runs the tactic {lean}`grind` on that fresh goal and returns a tuple of type {lean}`List MVarId × Term.State`. In this example, the first component is exactly the list of goals left open after `grind`, while the second component is the updated state of the {lean}`TermElabM` monad, which we ignore with `_`.
 - Finally, we inspect the remaining goals. If the list is empty, then `grind` managed to prove the proposition completely.
 
-If you prefer, the same command can also be introduced using a single `elab` declaration rather than `syntax` plus `elab_rules`:
+If you prefer to separate the syntax declaration from the elaboration logic, Lean also lets you define the syntax first with `syntax` and then add elaboration rules with `elab_rules`.
 
 ```lean
-elab "#grindable?" t:term : command => do
-  Command.liftTermElabM do
+syntax "#grindable'?" term : command
+
+elab_rules : command
+|`(command| #grindable'? $t:term ) => do
+    Command.liftTermElabM do
       try
         withoutErrToSorry do
           let tExpr ← elabTerm t none
@@ -82,6 +93,7 @@ elab "#grindable?" t:term : command => do
             logInfo m!"grind failed with goals: {goals}"
       catch _ =>
         logInfo m!"{t} is not grindable"
+
 ```
 
-This second version is equivalent in spirit, but the first style is often easier to extend when you want to add several elaboration rules for the same command syntax. Use the direct `elab` form when you want a compact one-off command, and use `syntax` plus `elab_rules` when you want to separate the parser and elaborator more explicitly.
+The `elab_rules` command lets us define elaboration rules by pattern matching on the command syntax that was parsed. Both styles are useful, but the direct `elab` form is often a good starting point for a compact one-off command, while `syntax` plus `elab_rules` is helpful when you want to separate the parser and elaborator more explicitly.
