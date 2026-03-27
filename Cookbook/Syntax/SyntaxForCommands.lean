@@ -51,7 +51,7 @@ number := false
 %%%
 
 {index}[Command for checking whether a proposition is solved by grind]
-We define a custom command that tests whether a proposition can be solved automatically by the {lean}`grind` tactic. The goal is to provide a small command-line-style tool that reports whether {lean}`grind` can close a goal.
+We define a custom command that tests whether a proposition can be solved automatically by the {name}`grind` tactic. The goal is to provide a small command-line-style tool that reports whether {name}`grind` can close a goal.
 
 Again, we can define the command directly with `elab`. In the declaration below, Lean parses inputs of the form `#grindable? <term>` as a command, and the elaborator says how that command should behave.
 
@@ -77,12 +77,12 @@ elab "#grindable?" t:term : command => do
 ```
 
 Let's break down the specific metaprogramming functions used in the elaborator above:
-- The call to {lean}`Command.liftTermElabM` is needed because command elaboration happens in the {lean}`CommandElabM` monad, while elaborating terms and running tactics here uses the term elaboration machinery in the {lean}`TermElabM` monad.
-- Lean's elaborator turns elaboration errors into sorries by default. `withoutErrToSorry` prevents that from happening, so we can catch the exceptions thrown while elaborating.
-- We write a `try … catch` block and place `withoutErrToSorry` inside the `try` block.
-- `elabTerm t none` elaborates the user-provided proposition into an expression.
-- Then `mkFreshExprMVar tExpr` creates a fresh metavariable goal whose type is that proposition.
-- {lean}`Elab.runTactic` runs the tactic {lean}`grind` on that fresh goal and returns a tuple of type {lean}`List MVarId × Term.State`. In this example, the first component is exactly the list of goals left open after `grind`, while the second component is the updated state of the {lean}`TermElabM` monad, which we ignore with `_`.
+- The call to {name}`Command.liftTermElabM` is needed because command elaboration happens in the {name}`CommandElabM` monad, while elaborating terms and running tactics uses the term elaboration machinery in the {name}`TermElabM` monad.
+- Lean's elaborator turns elaboration errors into sorries by default. {name}`withoutErrToSorry` prevents that from happening, so we can catch the exceptions thrown while elaborating.
+- We write a `try … catch` block and place {name}`withoutErrToSorry` inside the `try` block.
+- {name}`Lean.Elab.Term.elabTerm` elaborates the user-provided proposition (i.e., `t`) into an expression.
+- Then {name}`mkFreshExprMVar` creates a fresh metavariable goal whose type is given as an expression (i.e., `tExpr`).
+- {name}`Elab.runTactic` runs the tactic {name}`grind` on that fresh goal and returns a tuple of type {lean}`List MVarId × Term.State`. In this example, the first component is exactly the list of goals left open after {name}`grind`, while the second component is the updated state of the {name}`TermElabM` monad, which we ignore with `_`.
 - Finally, we inspect the remaining goals. If the list is empty, then `grind` managed to prove the proposition completely.
 
 If you prefer to separate the syntax declaration from the elaboration logic, Lean also lets you define the syntax first with `syntax` and then add elaboration rules with `elab_rules`.

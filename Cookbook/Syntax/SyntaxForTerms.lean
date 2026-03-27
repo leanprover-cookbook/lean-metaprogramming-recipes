@@ -50,7 +50,7 @@ number := false
 
 In Python, list comprehensions provide a concise way to create lists. For example, the expression `[x^2 for x in [1,2,3,4,5]]` generates a list of the squares of the first five natural numbers. We will define similar syntax in Lean and then implement the logic to evaluate it.
 
-In Lean, this can be accomplished by using the {lean}`List.map` function.
+In Lean, this can be accomplished by using the {name}`List.map` function.
 
 ```lean
 #eval List.map (fun x => x * x) [1, 2, 3, 4]
@@ -62,7 +62,7 @@ tag := "macro-for-python-for-loop"
 number := false
 %%%
 
-Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {lean}`List.map`. The `ident` is a placeholder for the variable name used in the comprehension, and the two `term` placeholders represent the expression being generated and the collection being iterated over.
+Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {name}`List.map`. The `ident` is a placeholder for the variable name used in the comprehension, and the two `term` placeholders represent the expression being generated and the collection being iterated over.
 
 ```lean
 macro "[" t:term "pyfor" x:ident "in" l:term "]": term => do
@@ -79,7 +79,7 @@ tag := "elaborator-for-python-for-loop"
 number := false
 %%%
 
-Here is a more robust and complete implementation using an elaborator (`elab`). This version checks whether the collection being iterated over is a {lean}`List` or an {lean}`Array` and handles each case accordingly:
+Here is a more robust and complete implementation using an elaborator (`elab`). This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly:
 
 ```lean+error (name:= pyfor)
 elab "[" t:term "py_for" x:ident "in" l:term  "]" :
@@ -105,9 +105,9 @@ elab "[" t:term "py_for" x:ident "in" l:term  "]" :
 ```
 Let's break down the specific metaprogramming functions used in the elaborator above:
 
-- {lean}`Term.elabTerm` is used to elaborate the syntax of the collection `l` and the function `fnStx` into actual Lean expressions, while {lean}`Meta.inferType` is used to determine the type of the collection.
-- {lean}`Term.synthesizeSyntheticMVarsNoPostponing` is called to ensure that any metavariables generated during elaboration are fully resolved before we attempt to check the type. If the term `l` is a {lean}`List`, `ltype` will have the form `List ?m`, where `?m` is a metavariable representing the element type. Calling {lean}`Term.synthesizeSyntheticMVarsNoPostponing` ensures that `?m` is resolved to a concrete type, allowing us to proceed with the application of `mkAppM` without running into issues caused by unresolved metavariables.
-- {lean}`Expr.isAppOf` is used to check whether the type of `l` is a {lean}`List` or an {lean}`Array`. Depending on the result, we use {lean}`mkAppM` to construct the appropriate {lean}`List.map` or {lean}`Array.map` expression. If the type is neither, we throw a custom error.
+- {name}`Term.elabTerm` is used to elaborate the syntax of the collection `l` and the function `fnStx` into actual Lean expressions, while {name}`Meta.inferType` is used to determine the type of the collection.
+- {name}`Term.synthesizeSyntheticMVarsNoPostponing` is called to ensure that any metavariables generated during elaboration are fully resolved before we attempt to check the type. If the term `l` is a {name}`List`, `ltype` will have the form `List ?m`, where `?m` is a metavariable representing the element type. Calling {name}`Term.synthesizeSyntheticMVarsNoPostponing` ensures that `?m` is resolved to a concrete type, allowing us to proceed with the application of `mkAppM` without running into issues caused by unresolved metavariables.
+- {name}`Expr.isAppOf` is used to check whether the type of `l` is a {name}`List` or an {name}`Array`. Depending on the result, we use {name}`mkAppM` to construct the appropriate {name}`List.map` or {name}`Array.map` expression. If the type is neither, we throw a custom error.
 
 If you prefer to separate the syntax declaration from the macro expansion, Lean also lets you define the syntax first with `syntax` and then add macro rules separately.
 
