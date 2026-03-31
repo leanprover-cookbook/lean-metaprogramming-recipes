@@ -72,6 +72,16 @@ macro "[" t:term "pyfor" x:ident "in" l:term "]": term => do
 
 #eval [x * 2 pyfor x in [1, 2, 3, 4]] --> [2, 4, 6, 8]
 ```
+If you prefer to separate the syntax declaration from the macro expansion, Lean also lets you define the syntax first with `syntax` and then add macro rules separately.
+
+```lean
+syntax "[" term "pyfor'" ident "in" term "]" : term
+
+macro_rules
+| `([ $t:term pyfor' $x:ident in $l:term ]) => do
+    let fn ← `(fun $x => $t)
+    `(List.map $fn $l)
+```
 
 ## An elaborator that parses Python-like `for` loop
 
@@ -109,14 +119,3 @@ Let's break down the specific metaprogramming functions used in the elaborator a
 - {name}`Term.elabTerm` is used to elaborate the syntax of the collection `l` and the function `fnStx` into actual Lean expressions, while {name}`Meta.inferType` is used to determine the type of the collection.
 - {name}`Term.synthesizeSyntheticMVarsNoPostponing` is called to ensure that any metavariables generated during elaboration are fully resolved before we attempt to check the type. If the term `l` is a {name}`List`, `ltype` will have the form `List ?m`, where `?m` is a metavariable representing the element type. Calling {name}`Term.synthesizeSyntheticMVarsNoPostponing` ensures that `?m` is resolved to a concrete type, allowing us to proceed with the application of `mkAppM` without running into issues caused by unresolved metavariables.
 - {name}`Expr.isAppOf` is used to check whether the type of `l` is a {name}`List` or an {name}`Array`. Depending on the result, we use {name}`mkAppM` to construct the appropriate {name}`List.map` or {name}`Array.map` expression. If the type is neither, we throw a custom error.
-
-If you prefer to separate the syntax declaration from the macro expansion, Lean also lets you define the syntax first with `syntax` and then add macro rules separately.
-
-```lean
-syntax "[" term "pyfor'" ident "in" term "]" : term
-
-macro_rules
-| `([ $t:term pyfor' $x:ident in $l:term ]) => do
-    let fn ← `(fun $x => $t)
-    `(List.map $fn $l)
-```
