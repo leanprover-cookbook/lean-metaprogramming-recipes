@@ -12,6 +12,7 @@ import Cookbook.Tactics
 import Cookbook.Index
 import Cookbook.BuildingRecipe
 import Cookbook.Elaboration
+import Cookbook.WorkingWithTheInfoview
 import Cookbook.CookbookContributors
 
 open Verso.Genre Manual
@@ -47,7 +48,7 @@ The recipes in this cookbook are NOT meant to replace other resources like Theor
 
 We hope that this resource will be helpful for both beginners
 and experienced programmers looking to deepen their understanding of
-Lean 4. 
+Lean 4.
 
 *More Information*
 
@@ -80,6 +81,8 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 {include 1 Cookbook.IO}
 
 {include 1 Cookbook.MaintainingState}
+
+{include 1 Cookbook.WorkingWithTheInfoview}
 
 {include 0 Cookbook.Index}
 
