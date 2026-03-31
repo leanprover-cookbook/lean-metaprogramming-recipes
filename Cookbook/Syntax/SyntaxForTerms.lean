@@ -23,7 +23,7 @@ htmlSplit := .never
 
 {index}[Adding Syntax for terms]
 
-Lean allows to define custom syntax for a {name}`term`. One convenient way to do this is to use `macro` or `elab`, which let you specify both the syntax and its behavior in one place.
+Lean allows to define custom syntax for a {name}`term`. One convenient way to do this is to use `macro` or `elab`, which let you specify both the syntax and its behavior in one place. We will use Python syntax as an example to illustrate how to define custom syntax for terms in Lean. We will start with a simple example of parsing Python exponentiation syntax and then move on to a more complex example of parsing Python `for` loop syntax.
 
 # Syntax for Python exponentiation
 %%%
