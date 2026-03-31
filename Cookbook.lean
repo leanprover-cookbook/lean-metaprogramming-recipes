@@ -12,7 +12,7 @@ import Cookbook.Tactics
 import Cookbook.Index
 import Cookbook.BuildingRecipe
 import Cookbook.Elaboration
-import Cookbook.WorkingWithTheInfoview
+import Cookbook.Infoview
 import Cookbook.CookbookContributors
 
 open Verso.Genre Manual
@@ -82,7 +82,7 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 
 {include 1 Cookbook.MaintainingState}
 
-{include 1 Cookbook.WorkingWithTheInfoview}
+{include 1 Cookbook.Infoview}
 
 {include 0 Cookbook.Index}
 
