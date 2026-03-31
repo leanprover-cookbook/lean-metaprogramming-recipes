@@ -6,7 +6,7 @@ open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
 
-open Lean Elab Meta Tactic Command Term
+open Lean Elab Meta Tactic Command Term Parser Category
 
 set_option pp.rawOnError true
 
@@ -15,6 +15,7 @@ set_option pp.rawOnError true
 %%%
 tag := "adding-syntax-for-terms"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors
@@ -22,7 +23,7 @@ number := false
 
 {index}[Adding Syntax for terms]
 
-Lean allows  to define custom syntax for a `term`. One convenient way to do this is to use `macro` or `elab`, which let you specify both the syntax and its behavior in one place.
+Lean allows to define custom syntax for a {name}`term`. One convenient way to do this is to use `macro` or `elab`, which let you specify both the syntax and its behavior in one place.
 
 # Syntax for Python exponentiation
 %%%
@@ -62,7 +63,7 @@ tag := "macro-for-python-for-loop"
 number := false
 %%%
 
-Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {name}`List.map`. The `ident` is a placeholder for the variable name used in the comprehension, and the two `term` placeholders represent the expression being generated and the collection being iterated over.
+Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {name}`List.map`. The {name}`ident` is a placeholder for the variable name used in the comprehension, and the two {name}`term` placeholders represent the expression being generated and the collection being iterated over.
 
 ```lean
 macro "[" t:term "pyfor" x:ident "in" l:term "]": term => do

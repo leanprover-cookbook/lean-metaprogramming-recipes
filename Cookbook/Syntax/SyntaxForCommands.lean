@@ -4,7 +4,9 @@ import Cookbook.Lean
 open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
-open Lean Elab Meta Tactic Command Term
+open Lean Elab Meta Tactic Command Term Parser
+open Category hiding grind
+
 
 set_option pp.rawOnError true
 
@@ -13,6 +15,7 @@ set_option pp.rawOnError true
 %%%
 tag := "adding-syntax-for-command"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors
@@ -21,7 +24,7 @@ number := false
 
 {index}[Adding syntax for commands]
 
-Lean allows you to define custom syntax for a `command`. One convenient way to do this is to use `elab`, which lets you specify both the syntax and its elaboration in one place.
+Lean allows you to define custom syntax for a {name}`command`. One convenient way to do this is to use `elab`, which lets you specify both the syntax and its elaboration in one place.
 
 # "Hello World" command
 
@@ -82,7 +85,7 @@ Let's break down the specific metaprogramming functions used in the elaborator a
 - We write a `try … catch` block and place {name}`withoutErrToSorry` inside the `try` block.
 - {name}`Lean.Elab.Term.elabTerm` elaborates the user-provided proposition (i.e., `t`) into an expression.
 - Then {name}`mkFreshExprMVar` creates a fresh metavariable goal whose type is given as an expression (i.e., `tExpr`).
-- {name}`Elab.runTactic` runs the tactic {name}`grind` on that fresh goal and returns a tuple of type {lean}`List MVarId × Term.State`. In this example, the first component is exactly the list of goals left open after {name}`grind`, while the second component is the updated state of the {name}`TermElabM` monad, which we ignore with `_`.
+- {name}`Elab.runTactic` runs the tactic {lean}`grind` on that fresh goal and returns a tuple of type {lean}`List MVarId × Term.State`. In this example, the first component is exactly the list of goals left open after {name}`grind`, while the second component is the updated state of the {name}`TermElabM` monad, which we ignore with `_`.
 - Finally, we inspect the remaining goals. If the list is empty, then `grind` managed to prove the proposition completely.
 
 If you prefer to separate the syntax declaration from the elaboration logic, Lean also lets you define the syntax first with `syntax` and then add elaboration rules with `elab_rules`.
