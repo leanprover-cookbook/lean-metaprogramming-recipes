@@ -1,14 +1,15 @@
 import VersoManual
-import Cookbook.Tactics.helloWorldTactics
-import Cookbook.Tactics.tacticUsingMacro
-import Cookbook.Tactics.tacticUsingElaborators
-import Cookbook.Tactics.tacticsAsAbbreviationsAndMnemonics
-import Cookbook.Tactics.checkingIfATacticIsValid
-import Cookbook.Tactics.writingTacticsThatCloseGoals
-import Cookbook.Tactics.writingTacticsGivingNewGoals
-import Cookbook.Tactics.tryingDifferentNaturalNumbers
+import Cookbook.Lean
+import Cookbook.Tactics.HelloWorldTactics
+import Cookbook.Tactics.TacticUsingMacro
+import Cookbook.Tactics.TacticUsingElaborators
+import Cookbook.Tactics.TacticsAsAbbreviationsAndMnemonics
+import Cookbook.Tactics.CheckingIfATacticIsValid
+import Cookbook.Tactics.WritingTacticsThatCloseGoals
+import Cookbook.Tactics.WritingTacticsGivingNewGoals
+import Cookbook.Tactics.TryingDifferentNaturalNumbers
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "Tactics" =>
 
@@ -16,11 +17,15 @@ open Verso.Genre Manual
 tag := "tactics"
 number := false
 %%%
-{include 1 Cookbook.Tactics.helloWorldTactics}
-{include 1 Cookbook.Tactics.tacticUsingMacro}
-{include 1 Cookbook.Tactics.tacticUsingElaborators}
-{include 1 Cookbook.Tactics.tacticsAsAbbreviationsAndMnemonics}
-{include 1 Cookbook.Tactics.checkingIfATacticIsValid}
-{include 1 Cookbook.Tactics.writingTacticsThatCloseGoals}
-{include 1 Cookbook.Tactics.writingTacticsGivingNewGoals}
-{include 1 Cookbook.Tactics.tryingDifferentNaturalNumbers}
+
+::: contributors
+:::
+
+{include 1 Cookbook.Tactics.HelloWorldTactics}
+{include 1 Cookbook.Tactics.TacticUsingMacro}
+{include 1 Cookbook.Tactics.TacticUsingElaborators}
+{include 1 Cookbook.Tactics.TacticsAsAbbreviationsAndMnemonics}
+{include 1 Cookbook.Tactics.CheckingIfATacticIsValid}
+{include 1 Cookbook.Tactics.WritingTacticsThatCloseGoals}
+{include 1 Cookbook.Tactics.WritingTacticsGivingNewGoals}
+{include 1 Cookbook.Tactics.TryingDifferentNaturalNumbers}

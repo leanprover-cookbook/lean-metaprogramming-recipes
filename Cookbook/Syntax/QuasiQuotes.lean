@@ -1,10 +1,9 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -13,7 +12,11 @@ set_option pp.rawOnError true
 %%%
 tag := "quasi-quotes"
 number := false
+htmlSplit := .never
 %%%
+
+::: contributors
+:::
 
 {index}[Quasi-Quotes: Creating and Matching Syntax]
 
@@ -23,7 +26,7 @@ When working with syntax, we almost always use _quasi-quotes_, which are a conve
 
 Constructions of expressions using quasi-quote can only be done in a monad with `Lean.MonadQuotation`, which includes the meta-programming monads. They can represent either syntax or _typed syntax_. Thus, the following expressions all define syntax for commands:
 
-```
+```lean
 def egCommand : Lean.CoreM Lean.Syntax.Command := do
   `(command| example := "Hello World")
 
@@ -38,7 +41,7 @@ def egCommand'' : Lean.CoreM (Lean.TSyntax `command) := do
 
 In the above examples, we exactly specified the syntax we wanted to create. However, we can also use _interpolation_ to create syntax that depends on variables. An expression beginning with `$` is an interpolation, and it can be used to insert the value of a variable into the syntax. For example, we can define a term that is the sum of two natural numbers as follows:
 
-```
+```lean
 open Lean
 def sumTerm (a b : Nat) : CoreM Syntax.Term := do
   let aLit := Syntax.mkNatLit a
@@ -52,7 +55,7 @@ Here we used the function `Syntax.mkNatLit` that makes a syntax representing a n
 
 We can also use quasi-quotes to match syntax. For example, we can define a function that checks if a given syntax is of the form `a + b` for some `a` and `b` and flips the order of `a` and `b` if it is:
 
-```
+```lean
 def flipSum : Lean.Syntax.Term → CoreM Lean.Syntax.Term
 | `($a +  $b) => `($b + $a)
 | stx => return stx

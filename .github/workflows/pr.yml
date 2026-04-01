@@ -13,6 +13,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for Case Mismatches (PascalCase)
+        run: |
+          # Git Index check for any .lean file starting with a lowercase letter in Cookbook/
+          LOWERCASE_FILES=$(git ls-files Cookbook/ TemplateRecipe.lean | grep '\.lean$' | grep -E '(^|/)[a-z]' || true)
+          if [ -n "$LOWERCASE_FILES" ]; then
+            echo "::error::The following files have lowercase names in the Git index:"
+            echo "$LOWERCASE_FILES"
+            echo "Lean 4 and case-sensitive systems (Linux) require PascalCase for imports."
+            echo "To fix this on macOS, run: git mv path/to/lowercase.lean path/to/PascalCase.lean"
+            exit 1
+          fi
+          echo "All checked .lean files are correctly PascalCased."
 
       - name: Lean Action (Build)
         uses: leanprover/lean-action@v1

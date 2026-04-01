@@ -1,7 +1,8 @@
 import VersoManual
-import Cookbook.Elaboration.elaboratingTermsCommandsAndTactics
+import Cookbook.Lean
+import Cookbook.Elaboration.ElaboratingTermsCommandsAndTactics
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 
 #doc (Manual) "Elaboration for Syntax" =>
 
@@ -10,4 +11,7 @@ tag := "elaboration"
 number := false
 %%%
 
-{include 1 Cookbook.Elaboration.elaboratingTermsCommandsAndTactics}
+::: contributors
+:::
+
+{include 1 Cookbook.Elaboration.ElaboratingTermsCommandsAndTactics}

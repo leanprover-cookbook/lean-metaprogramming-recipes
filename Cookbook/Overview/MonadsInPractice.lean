@@ -1,10 +1,9 @@
 import VersoManual
 import Cookbook.Lean
 
-open Verso.Genre Manual
+open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
 
-open Cookbook
 
 set_option pp.rawOnError true
 
@@ -13,9 +12,13 @@ set_option pp.rawOnError true
 %%%
 tag := "monads-in-practice"
 number := false
+htmlSplit := .never
 %%%
 
-{index}[Title]
+{index}[Monads in Practise]
+
+::: contributors
+:::
 
 # Monads in Practice: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`
 
