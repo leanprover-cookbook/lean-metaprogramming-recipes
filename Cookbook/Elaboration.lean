@@ -1,13 +1,15 @@
 import VersoManual
 import Cookbook.Lean
 import Cookbook.Elaboration.ElaboratingTermsCommandsAndTactics
+import Cookbook.Elaboration.SyntaxForCommands
+import Cookbook.Elaboration.SyntaxForTerms
 
 open Verso.Genre Manual Cookbook
 
-#doc (Manual) "Elaboration for Syntax" =>
+#doc (Manual) "Elaboration: Extending Syntax" =>
 
 %%%
-tag := "elaboration"
+tag := "elaboration-extending-syntax"
 number := false
 %%%
 
@@ -15,3 +17,5 @@ number := false
 :::
 
 {include 1 Cookbook.Elaboration.ElaboratingTermsCommandsAndTactics}
+{include 1 Cookbook.Elaboration.SyntaxForCommands}
+{include 1 Cookbook.Elaboration.SyntaxForTerms}
