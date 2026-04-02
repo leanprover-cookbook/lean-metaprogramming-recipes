@@ -11,7 +11,7 @@ import Cookbook.MaintainingState
 import Cookbook.Tactics
 import Cookbook.Index
 import Cookbook.BuildingRecipe
-import Cookbook.Elaboration
+import Cookbook.ElaborationExtendingSyntax
 import Cookbook.Infoview
 import Cookbook.CookbookContributors
 
@@ -70,7 +70,7 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 
 {include 1 Cookbook.Expressions}
 
-{include 1 Cookbook.Elaboration}
+{include 1 Cookbook.ElaborationExtendingSyntax}
 
 {include 1 Cookbook.Tactics}
 
