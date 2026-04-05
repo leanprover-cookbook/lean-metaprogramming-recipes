@@ -92,7 +92,7 @@ number := false
 
 Here is a more robust and complete implementation using an elaborator (`elab`). This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly:
 
-```lean+error (name:= pyfor)
+```lean
 elab "[" t:term "py_for" x:ident "in" l:term  "]" :
     term => do
   let fnStx ← `(fun $x => $t)
@@ -111,8 +111,13 @@ elab "[" t:term "py_for" x:ident "in" l:term  "]" :
 
 #eval [x * 2 py_for x in [1, 2, 3, 4]] --> [2, 4, 6, 8]
 #eval [x * 2 py_for x in #[1, 2, 3, 4]] --> #[2, 4, 6, 8]
-#eval [x * 2 py_for x in "List"] --> Expected a List
-    -- or Array in py_for comprehension, got String
+
+/--
+error: Expected a List or Array in py_for
+      comprehension, got String
+-/
+#guard_msgs in
+#eval [x * 2 py_for x in "List"]
 ```
 Let's break down the specific metaprogramming functions used in the elaborator above:
 
