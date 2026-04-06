@@ -7,7 +7,6 @@ import Cookbook.Syntax
 import Cookbook.FileSystem
 import Cookbook.DataStructures
 import Cookbook.IO
-import Cookbook.MaintainingState
 import Cookbook.Tactics
 import Cookbook.Index
 import Cookbook.BuildingRecipe
@@ -66,6 +65,8 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 
 {include 1 Cookbook.Overview}
 
+{include 1 Cookbook.Infoview}
+
 {include 1 Cookbook.Syntax}
 
 {include 1 Cookbook.Expressions}
@@ -74,15 +75,11 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 
 {include 1 Cookbook.Tactics}
 
+{include 1 Cookbook.IO}
+
 {include 1 Cookbook.FileSystem}
 
 {include 1 Cookbook.DataStructures}
-
-{include 1 Cookbook.IO}
-
-{include 1 Cookbook.MaintainingState}
-
-{include 1 Cookbook.Infoview}
 
 {include 0 Cookbook.Index}
 

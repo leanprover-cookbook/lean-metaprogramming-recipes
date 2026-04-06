@@ -1,6 +1,5 @@
 import VersoManual
 import Cookbook.Lean
-import Cookbook.Elaboration.ElaboratingTermsCommandsAndTactics
 import Cookbook.Elaboration.SyntaxForCommands
 import Cookbook.Elaboration.SyntaxForTerms
 
@@ -16,6 +15,5 @@ number := false
 ::: contributors
 :::
 
-{include 1 Cookbook.Elaboration.ElaboratingTermsCommandsAndTactics}
-{include 1 Cookbook.Elaboration.SyntaxForCommands}
 {include 1 Cookbook.Elaboration.SyntaxForTerms}
+{include 1 Cookbook.Elaboration.SyntaxForCommands}
