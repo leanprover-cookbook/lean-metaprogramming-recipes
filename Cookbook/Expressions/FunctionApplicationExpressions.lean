@@ -55,3 +55,50 @@ def twoExprM : MetaM Expr := do
 ```
 
 There is a related function `mkAppM'` where the first argument is an expression instead of a name. If one needs finer control over which arguments should be inferred and which are given explicitly, there is a function `mkAppOptM` that takes an array of `Option Expr`, where `none` indicates that the argument should be inferred and `some e` indicates that the argument should be given explicitly as `e`.
+
+## Example: Communtativity of addition
+
+As an example of using `mkAppM`, we can build an expression for the commutativity of addition on natural numbers, which states that for all natural numbers `a` and `b`, `a + b = b + a`. We first build expressions for natural numbers, then for the proposition of commutativity of addition, and finally for a proof of this proposition using `Nat.add_comm`.
+
+```lean
+open Lean Meta in
+def natExpr (n : Nat) : Expr :=
+  match n with
+  | 0 => mkConst ``Nat.zero
+  | Nat.succ m => mkApp (mkConst ``Nat.succ) (natExpr m)
+```
+
+We next build an expression for the proposition of commutativity of addition:
+
+```lean
+open Lean Meta in
+def addCommPropExpr (a b : Nat) : MetaM Expr := do
+  let aExpr := natExpr a
+  let bExpr := natExpr b
+  let addAB ←  mkAppM ``Add.add #[aExpr, bExpr]
+  let addBA ←  mkAppM ``Add.add #[bExpr, aExpr]
+  mkAppM ``Eq #[addAB, addBA]
+```
+
+Finally, we can build an expression for a proof of this proposition using `Nat.add_comm`:
+
+```lean
+open Lean Meta in
+def addCommProofExpr (a b : Nat) : MetaM Expr := do
+  let aExpr := natExpr a
+  let bExpr := natExpr b
+  mkAppM ``Nat.add_comm #[aExpr, bExpr]
+```
+
+We can check that the type of this proof expression is indeed the proposition of commutativity of addition. For this, we use the `inferType` function to infer the type of the proof expression and check that it is definitionally equal to the proposition expression using `isDefEq`:
+
+```lean
+open Lean Meta in
+def checkAddCommProof (a b : Nat) : MetaM Bool := do
+  let proofExpr ← addCommProofExpr a b
+  let proofType ← inferType proofExpr
+  let propExpr ← addCommPropExpr a b
+  isDefEq proofType propExpr
+
+#eval checkAddCommProof 2 3 -- true
+```
