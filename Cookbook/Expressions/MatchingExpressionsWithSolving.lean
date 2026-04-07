@@ -8,10 +8,10 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Pattern-Matching by Solving" =>
+#doc (Manual) "Pattern-Matching Expressions by Solving" =>
 
 %%%
-tag := "matching-expressions-by-Solving"
+tag := "matching-expressions-by-solving"
 number := false
 %%%
 
@@ -19,7 +19,7 @@ number := false
 :::
 
 
-{index}[Pattern-matching by solving]
+{index}[Pattern-matching expressions by solving]
 
 In the [previous section](./Expressions/Matching-expressions---exact-match/#matching-expressions-exact-match), we saw how to match expressions by checking their structure. However, this method is brittle as Lean may, for example, reduce expressions or unfold definitions, causing the structure to change and the match to fail.
 
@@ -50,7 +50,7 @@ def matchNatLe? (e: Expr) :
 
 `mkFreshExprMVar nat` constructs a metavariable of the type `nat`, where `nat` is an expression. This creates a blank hole that Lean can fill in later. The expression `isDefEq ineq e` checks whether the constructed expression ineq and the target expression e are definitionally equal. Crucially, as it checks for equality, it attempts to unify them by assigning concrete values from e to our blank metavariables a and b.
 
-Now, to see this function in action we write an elaborator that fetches the main goal during the proof and passes it to `matchNatLe`.
+Now, to see this function in action we write an elaborator that fetches the main goal during the proof and passes it to `matchNatLe` (see {ref "tactic-using-elaborators"}[Tactics Using Elaborators] for how to write elaborators and {ref "displaying-in-the-infoview"}[Displaying in the Infoview] for how to display information in the Infoview).
 
 ```lean
 elab "matchNatLe?" : tactic => do

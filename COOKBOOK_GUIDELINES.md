@@ -100,11 +100,11 @@ Regarding the list of authors: We don't have strict rules on what contributions 
 
 We would like to follow the similar idea. That's all.
 
-If you are worried about I am only fixing a small typo, but I donot want to get added to the list of contributors, we have set a limit of `15` characters, which if exceeded in 1 commit, you will get added. This threshold is arbitrary and good enough hopefully to not add people who fix typos. Again, this is only for above mentioned reason and for our convenience.
+If you are worried that you are only fixing a small typo, but do not want to get added to the list of contributors, we have set a limit of `15` characters, which if exceeded in 1 commit, you will get added. This threshold is arbitrary and good enough hopefully to not add people who fix typos. Again, this is only for above mentioned reason and for our convenience.
 
 > This was added in [#15](https://github.com/leanprover-cookbook/lean-metaprogramming-recipes/pull/15) and hence the 15 character limit :-)
 
 **Do I add my Name somewhere?**
 
-No, this is automatically done using by picking up the contributor's name using `git` and since it uses the history of the file, it will not only pick up the name of the actual authors, but people who did administrative work as mentioned above won't be added. This makes it harder to find to tag the actual authors for any questions or clarifications for the recipe. But we do give credit to everyone whoever has even a single commit, in `Cookbook Contributors` section linked on the front page. Since we use `git` history to pick up the contributor's name, you donot add the name of the contributor manually in the recipe anywhere, and it's automatically picked up and added to the recipe.
+No, this is automatically done using by picking up the contributor's name using `git` and since it uses the history of the file, it will not only pick up the name of the actual authors, but people who did administrative work as mentioned above won't be added. This makes it harder to find to tag the actual authors for any questions or clarifications for the recipe. But we do give credit to everyone whoever has even a single commit, in `Cookbook Contributors` section linked on the front page. Since we use `git` history to pick up the contributor's name, you do not add the name of the contributor manually in the recipe anywhere, and it's automatically picked up and added to the recipe.
 is found.
