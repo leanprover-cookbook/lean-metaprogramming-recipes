@@ -35,7 +35,7 @@ def doubleExpr : MetaM Expr :=
 
 The function `withLocalDeclD` has three arguments: the name of the local variable, its type (in this case `Nat`), and a continuation function that takes the newly created local variable as an argument. Inside the continuation, we can build the body of the lambda expression using `mkAppM` to apply the addition function to `n` and `n`. Finally, we use `mkLambdaFVars` to create a lambda expression that abstracts over the local variable `n`.
 
-To illustrate how to use this expression, we can write an elaborator (see {ref "elaborators"}[Elaborators]) that allows us to use it in term position:
+To illustrate how to use this expression, we can write an elaborator (see {ref "elaboration-extending-syntax"}[Elaboration]) that allows us to use it in term position:
 
 ```lean
 elab "double%" : term =>
