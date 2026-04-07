@@ -154,7 +154,7 @@ elab "#requireProp" t:term : command => do
     let tExpr ← Term.elabTerm t none
     unless ← isProp tExpr do
       throwError m!"Goal must be a proposition: {tExpr}"
-    logInfo m!"The expression of the term: {tExpr} "
+    logInfo m!"The expression of the term: {tExpr}"
 
 /-- error: Goal must be a proposition: Nat -/
 #guard_msgs in

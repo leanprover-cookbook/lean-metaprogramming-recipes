@@ -2,6 +2,7 @@ import VersoManual
 import Cookbook.Lean
 import Cookbook.Syntax.QuasiQuotes
 import Cookbook.Syntax.AddingSyntaxAndSyntaxCategories
+import Cookbook.Syntax.WritingAMacro
 
 open Verso.Genre Manual Cookbook
 
@@ -20,4 +21,5 @@ In Lean, code is first _parsed_ into syntax, which is then _elaborated_ into exp
 In this chapter we give recipes for matching, creating and transforming syntax.
 
 {include 1 Cookbook.Syntax.QuasiQuotes}
+{include 1 Cookbook.Syntax.WritingAMacro}
 {include 1 Cookbook.Syntax.AddingSyntaxAndSyntaxCategories}
