@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "adding-syntax-and-syntax-categories"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors
@@ -28,6 +29,7 @@ In Lean, we can create syntax categories that are like a bunch of custom grammat
 %%%
 tag := "declaring-a-syntax-category"
 number := false
+
 %%%
 
 {index}[Declaring a syntax category]
