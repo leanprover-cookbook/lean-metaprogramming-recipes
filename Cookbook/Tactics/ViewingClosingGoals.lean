@@ -24,9 +24,18 @@ htmlSplit := .never
 
 Tactics can work with goals in various ways. They can inspect the goals, modify them, or even close them. In this section, we will explore how to write tactics that view and close goals using elaborators.
 
-# Viewing Goals
+In the previous {ref "tactic-using-macro"}[recipe], we saw how to use macros to build a tactic by expanding one piece of syntax into another. In this recipe, we will write tactics using elaborators, which let us construct expressions and also give us access to a lot of information, including the goal state.
 
-Let's start by writing a basic elaborator that retrieves and displays the expression representing the type of the main goal. The type of the main goal is given by the `getMainTarget` function.
+# Tactic to print the main goal
+
+%%%
+tag := "tactic-to-print-the-main-goal"
+number := false
+htmlSplit := .never
+%%%
+{index}[Tactic to print the main goal]
+
+Let's start by writing a basic elaborator that retrieves and displays the expression representing the type of the main goal.
 
 ```lean
 elab "goalExpr" : tactic => do
@@ -48,7 +57,8 @@ If you formalize mathematics in Lean, you are likely familiar with the `sorry` t
 ```lean
 example : 847 + 153 = 1000 := by sorry
 ```
-Under the hood, the sorry tactic works by creating a term of the main goal's type using the sorryAx axiom. You can inspect these internal components directly:
+
+Under the hood, the `sorry` tactic works by creating a term of the main goal's type using the [`sorryAx`](https://lean-lang.org/doc/reference/latest/Axioms/?terms=sorryAx#standard-axioms) axiom. We can inspect this internal component directly:
 
 ```lean
 #check sorryAx
@@ -60,19 +70,20 @@ Now, let's write a custom tactic called `toDo` using `elab` and `sorryAx`. The `
 ```lean
 elab "toDo" s: str : tactic => do
   withMainContext do
-  logInfo m!"Message:{s}"
-  let targetExpr ← getMainTarget
-  let sorryExpr ←
+    logInfo m!"Message:{s}"
+    let targetExpr ← getMainTarget
+    let sorryExpr ←
       mkAppM ``sorryAx #[targetExpr, mkConst ``false]
-  closeMainGoal `todo sorryExpr
+    closeMainGoal `toDo sorryExpr
 
 example : 34 ≤ 47 := by
   toDo "This should be easy to do"
 ```
+
 Let's break down the specific metaprogramming functions used to make this work:
+
 - `getMainTarget` retrieves the expression for the type of the current main goal.
-- `mkAppM` is a highly useful function that constructs a function application expression. It takes the `Name` of the function, in this case `sorryAx`, and an array of expressions representing the arguments you want to pass to it.
+- `mkAppM` is a highly useful function that constructs a function application expression. It takes the `Name` of the function, in this case `sorryAx`, and an array of expressions representing the arguments we want to pass to it.
+- `closeMainGoal` closes the current main goal with the expression we constructed.
 
-# Modifying Goals
-
-Often tactics cannot fully close goals but instead modify them. We illustrate this with a dummy tactic that creates a new goal meta-variable and replaces the current goal with it. This does not have any real effect as the new meta-variable has the same type as the original goal, but it serves to demonstrate how to manipulate goals.
+This example shows the basic pattern for elaborator-based tactics: inspect the current goal, build an expression of the right type, and use it to update the proof state.
