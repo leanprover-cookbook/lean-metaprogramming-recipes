@@ -28,7 +28,7 @@ Tactics can work with goals in various ways. They can inspect the goals, modify 
 
 The goals in a tactic state, in particular the main goal, are represented by meta-variables. The type of the main goal is called the main target. These are obtained using the {lean}`getMainGoal` and {lean}`getMainTarget` functions, respectively.
 
-A tactic typcially assigns to the main goal an expression that is a proof of the goal, i.e., has type the main target. However, the expression assigned to the main goal may also involve new meta-variables, which in turn become new goals to be solved. In this way, a tactic can modify the goal state without fully closing the main goal.
+A tactic typically assigns to the main goal an expression that is a proof of the goal, i.e., has type the main target. However, the expression assigned to the main goal may also involve new meta-variables, which in turn become new goals to be solved. In this way, a tactic can modify the goal state without fully closing the main goal.
 
 Note that if the main goal is assigned, we must change the list of goals. The most convenient way to do this is to use the {lean}`replaceMainGoal` function, which replaces the main goal with a new list of goals. The new list of goals typically includes the new meta-variables that were introduced in the expression assigned to the main goal.
 
@@ -49,3 +49,30 @@ example : 1 + 1 = 2 := by -- goal `1 + 1 = 2`
 ```
 
 We emphasize that it is the responsibility of the tactic author to ensure that if a metavariable, such as a goal, is assigned an expression, then the expression has the same type as the goal up to definitional equality. One also has to correctly modify the list of goals to reflect any new meta-variables that were introduced and remove those that were assigned. Otherwise we get a low-level error on using the tactic.
+
+## Splitting goals in `∧`
+
+As a slighlty more complex example, we can write a tactic that splits a goal of the form `P ∧ Q` into two separate goals `P` and `Q`. This is done by assigning the main goal an expression of the form `And.intro p q`, where `p` and `q` are new meta-variables representing the proofs of `P` and `Q`, respectively. We then replace the main goal with the new goals corresponding to these meta-variables. To recognize that the main target is of the form `P ∧ Q`, we can use the {lean}`Expr.app2?` function, which checks if an expression is an application of a given constant with two arguments, and if so, returns the arguments of the application.
+
+```lean
+elab "and" : tactic => do
+  let target ← getMainTarget
+  match target.app2? ``And with
+  | some (P, Q) => do
+    let p ← mkFreshExprMVar P
+    let q ← mkFreshExprMVar Q
+    let andIntroExpr ← mkAppM ``And.intro #[p, q]
+    let goal ← getMainGoal
+    goal.assign andIntroExpr
+    replaceMainGoal [p.mvarId!, q.mvarId!]
+  | none =>
+    logWarning m!"The goal is not of the form `P ∧ Q`"
+
+example : (1 + 1 = 2) ∧ (2 + 2 = 4) := by
+  -- goal `(1 + 1 = 2) ∧ (2 + 2 = 4)`
+  and -- two goals `1 + 1 = 2` and `2 + 2 = 4`
+  · -- goal `1 + 1 = 2`
+    rfl
+  · -- goal `2 + 2 = 4`
+    rfl
+```
