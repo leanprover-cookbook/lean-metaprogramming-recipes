@@ -26,11 +26,11 @@ Tactics can work with goals in various ways. They can inspect the goals, modify 
 
 # Modifying Goals
 
-The goals in a tactic state, in particular the main goal, are represented by meta-variables. The type of the main goal is called the main target. These are obtained using the `getMainGoal` and `getMainTarget` functions, respectively.
+The goals in a tactic state, in particular the main goal, are represented by meta-variables. The type of the main goal is called the main target. These are obtained using the {lean}`getMainGoal` and {lean}`getMainTarget` functions, respectively.
 
 A tactic typcially assigns to the main goal an expression that is a proof of the goal, i.e., has type the main target. However, the expression assigned to the main goal may also involve new meta-variables, which in turn become new goals to be solved. In this way, a tactic can modify the goal state without fully closing the main goal.
 
-Note that if the main goal is assigned, we must change the list of goals. The most convenient way to do this is to use the `replaceMainGoal` function, which replaces the main goal with a new list of goals. The new list of goals typically includes the new meta-variables that were introduced in the expression assigned to the main goal.
+Note that if the main goal is assigned, we must change the list of goals. The most convenient way to do this is to use the {lean}`replaceMainGoal` function, which replaces the main goal with a new list of goals. The new list of goals typically includes the new meta-variables that were introduced in the expression assigned to the main goal.
 
 We illustrate this with a tactic that reduces the main target.
 

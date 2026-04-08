@@ -82,8 +82,8 @@ example : 34 ≤ 47 := by
 
 Let's break down the specific metaprogramming functions used to make this work:
 
-- `getMainTarget` retrieves the expression for the type of the current main goal.
-- `mkAppM` is a highly useful function that constructs a function application expression. It takes the `Name` of the function, in this case `sorryAx`, and an array of expressions representing the arguments we want to pass to it.
-- `closeMainGoal` closes the current main goal with the expression we constructed.
+- {lean}`getMainTarget` retrieves the expression for the type of the current main goal.
+- {lean}`mkAppM` is a highly useful function that constructs a function application expression. It takes the `Name` of the function, in this case `sorryAx`, and an array of expressions representing the arguments we want to pass to it.
+- {lean}`closeMainGoal` closes the current main goal with the expression we constructed.
 
 This example shows the basic pattern for elaborator-based tactics: inspect the current goal, build an expression of the right type, and use it to update the proof state.
