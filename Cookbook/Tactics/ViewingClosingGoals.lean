@@ -24,7 +24,7 @@ htmlSplit := .never
 
 Tactics can work with goals in various ways. They can inspect the goals, modify them, or even close them. In this section, we will explore how to write tactics that view and close goals using elaborators.
 
-In the previous {ref "tactic-using-macro"}[recipe], we saw how to use macros to build a tactic by expanding one piece of syntax into another. In this recipe, we will write tactics using elaborators, which let us construct expressions and also give us access to a lot of information, including the goal state.
+In the previous {ref "tactics-as-shortcuts"}[recipe], we saw how to use macros to build a tactic by expanding one piece of syntax into another. In this recipe, we will write tactics using elaborators, which let us construct expressions and also give us access to a lot of information, including the goal state.
 
 # Tactic to print the main goal
 
