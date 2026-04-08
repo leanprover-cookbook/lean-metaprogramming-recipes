@@ -108,15 +108,18 @@ example : ∀ x : Nat, (x = x ↔ x - x = 0) := by
 
 `Lean.logError` displays error messages in red in the Infoview. While it marks the associated code with a red squiggly line indicating an error, it does not interrupt execution.
 
-```lean+error
+```lean
 def errorMessage (msg : String) : CoreM Unit := do
   Lean.logError m!"Error: {msg}"
+
+/-- error: Error: something went wrong -/
+#guard_msgs in
 #eval errorMessage "something went wrong"
 ```
 
 This is particularly useful when you want to report an error but continue processing the rest of the file or command. For example, `#requireProp` is a command that checks whether a given term has type `Prop`. If it does not, it logs an error but still continues execution and logs the term's expression:
 
-```lean+error
+```lean
 elab "#requireProp" t:term : command => do
   Command.liftTermElabM do
     let tExpr ← Term.elabTerm t none
@@ -124,22 +127,42 @@ elab "#requireProp" t:term : command => do
       logError m!"Goal must be a proposition: {tExpr}"
     logInfo m!"The expression of the term: {tExpr} "
 
+/--
+error: Goal must be a proposition: Nat
+---
+info: The expression of the term: Nat
+-/
+#guard_msgs in
 #requireProp Nat
+
+/--
+error: Goal must be a proposition: Nat → Nat
+---
+info: The expression of the term: Nat → Nat
+-/
+#guard_msgs in
 #requireProp (Nat → Nat)
+
 #requireProp 2 = 0
 ```
 
 Notice the difference if we replace `logError` with `throwError`. Because `throwError` immediately halts execution, the subsequent `logInfo` is never run when the term fails to be a proposition:
 
-```lean+error
+```lean
 elab "#requireProp" t:term : command => do
   Command.liftTermElabM do
     let tExpr ← Term.elabTerm t none
     unless ← isProp tExpr do
       throwError m!"Goal must be a proposition: {tExpr}"
-    logInfo m!"The expression of the term: {tExpr} "
+    logInfo m!"The expression of the term: {tExpr}"
 
+/-- error: Goal must be a proposition: Nat -/
+#guard_msgs in
 #requireProp Nat
+
+/-- error: Goal must be a proposition: Nat → Nat -/
+#guard_msgs in
 #requireProp (Nat → Nat)
+
 #requireProp 2 = 0
 ```

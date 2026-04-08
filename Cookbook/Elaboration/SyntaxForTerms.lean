@@ -23,65 +23,9 @@ htmlSplit := .never
 
 {index}[Adding Syntax for terms]
 
-Lean allows to define custom syntax for a {name}`term`. One convenient way to do this is to use `macro` or `elab`, which let you specify both the syntax and its behavior in one place. We will use Python syntax as an example to illustrate how to define custom syntax for terms in Lean. We will start with a simple example of parsing Python exponentiation syntax and then move on to a more complex example of parsing Python `for` loop syntax.
-
-# Syntax for Python exponentiation
-%%%
-tag := "syntax-for-python-exponentiation"
-number := false
-%%%
-{index}[Python exponentiation DSL]
-
-We will start with a simple example for parsing Python exponentiation syntax in Lean. The following `macro` declaration tells Lean how to parse something of the form `2**4` and expands it into Lean's exponentiation syntax.
-
-```lean
-macro n:num "**" m:num : term => `($n^$m)
-
-#eval 2**3 --8
-```
-
-Here, `num` is a parser that accepts strictly numeric literals and rejects everything else.
-
 # Syntax for Python `for` loop
-%%%
-tag := "syntax-for-python-for-loop"
-number := false
-%%%
-{index}[Python `for` loop DSL]
 
-In Python, list comprehensions provide a concise way to create lists. For example, the expression `[x^2 for x in [1,2,3,4,5]]` generates a list of the squares of the first five natural numbers. We will define similar syntax in Lean and then implement the logic to evaluate it.
-
-In Lean, this can be accomplished by using the {name}`List.map` function.
-
-```lean
-#eval List.map (fun x => x * x) [1, 2, 3, 4]
-```
-
-## A `macro` that parses Python-like `for` loop
-%%%
-tag := "macro-for-python-for-loop"
-number := false
-%%%
-
-Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {name}`List.map`. The {name}`ident` is a placeholder for the variable name used in the comprehension, and the two {name}`term` placeholders represent the expression being generated and the collection being iterated over.
-
-```lean
-macro "[" t:term "pyfor" x:ident "in" l:term "]": term => do
-  let fn ← `(fun $x => $t)
-  `(List.map $fn $l)
-
-#eval [x * 2 pyfor x in [1, 2, 3, 4]] --> [2, 4, 6, 8]
-```
-If you prefer to separate the syntax declaration from the macro expansion, Lean also lets you define the syntax first with `syntax` and then add macro rules separately.
-
-```lean
-syntax "[" term "pyfor'" ident "in" term "]" : term
-
-macro_rules
-| `([ $t:term pyfor' $x:ident in $l:term ]) => do
-    let fn ← `(fun $x => $t)
-    `(List.map $fn $l)
-```
+We will improve upon the `macro` that we defined in the recipe {ref "macro-for-python-for-loop"}[A `macro` that parses Python-like `for` loop], for parsing Python `for` loop syntax. Here we use an elaborator (`elab`) instead of a `macro` to parse the same syntax. This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly. This also gives a more informative error message when the collection is of an unexpected type.
 
 ## An elaborator that parses Python-like `for` loop
 
@@ -92,7 +36,7 @@ number := false
 
 Here is a more robust and complete implementation using an elaborator (`elab`). This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly:
 
-```lean+error (name:= pyfor)
+```lean
 elab "[" t:term "py_for" x:ident "in" l:term  "]" :
     term => do
   let fnStx ← `(fun $x => $t)
@@ -111,8 +55,13 @@ elab "[" t:term "py_for" x:ident "in" l:term  "]" :
 
 #eval [x * 2 py_for x in [1, 2, 3, 4]] --> [2, 4, 6, 8]
 #eval [x * 2 py_for x in #[1, 2, 3, 4]] --> #[2, 4, 6, 8]
-#eval [x * 2 py_for x in "List"] --> Expected a List
-    -- or Array in py_for comprehension, got String
+
+/--
+error: Expected a List or Array in py_for
+      comprehension, got String
+-/
+#guard_msgs in
+#eval [x * 2 py_for x in "List"]
 ```
 Let's break down the specific metaprogramming functions used in the elaborator above:
 

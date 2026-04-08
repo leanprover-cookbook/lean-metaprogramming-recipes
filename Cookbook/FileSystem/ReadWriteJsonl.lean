@@ -20,6 +20,7 @@ htmlSplit := .never
 {index}[Handling JSONL files]
 
 JSONL (JSON Lines) is a format where each line is a valid JSON object. This is particularly useful for large datasets as it allows for stream processing and is less sensitive to file corruption than a single large JSON array.
+Check out the section on {ref "json"}[JSON] for working with regular JSON files.
 
 # How to Read JSONL files
 

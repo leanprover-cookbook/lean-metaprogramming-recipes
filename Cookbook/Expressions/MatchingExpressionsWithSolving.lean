@@ -21,7 +21,7 @@ number := false
 
 {index}[Pattern-matching expressions by solving]
 
-In the [previous section](./Expressions/Matching-expressions---exact-match/#matching-expressions-exact-match), we saw how to match expressions by checking their structure. However, this method is brittle as Lean may, for example, reduce expressions or unfold definitions, causing the structure to change and the match to fail.
+In the previous section, we saw how to match expressions by checking their structure. However, this method is brittle as Lean may, for example, reduce expressions or unfold definitions, causing the structure to change and the match to fail.
 
 A more robust way to match expressions is to use Lean's *unification*. This is done by building an expression with _metavariables_ and using the `isDefEq` function to _solve_ for by unifying expressions. Here you should think of metavaiables like variables in mathematical equations (e.g., the variable `x` in the equation `2x+5=9`).
 

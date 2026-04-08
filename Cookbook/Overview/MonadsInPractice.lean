@@ -22,11 +22,11 @@ htmlSplit := .never
 
 # Monads in Practice: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`
 
-For meta-programming in Lean, we generally have to work with so called _Monads_. We will not attempt to explain these here, but instead give a simlified cartoonish version of the relevant Monads: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`.
+For meta-programming in Lean, we generally have to work with so called _Monads_. We will not attempt to explain these here, but instead give a simplified cartoonish version of the relevant Monads: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`.
 
 ## State Monads
 
-At their core, these are instance of _state_ monads. If `MyMonadM` is a state monad with state `MyMonad.State`, then roughly speaking, a value of type `MyMonadM α` is a function that takes an input of type `MyMonad.State` and produces an output of type `α` along with a new state of type `MyMonad.State`. In other words, we can think of a value of type `MyMonadM α` as a function of the form `MyMonad.State → (α × MyMonad.State)`. So in practice working with these monads means that we can access the state (for example the tactic state) and also modify it. Usually we do not deal with the state directly, but instead use the various API functions provided by Lean to access and modify the state.
+At their core, these are instances of _state_ monads. If `MyMonadM` is a state monad with state `MyMonad.State`, then roughly speaking, a value of type `MyMonadM α` is a function that takes an input of type `MyMonad.State` and produces an output of type `α` along with a new state of type `MyMonad.State`. In other words, we can think of a value of type `MyMonadM α` as a function of the form `MyMonad.State → (α × MyMonad.State)`. So in practice working with these monads means that we can access the state (for example the tactic state) and also modify it. Usually we do not deal with the state directly, but instead use the various API functions provided by Lean to access and modify the state.
 
 ## Monad Hierarchy
 

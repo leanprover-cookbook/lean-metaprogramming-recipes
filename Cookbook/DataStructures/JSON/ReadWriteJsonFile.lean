@@ -34,10 +34,10 @@ def readJsonFile (path : System.FilePath) : IO Json := do
   match Json.parse content with
   | Except.ok json => return json
   | Except.error err =>
-    throw <| IO.userError 
+    throw <| IO.userError
       s!"Failed to parse JSON from {path}: {err}"
 ```
-
+ 
 # How to write to JSON files
 
 %%%

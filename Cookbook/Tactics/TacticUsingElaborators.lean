@@ -33,6 +33,7 @@ example: 2 + 3 = 5 := by
   goalExpr
   simp
 ```
+Check out {ref "displaying-in-the-infoview"}[Displaying in the Infoview] on how to use string formatting in the InfoView.
 
 If you formalize mathematics in Lean, you are likely familiar with the `sorry` tactic. We use it frequently as a placeholder for proofs yet to be written. The `sorry` tactic artificially closes the current main goal but leaves a warning in the Infoview.
 
