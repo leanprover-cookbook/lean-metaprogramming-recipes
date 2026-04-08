@@ -8,10 +8,10 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Tactic using macros" =>
+#doc (Manual) "Tactics as shortcuts" =>
 
 %%%
-tag := "tactic-using-macro"
+tag := "tactics-as-shortcuts"
 number := false
 htmlSplit := .never
 %%%
@@ -20,11 +20,13 @@ htmlSplit := .never
 :::
 
 
-{index}[Tactic using macros]
+{index}[Tactics as shortcuts]
 
 # `repeat_apply` tactic
 
-We start with an example of a routine proof we might do. To prove `2 ≤ 6`.
+Often the same or similar patterns of tactics work for a range of problems. To avoid having to repeatedly type the sequence we can create a tactic using a _macro_ for the pattern. More importantly, we can give the tactic a descriptive name that is easier to remember and understand.
+
+We start with an example of a routine proof, namely `2 ≤ 6`.
 ```lean
 example : 2 ≤ 6 := by
   apply Nat.le_succ_of_le
@@ -33,12 +35,16 @@ example : 2 ≤ 6 := by
   apply Nat.le_succ_of_le
   apply Nat.le_refl
 ```
+
  This approach is highly repetitive. We can simplify it by using the `repeat` and `first` tactic combinators.
+
  ```lean
  example : 2 ≤ 6 := by
   repeat (first| apply Nat.le_refl | apply Nat.le_succ_of_le)
  ```
+
 To reduce this to a single, readable line, we can define a custom tactic using a `macro`.
+
  ```lean
  macro "nat_le" : tactic =>
   `(tactic| repeat(first| apply Nat.le_refl |
