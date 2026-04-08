@@ -8,10 +8,10 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Tactics using elaborators" =>
+#doc (Manual) "Viewing and Closing Goals" =>
 
 %%%
-tag := "tactic-using-elaborators"
+tag := "viewing-closing-goals"
 number := false
 htmlSplit := .never
 %%%
@@ -20,9 +20,11 @@ htmlSplit := .never
 :::
 
 
-{index}[Tactics using elaborators]
+{index}[Viewing and Closing Goals]
 
-In the previous {ref "tactic-using-macro"}[recipe], we saw how to use macros to build a tactic by expanding one piece of syntax into another. In this recipe, we will write tactics using elaborators, which let us construct expressions and also give us access to a lot of information, including the goal state.
+Tactics can work with goals in various ways. They can inspect the goals, modify them, or even close them. In this section, we will explore how to write tactics that view and close goals using elaborators.
+
+In the previous {ref "tactics-as-shortcuts"}[recipe], we saw how to use macros to build a tactic by expanding one piece of syntax into another. In this recipe, we will write tactics using elaborators, which let us construct expressions and also give us access to a lot of information, including the goal state.
 
 # Tactic to print the main goal
 
@@ -46,16 +48,11 @@ example: 2 + 3 = 5 := by
 ```
 Check out {ref "displaying-in-the-infoview"}[Displaying in the Infoview] on how to use string formatting in the InfoView.
 
-# Tactic to log and close the main goal
+# Closing Goals: Custom `sorry` Tactic
 
-%%%
-tag := "tactic-to-log-and-close-the-main-goal"
-number := false
-htmlSplit := .never
-%%%
-{index}[Tactic to log and close the main goal]
+We next illustrate how to close goals using an elaborator. We will make a customized version of the `sorry` tactic that not only closes the goal but also logs a custom message to the Infoview.
 
-Now, let's write a custom tactic called `toDo` using `elab` and `sorryAx`. If you formalize mathematics in Lean, you are likely familiar with the `sorry` tactic. We use it frequently as a placeholder for proofs yet to be written. The `sorry` tactic artificially closes the current main goal but leaves a warning in the Infoview.
+If you formalize mathematics in Lean, you are likely familiar with the `sorry` tactic. We use it frequently as a placeholder for proofs yet to be written. The `sorry` tactic closes the current main goal but leaves a warning in the Infoview.
 
 ```lean
 example : 847 + 153 = 1000 := by sorry
@@ -68,7 +65,7 @@ Under the hood, the `sorry` tactic works by creating a term of the main goal's t
 -- sorryAx.{u} (α : Sort u) (synthetic :  Bool) : α
 ```
 
-The `toDo` tactic will close the main goal just like `sorry`, but it will also accept a string argument to log a custom reminder to the Infoview.
+Now, let's write a custom tactic called `toDo` using `elab` and `sorryAx`. The `toDo` tactic will close the main goal just like `sorry`, but it will also accept a string argument to log a custom reminder to the Infoview.
 
 ```lean
 elab "toDo" s: str : tactic => do
@@ -85,8 +82,8 @@ example : 34 ≤ 47 := by
 
 Let's break down the specific metaprogramming functions used to make this work:
 
-- `getMainTarget` retrieves the expression for the type of the current main goal.
-- `mkAppM` is a highly useful function that constructs a function application expression. It takes the `Name` of the function, in this case `sorryAx`, and an array of expressions representing the arguments we want to pass to it.
-- `closeMainGoal` closes the current main goal with the expression we constructed.
+- {lean}`getMainTarget` retrieves the expression for the type of the current main goal.
+- {lean}`mkAppM` is a highly useful function that constructs a function application expression. It takes the `Name` of the function, in this case `sorryAx`, and an array of expressions representing the arguments we want to pass to it.
+- {lean}`closeMainGoal` closes the current main goal with the expression we constructed.
 
 This example shows the basic pattern for elaborator-based tactics: inspect the current goal, build an expression of the right type, and use it to update the proof state.

@@ -1,8 +1,9 @@
 import VersoManual
 import Cookbook.Lean
 import Cookbook.Tactics.HelloWorldTactics
-import Cookbook.Tactics.TacticUsingMacro
-import Cookbook.Tactics.TacticUsingElaborators
+import Cookbook.Tactics.ViewingClosingGoals
+import Cookbook.Tactics.ModifyingGoals
+import Cookbook.Tactics.TacticsAsShortcuts
 
 open Verso.Genre Manual Cookbook
 
@@ -17,5 +18,6 @@ number := false
 :::
 
 {include 1 Cookbook.Tactics.HelloWorldTactics}
-{include 1 Cookbook.Tactics.TacticUsingMacro}
-{include 1 Cookbook.Tactics.TacticUsingElaborators}
+{include 1 Cookbook.Tactics.TacticsAsShortcuts}
+{include 1 Cookbook.Tactics.ViewingClosingGoals}
+{include 1 Cookbook.Tactics.ModifyingGoals}
