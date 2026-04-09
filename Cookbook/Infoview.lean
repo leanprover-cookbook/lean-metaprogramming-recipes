@@ -16,4 +16,6 @@ number := false
 
 In this chapter we collect recipes to explore the Lean Infoview. We cover how to display messages in the Infoview, how to use the Infoview to debug and to interact with the user.
 
+*Recipes:*
+
 {include 1 Cookbook.Infoview.DisplayingInTheInfoView}

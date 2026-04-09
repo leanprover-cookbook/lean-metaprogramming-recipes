@@ -34,6 +34,8 @@ Working with TOML in Lean requires understanding two primary types:
 
 Working with `Lake.Toml` is not as straightforward as working with {lean}`Json`, but the following sections provide the necessary tools to handle TOML data effectively.
 
+*Recipes:*
+
 {include 1 Cookbook.DataStructures.TOML.ParsingToml}
 {include 1 Cookbook.DataStructures.TOML.AccessingModifyingToml}
 {include 1 Cookbook.DataStructures.TOML.HandlingNestedToml}
