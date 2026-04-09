@@ -185,6 +185,20 @@ def customCodeCss : CssFile where
 .split-toc.book tr:has(a[href*="#cookbook-contributors"]) {
   display: none !important;
 }
+
+ol.section-toc {
+  list-style-position: outside !important;  /* ensure markers are outside */
+  list-style-type: decimal !important;
+  padding-left: 0em;
+  margin-left: 0em; /* adjust as needed for desired indentation */
+  padding-inline-start: 1.5em !important; /* add padding for marker */
+}
+
+ol.section-toc li {
+  display: list-item !important;  /* critical: restores marker behavior */
+  font-weight: normal;
+  text-indent: 0em;  /* negative indent equal to padding */
+}
 "##
 
 def customJs : JsFile where
@@ -196,11 +210,11 @@ window.addEventListener('load', () => {
   const blocks = document.querySelectorAll('code.hl.lean.block');
   blocks.forEach(block => {
     const code = block.innerText;
-    
+
     // Create actions container
     const actions = document.createElement('div');
     actions.className = 'code-block-actions';
-    
+
     // Copy button
     const copyButton = document.createElement('button');
     copyButton.className = 'copy-button';
@@ -208,7 +222,7 @@ window.addEventListener('load', () => {
     const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
     const checkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
     copyButton.innerHTML = copyIcon;
-    
+
     copyButton.addEventListener('click', () => {
       navigator.clipboard.writeText(code).then(() => {
         copyButton.innerHTML = checkIcon;
@@ -217,7 +231,7 @@ window.addEventListener('load', () => {
         }, 2000);
       });
     });
-    
+
     // Try it button
     const header = "import Lean\nopen Lean Meta Elab Tactic Term Command\n-- If any imports are missing from the default header, please manually add them.\n\n";
     const url = 'https://live.lean-lang.org/#code=' + encodeURIComponent(header + code);
@@ -230,7 +244,7 @@ window.addEventListener('load', () => {
       <svg width="12" height="12" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
       <span>Try it!</span>
     `;
-    
+
     actions.appendChild(copyButton);
     actions.appendChild(tryItButton);
     block.appendChild(actions);
