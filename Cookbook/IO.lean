@@ -5,6 +5,8 @@ import Cookbook.IO.CliArgs
 import Cookbook.IO.EnvironmentVars
 import Cookbook.IO.TimePerformanceMeasure
 import Cookbook.IO.TasksAndConcurrency
+import Cookbook.IO.SleepingProcess
+import Cookbook.IO.ProcessInterrupt
 import Cookbook.IO.Miscellaneous
 
 open Verso.Genre Manual Cookbook
@@ -31,4 +33,6 @@ This chapter covers various topics related to I/O and processes, threads and con
 {include 1 Cookbook.IO.EnvironmentVars}
 {include 1 Cookbook.IO.TimePerformanceMeasure}
 {include 1 Cookbook.IO.TasksAndConcurrency}
+{include 1 Cookbook.IO.SleepingProcess}
+{include 1 Cookbook.IO.ProcessInterrupt}
 {include 1 Cookbook.IO.Miscellaneous}
