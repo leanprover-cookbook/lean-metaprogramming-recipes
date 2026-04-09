@@ -27,7 +27,7 @@ The functions described here rely on {name}`MessageData`, which allows you to lo
 
 The logging functions do not accept just any term directly. To print something in the Infoview, Lean must know how to turn it into {name}`MessageData`, usually via an instance of {name}`ToMessageData`. In many cases, these instances come for free. For example, a {name}`ToFormat` instance gives rise to a {name}`ToMessageData` instance, and a {name}`ToString` instance can in turn be used to build a {name}`ToFormat` instance.
 
-Built-in types like {name}`Nat` already have a {name}`ToMessageData` instance, so `m!"The number is {42}"` works out of the box. For a custom type, you need to tell Lean how it should appear in the Infoview:
+Built-in types like {name}`Nat` already have a {name}`ToMessageData` instance, so ` m!"The number is {42}" ` works out of the box. For a custom type, you need to tell Lean how it should appear in the Infoview:
 
 ```lean
 structure Point where
@@ -73,7 +73,8 @@ example : 2 + 3 = 5 := by
   readGoal
   rfl
 ```
-Notice how the `m!` macro handles the interpolation expression: `m!"Current goal: {goal}"` expands into a `MessageData` object containing both a text part (`"Current goal: "`) and an expression part (the pretty-printed `goal`). `logInfo` accepts this object and pushes it to the Infoview.
+
+Notice how the `m!` macro handles the interpolation expression: `m!"Current goal: {goal}"` expands into a {name}`MessageData` object containing both a text part (`Current goal: "`) and an expression part (the pretty-printed `goal`). {name}`logInfo` accepts this object and pushes it to the Infoview.
 
 ## {name}`Lean.logWarning`
 {index}[`logWarning`]
@@ -86,7 +87,7 @@ def warningMessage (msg : String) : CoreM Unit := do
 #eval warningMessage "something might be wrong"
 ```
 
-In this tactic example, we use `logWarning` to alert the user if a tactic splits the state into multiple goals:
+In this tactic example, we use {name}`logWarning` to alert the user if a tactic splits the state into multiple goals:
 
 ```lean
 elab "warnIfMultipleGoals" : tactic => do
@@ -104,6 +105,7 @@ example : ∀ x : Nat, (x = x ↔ x - x = 0) := by
 
 
 ## {name}`Lean.logError`
+
 {index}[`logError`]
 
 `Lean.logError` displays error messages in red in the Infoview. While it marks the associated code with a red squiggly line indicating an error, it does not interrupt execution.

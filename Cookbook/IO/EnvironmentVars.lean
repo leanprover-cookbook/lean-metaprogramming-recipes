@@ -46,9 +46,9 @@ number := false
 
 {index}[Setting Environment Variables for Child Process]
 
-Setting environment variables for the *current* process is less common in pure Lean code. Usually, you set environment variables when spawning a new child process to configure its environment.
+You can set environment variables when spawning a new child process to configure its environment. Remember that it is not possible to change the environment of the current process since it's already running. To run a child process, check out {ref "running-an-external-program"}[Running an external program].
 
-When using {lean}`IO.Process.spawn`, you can pass an `env` array to specify variables for the new process:
+When using [{lean}`IO.Process.SpawnArgs`](https://lean-lang.org/doc/reference/latest/IO/Processes/#IO___Process___SpawnArgs___mk), you can pass an `env` array to specify variables for the new process.
 
 ```lean
 def runWithCustomEnv : IO Unit := do

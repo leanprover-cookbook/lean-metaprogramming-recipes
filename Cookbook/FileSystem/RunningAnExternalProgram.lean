@@ -20,7 +20,7 @@ number := false
 
 {index}[Running an external program]
 
-In order to run an external program from inside a Lean file, we can use {lean}`IO.Process.run`, which takes a {lean}`IO.Process.SpawnArgs` structure and returns the command's stdout as a {lean}`String`.
+In order to run an external program from inside a Lean file, we can use {lean}`IO.Process.run`, which takes a {lean}`IO.Process.SpawnArgs` structure and returns the command's stdout as a {lean}`String`. You can check out [IO.Process.SpawnArgs](https://lean-lang.org/doc/reference/latest/IO/Processes/#IO___Process___SpawnArgs___mk) in Lean4 reference manual for more details on the available options.
 
 ```lean
 def runExternalProgram (cmd : String) (args : Array String)
