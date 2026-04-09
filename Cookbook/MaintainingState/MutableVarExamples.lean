@@ -11,7 +11,7 @@ set_option pp.rawOnError true
 #doc (Manual) "Mutable Variables: Example" =>
 
 %%%
-tag := "mutable-variables"
+tag := "mutable-variables-example"
 number := false
 htmlSplit := .never
 %%%
