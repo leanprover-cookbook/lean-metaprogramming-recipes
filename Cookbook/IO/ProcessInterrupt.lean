@@ -30,7 +30,7 @@ number := false
 
 {index}[Interruptible Sleep]
 
-A common requirement is to put a thread to sleep for a duration, but allow it to be "woken up" or interrupted before the time expires. In Lean, this can be achieved using {lean}`IO.Promise`. {lean}`IO.Promise` acts as a synchronization primitive that allows one thread to wait for a value that is provided by another thread at a later time. In this context, it serves as a "signal" or a "mailbox" where the sleeping thread waits for the promise to be fulfilled, effectively allowing an external trigger to interrupt the wait.
+A common requirement is to put a thread to sleep for a duration, but allow it to be "woken up" or interrupted before the time expires. In Lean, this can be achieved using {lean}`IO.Promise`, see [reference](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads/#The-Lean-Language-Reference--IO--Tasks-and-Threads--Promises). {lean}`IO.Promise` acts as a synchronization primitive that allows one thread to wait for a value that is provided by another thread at a later time. In this context, it serves as a "signal" or a "mailbox" where the sleeping thread waits for the promise to be fulfilled, effectively allowing an external trigger to interrupt the wait.
 
 ## Using an Extra Task (Timeout Task)
 

@@ -65,6 +65,8 @@ def sumFirstN (n : Nat) (acc : Nat := 0) : Nat :=
 --/
 def printSystemIdentity (label : String) : IO Unit := do
   let pid ← IO.Process.getPID
+  -- If you want to check thread ID,
+  -- let tid ← IO.getTID
   IO.println s!"[{label}] PID: {pid}"
 
 /--
@@ -147,4 +149,4 @@ You might notice the use of `.block` in the example. What does this do?
 
 *If the thread is not blocked, who is waking up the sleeping task?*
 
-A task cannot go to waitqueue of the OS. Instead, the runtime uses `epoll` to delegate the timer to the OS kernel, which serves as the global timekeeper. While the {lean}`Task` is moved into a logical wait queue in the runtime's memory, the OS Thread remains unblocked and free to rotate to other pending work. 
+A task cannot go to waitqueue of the OS. Instead, the runtime uses `epoll` to delegate the timer to the OS kernel, which serves as the global timekeeper. While the {lean}`Task` is moved into a logical wait queue in the runtime's memory, the OS Thread remains unblocked and free to rotate to other pending work. Note that *tid* may be different, but *pid* remains the same for sure.

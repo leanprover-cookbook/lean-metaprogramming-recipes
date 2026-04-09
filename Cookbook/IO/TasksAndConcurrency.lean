@@ -27,11 +27,23 @@ number := false
 
 {index}[Tasks and Concurrency]
 
-Lean 4 supports lightweight concurrency through {lean}`Task`. You can spawn tasks to perform {lean}`IO` in the background and wait for their results later.
+Lean 4 supports lightweight concurrency through {lean}`Task`. You can spawn tasks to perform {lean}`IO` in the background and wait for their results later. Do check out information about the {lean}`Task` API can be found in the Lean 4 reference manual [Task and Threads](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads) section.
+
+{lean}`Task` `α` is a primitive for asynchronous computation. It represents a computation that will resolve to a value of `type α`, possibly being computed on another thread.
+
+## Spawning a Task
+
+If you have a pure computation that is very heavy, you can use {lean}`Task.spawn` to run it in parallel without the {lean}`IO` monad.
+
+```lean
+def computeSomething : Nat :=
+  let t := Task.spawn (fun _ => 2 + 2)
+  t.get
+```
 
 ## Spawning Background Tasks
 
-You can use {lean}`IO.asTask` to run an {lean}`IO` action in a background thread. It returns a {lean}`Task` that will eventually contain the result (wrapped in an {lean}`Except`).
+Tasks which have side effects beyond computation, you should use {lean}`IO.asTask` to run an {lean}`IO` action in a background thread. It returns a {lean}`Task` that will eventually contain the result (wrapped in an {lean}`Except`).
 
 ```lean
 def backgroundWork : IO Unit := do
@@ -51,15 +63,43 @@ def backgroundWork : IO Unit := do
   | .error e => IO.eprintln s!"Task failed with error: {e}"
 ```
 
-## Spawning Tasks without `IO`
+## Task Status
 
-If you have a pure computation that is very heavy, you can use {lean}`Task.spawn` to run it in parallel without the {lean}`IO` monad.
+You can check if a task is still running using {lean}`IO.TaskState`. This will tell you if it is still running, waiting to be run or has already completed. Note that {lean}`Task` is not a Process or Thread, so you cannot use {lean}`IO.TaskState` to check the status of a child process.
 
 ```lean
-def computeSomething : Nat :=
-  let t := Task.spawn (fun _ => 2 + 2)
-  t.get
+def monitorTask (task : Task α) : IO String := do
+  let state ← IO.getTaskState task
+  return match state with
+    | .waiting  => "Task is still waiting."
+    | .running  => "Task is currently running."
+    | .finished => "Task has finished."
+
+def checkTaskStatus : IO Unit := do
+  -- Create a task that runs asynchronously
+  let task ← IO.asTask (do
+    IO.sleep 2000
+    pure "Success"
+  )
+  
+  let s1 ← monitorTask task
+  IO.println s1 
+  
+  -- Wait for the task's internal timer to expire
+  IO.sleep 2500
+  
+  -- Check again after completion
+  let s2 ← monitorTask task
+  IO.println s2
+
+/-
+Task is still waiting.
+Task has finished.
+-/
+-- #eval checkTaskStatus
 ```
+
+You can use {lean}`IO.getTID` to get the thread ID of the current thread, check out {ref "get-thread-ids"}[Get Thread IDs] for more information on how to get thread IDs of a process.
 
 # Parallel IO
 

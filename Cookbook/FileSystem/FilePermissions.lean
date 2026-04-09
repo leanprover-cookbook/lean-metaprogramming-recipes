@@ -113,4 +113,4 @@ def demoPermissions (path : System.FilePath) : IO Unit := do
   IO.println "Updated user to allow execution."
 ```
 
-This works nicely on Linux systems, you can modify the commands accordingly. Note that when you are setting permissions, you will only change the permissions mentioned in the {lean}`IO.FileRight` structure, previously set permissions that are not mentioned will remain unchanged.
+This works nicely on Unix systems, you can modify the commands accordingly. Note that when you are setting permissions, you will only change the permissions mentioned in the {lean}`IO.FileRight` structure, previously set permissions that are not mentioned will remain unchanged.

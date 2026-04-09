@@ -1,5 +1,6 @@
 import VersoManual
 import Cookbook.Lean
+import Cookbook.IO.SpawningChildProcess
 import Std
 
 open Verso.Genre Manual Cookbook
@@ -35,59 +36,94 @@ def getRandomNumber (low high : Nat) : IO Unit := do
     {low} and {high}: {random}"
 ```
 
-# Putting a Process to Sleep
+# Terminating a Process
 
 %%%
-tag := "sleep-process"
+tag := "terminating-a-process"
+number := false
+%%%
+
+{index}[Terminating a Process]
+
+You can use {lean}`IO.Process.exit` to terminate current process with a specific exit code. By convention, an exit code of `0` indicates success, and any non-zero code indicates an error.
+
+```lean
+def terminateProcess (someCondition : Bool) : IO Unit := do
+  if someCondition then
+    IO.Process.exit 0 -- Success
+  else
+    IO.println s!"Condition not met. Terminating process..."
+    IO.Process.exit 1
+```
+
+You can also spawn a new process using {lean}`IO.Process.forceExit` to force kill current process. Also, you can kill any other process by spawning a child process and giving PID of victim process using Linux's `kill` command(or your machine's version for it) too.
+
+# File Compression and Decompression
+
+%%%
+tag := "file-compression-decompression"
+number := false
+%%%
+
+{index}[File Compression and Decompression]
+
+Lean does not have built-in support for file compression, but we can easily call external programs like `gzip` or `zip` to perform these tasks. See {ref "spawning-child-process"}[Spawning a Child Process] recipe for more information on how to run external commands from Lean.
+
+*Warning*: Since we are using external programs, these are system-dependent and make sure to have the necessary tools installed on your system. Change the commands accordingly for different operating systems or compression formats.
+
+Using the functions defined above, we can easily perform common system tasks like compressing files or creating archives.
+
+1. Using `gzip`
+
+The `gzip` command is a standard tool for single-file compression.
+
+```lean
+def compressFile (path : System.FilePath) : IO Unit := do
+  let _ ← runExternalProgram "gzip" #["-k", path.toString]
+  IO.println s!"Compressed {path}"
+```
+
+2. Creating a `.zip` Archive
+
+To archive multiple files or directories, we can use the `zip` utility.
+
+```lean
+def createArchive (archiveName : String) 
+    (files : Array String) : IO Unit := do
+  let _ ← runExternalProgram "zip" (#[archiveName] ++ files)
+  IO.println s!"Created archive {archiveName}"
+```
+
+To decompress a `.zip` file, we can use the `unzip` command:
+
+```lean
+def decompressArchive (archiveName : String) : IO Unit := do
+  let _ ← runExternalProgram "unzip" #["-o", archiveName]
+  IO.println s!"Decompressed archive {archiveName}"
+```
+
+For any other compression formats, you can similarly call the appropriate command-line tool using the {name}`runExternalProgram` function.
+
+# Reading Environment Variables
+
+%%%
+tag := "reading-environment-variables"
 number := false
 %%%
 
 
-{index}[Putting a Process to Sleep]
+{index}[Reading Environment Variables]
 
-You can pause the current thread using {lean}`IO.sleep`. It takes the duration in *milliseconds*.
-
-```lean
-def sleepProcessHello : IO Unit := do
-  IO.println "Wait for it..."
-  IO.sleep 2000 -- Wait for 2 seconds
-  IO.println "Hello Lean!"
-```
-
-Note that {lean}`IO.sleep` is non-blocking for other Lean tasks; it only pauses the current execution flow.
-
-# Async Sleep
-
-%%%
-tag := "async-sleep"
-number := false
-%%%
-
-{index}[Async Sleep]
-
-Async Sleep (Asynchronous Sleep) refers to a sleep operation that yields the current execution fiber for a specific time without blocking the entire OS thread or the runtime's scheduler. This allows other concurrent tasks to continue running while the current task waits. 
-
-While {lean}`IO.sleep` is the standard way to pause in a task, Lean's internal library provides a more specialized event-driven asynchronous I/O framework in {lean}`Std.Internal.IO.Async`. Within this framework, {lean}`Std.Internal.IO.Async.sleep` is used to pause execution without blocking the task manager's thread pool.
+You can use {lean}`IO.getEnv` to retrieve the value of an environment variable. Since a variable might not be set, it returns an {lean}`Option String`.
 
 ```lean
-open Std.Internal.IO.Async
-open Std.Time
-
-def asyncSleepExample : IO Unit := do
-  IO.println "Starting async sleep..."
-  
-  -- Create an Async computation that sleeps for 2 seconds
-  -- Std.Internal.IO.Async.sleep takes a Millisecond.Offset
-  let duration := Millisecond.Offset.ofInt 2000
-  let computation : Async Unit := Std.Internal.IO.Async.sleep duration
-  
-  -- Use Async.block to execute the computation in the IO monad
-  computation.block
-  
-  IO.println "Woke up from async sleep!"
+def checkUser : IO Unit := do
+  let user? ← IO.getEnv "USER"
+  match user? with
+  | some name => IO.println s!"Hello, {name}!"
+  | none      => IO.println "Could not find USER variable."
 ```
 
-The {lean}`Async` framework is designed for high-performance, event-driven I/O and provides better primitives for composing many concurrent operations than raw tasks alone.
 
 # Deadlocking the Task System
 
@@ -96,30 +132,28 @@ tag := "deadlocking-the-task-system"
 number := false
 %%%
 
-
 {index}[Deadlock]
-{index}[Task]
 
 Lean 4's task system uses a fixed-size thread pool (typically equal to the number of CPU cores). A common pitfall is to call a blocking operation like {lean}`IO.wait` or {lean}`Task.get` from within another task. 
 
-Because the thread pool is finite, if you have more tasks waiting on other tasks than there are available threads, the system will **deadlock**. The blocked tasks continue to occupy their threads while waiting for work that can never be scheduled because all threads are already full.
+Because the thread pool is finite, if you have more tasks waiting on other tasks than there are available threads, the system will *deadlock*. The blocked tasks continue to occupy their threads while waiting for work that can never be scheduled because all threads are already full.
 
-### Example of a Deadlock Scenario
+## Example of a Deadlock Scenario
 
 If you try to run more tasks than you have CPU cores, and each task waits for another task to finish, you might run into this issue:
 
 ```lean
--- Potentially deadlocks if the thread pool is exhausted
+-- This code will create a deadlock
 def potentialDeadlock : IO Unit := do
   let tasks ← (List.range 100).mapM fun i => IO.asTask do
     let subTask ← IO.asTask do
       IO.sleep 100
       return i
-    -- Blocking wait inside a task!
+    -- CRITICAL ERROR: Blocking wait inside a task
     let res ← IO.wait subTask
     return res
   
-  let _ ← tasks.mapM IO.wait
+  let _ ← tasks.mapM (fun t => IO.wait t)
 ```
 
 ### Avoiding Deadlocks
@@ -127,9 +161,27 @@ def potentialDeadlock : IO Unit := do
 To avoid deadlocks, prefer asynchronous composition using {lean}`IO.bindTask`. This allows you to chain tasks together without holding a thread idle while waiting for the result.
 
 ```lean
-def safeComposition (t : Task α) (f : α → IO (Task β)) : IO (Task β) := do
-  IO.bindTask t f
+/--
+  Safe version: Instead of waiting inside a task, 
+  we chain the tasks together.
+--/
+def safeAsyncComposition : IO Unit := do
+  let tasks ← (List.range 100).mapM fun i => do
+    -- 1. Create the first task
+    let t1 ← IO.asTask (pure i)
+    
+    -- 2. Use bindTask to create a dependency.
+    -- This does NOT block a thread. It registers a callback.
+    IO.bindTask t1 (fun 
+      | .ok val => IO.asTask do 
+          IO.sleep 100
+          return val
+      | .error e => throw e)
+
+  -- 3. Wait for the final results from the main thread
+  for t in tasks do
+    let res ← IO.wait t
+    IO.println s!"Finished task: {res}"
 ```
 
 By using {lean}`IO.bindTask`, the scheduler only runs the next part of the computation once the first task is complete, freeing up the thread in the meantime.
-
