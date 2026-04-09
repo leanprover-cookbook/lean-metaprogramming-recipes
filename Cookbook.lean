@@ -8,6 +8,7 @@ import Cookbook.FileSystem
 import Cookbook.DataStructures
 import Cookbook.IO
 import Cookbook.Tactics
+import Cookbook.MaintainingState
 import Cookbook.Index
 import Cookbook.BuildingRecipe
 import Cookbook.Elaboration
@@ -74,6 +75,8 @@ Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who hav
 {include 1 Cookbook.Elaboration}
 
 {include 1 Cookbook.Tactics}
+
+{include 1 Cookbook.MaintainingState}
 
 {include 1 Cookbook.IO}
 
