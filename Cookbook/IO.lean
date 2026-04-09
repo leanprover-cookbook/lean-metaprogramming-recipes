@@ -25,6 +25,7 @@ number := false
 
 This chapter covers various topics related to I/O and processes, threads and concurrency in Lean. Lean has great support for running tasks concurrently and provides a powerful API for handling I/O operations. We use the {lean}`IO` monad to perform our operations.
 
+*Recipes:*
 
 {include 1 Cookbook.IO.HandlingStdStreams}
 {include 1 Cookbook.IO.CliArgs}

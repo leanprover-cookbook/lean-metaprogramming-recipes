@@ -19,6 +19,8 @@ number := false
 
 In this chapter we collect recipes to manipulate expressions including building and pattern-matching.
 
+*Recipes:*
+
 {include 1 Cookbook.Expressions.TypesOfExpressions}
 {include 1 Cookbook.Expressions.FunctionApplicationExpressions}
 {include 1 Cookbook.Expressions.FunctionExpressions}

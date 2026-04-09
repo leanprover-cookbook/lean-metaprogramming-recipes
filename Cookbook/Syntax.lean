@@ -20,6 +20,8 @@ In Lean, code is first _parsed_ into syntax, which is then _elaborated_ into exp
 
 In this chapter we give recipes for matching, creating and transforming syntax.
 
+*Recipes:*
+
 {include 1 Cookbook.Syntax.QuasiQuotes}
 {include 1 Cookbook.Syntax.WritingAMacro}
 {include 1 Cookbook.Syntax.AddingSyntaxAndSyntaxCategories}

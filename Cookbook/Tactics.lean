@@ -19,6 +19,8 @@ number := false
 ::: contributors
 :::
 
+*Recipes:*
+
 {include 1 Cookbook.Tactics.HelloWorldTactics}
 {include 1 Cookbook.Tactics.TacticsAsShortcuts}
 {include 1 Cookbook.Tactics.ViewingClosingGoals}
