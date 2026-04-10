@@ -3,6 +3,8 @@ import Cookbook.Lean
 import Cookbook.MaintainingState.RememberingComputations
 import Cookbook.MaintainingState.MutableVariables
 import Cookbook.MaintainingState.MutableVarExamples
+import Cookbook.MaintainingState.EnvironmentExtensionsAndAttributes
+import Cookbook.MaintainingState.EnvironmentExtensionsAndAttributesExample
 
 open Verso.Genre Manual Cookbook
 
@@ -24,3 +26,5 @@ Since Lean is a pure functional programming language, it does not have mutable s
 {include 1 Cookbook.MaintainingState.RememberingComputations}
 {include 1 Cookbook.MaintainingState.MutableVariables}
 {include 1 Cookbook.MaintainingState.MutableVarExamples}
+{include 1 Cookbook.MaintainingState.EnvironmentExtensionsAndAttributes}
+{include 1 Cookbook.MaintainingState.EnvironmentExtensionsAndAttributesExample}
