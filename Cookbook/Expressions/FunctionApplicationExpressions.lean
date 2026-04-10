@@ -57,7 +57,7 @@ def twoExprM : MetaM Expr := do
 
 There is a related function {lean}`mkAppM'` where the first argument is an expression instead of a name. If one needs finer control over which arguments should be inferred and which are given explicitly, there is a function {lean}`mkAppOptM` that takes an array of `Option Expr`, where `none` indicates that the argument should be inferred and `some e` indicates that the argument should be given explicitly as `e`.
 
-## Example: Communtativity of addition
+## Example: Commutativity of addition
 
 As an example of using `mkAppM`, we can build an expression for the commutativity of addition on natural numbers, which states that for all natural numbers `a` and `b`, `a + b = b + a`. We first build expressions for natural numbers, then for the proposition of commutativity of addition, and finally for a proof of this proposition using `Nat.add_comm`.
 
