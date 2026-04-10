@@ -24,7 +24,7 @@ htmlSplit := .never
 
 {index}[Adding syntax for commands]
 
-Lean allows you to define custom syntax for a {name}`command`. One convenient way to do this is to use `elab`, which lets you specify both the syntax and its elaboration in one place.
+Lean allows you to define custom syntax for a {name}`command`. As with terms, this can be done in a simple way with `macro`, or in a more complex way with `elab`. The `elab` approach is more powerful, since it allows you to generate an expression from the syntax and perform checks during elaboration. In this recipe, we will show how to define custom syntax for commands using `elab`, which lets you specify both the syntax and its elaboration in one place.
 
 # "Hello World" command
 

@@ -8,10 +8,10 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Tactic using macros" =>
+#doc (Manual) "Tactics as shortcuts" =>
 
 %%%
-tag := "tactic-using-macro"
+tag := "tactics-as-shortcuts"
 number := false
 htmlSplit := .never
 %%%
@@ -20,7 +20,7 @@ htmlSplit := .never
 :::
 
 
-{index}[Tactic using macros]
+{index}[Tactics as shortcuts]
 
 We have seen how to write custom syntax and a `macro` that parses that syntax in the recipe {ref "writing-a-macro"}[*Writing a Macro*]. In this recipe, we will see how to use `macro` to write a custom tactic. We will start with a simple example of a tactic that applies the same theorem repeatedly until it can no longer be applied, and then we will generalize it to a tactic that takes two theorems as arguments and applies them in a specific order.
 
@@ -29,6 +29,9 @@ We have seen how to write custom syntax and a `macro` that parses that syntax in
 
 We start with an example of a routine proof we might write to prove `2 ≤ 6`.
 
+Often the same or similar patterns of tactics work for a range of problems. To avoid having to repeatedly type the sequence we can create a tactic using a _macro_ for the pattern. More importantly, we can give the tactic a descriptive name that is easier to remember and understand.
+
+We start with an example of a routine proof, namely `2 ≤ 6`.
 ```lean
 example : 2 ≤ 6 := by
   apply Nat.le_succ_of_le

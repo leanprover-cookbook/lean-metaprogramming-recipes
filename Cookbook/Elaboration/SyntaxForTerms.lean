@@ -25,7 +25,9 @@ htmlSplit := .never
 
 # Syntax for Python `for` loop
 
-We will improve upon the `macro` that we defined in the recipe {ref "macro-for-python-for-loop"}[A `macro` that parses Python-like `for` loop], for parsing Python `for` loop syntax. Here we use an elaborator (`elab`) instead of a `macro` to parse the same syntax. This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly. This also gives a more informative error message when the collection is of an unexpected type.
+We will improve upon the `macro` that we defined in the recipe {ref "macro-for-python-for-loop"}[A `macro` that parses Python-like `for` loop], for parsing Python `for` loop syntax. Here we use an elaborator (`elab`) instead of a `macro` to parse the same syntax. Thus, rather than just doing a simple syntactic transformation, we generate an expression from the syntax. This lets us perform more complex transformations and checks during elaboration.
+
+This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly. This also gives a more informative error message when the collection is of an unexpected type.
 
 ## An elaborator that parses Python-like `for` loop
 

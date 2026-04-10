@@ -30,6 +30,7 @@ This chapter covers various topics related to I/O and processes, threads and con
 
 In Lean, it is important to understand the difference in Process, Threads and Tasks. When you spawn a child process, Lean gives you a handle to the OS process. When you spawn an internal computation, Lean gives you a {lean}`Task`. Hence {lean}`Task` is not a schedulable entity at the OS level.
 
+*Recipes:*
 
 {include 1 Cookbook.IO.HandlingStdStreams}
 {include 1 Cookbook.IO.CliArgs}

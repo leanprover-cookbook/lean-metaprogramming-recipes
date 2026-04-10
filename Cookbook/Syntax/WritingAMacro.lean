@@ -21,7 +21,11 @@ htmlSplit := .never
 
 
 {index}[Writing a Macro]
-Lean allows to define custom syntax for a {name}`term`. One convenient way to do this is to use `macro`, which let you specify both the syntax and its behavior in one place. We will use Python syntax as an example to illustrate how to define custom syntax for terms in Lean. We will start with a simple example of parsing Python exponentiation syntax and then move on to a more complex example of parsing Python `for` loop syntax.
+New syntax for a {name}`term`, `tactic`, {lean}`command` can be easily added in Lean. The easiest way to do this is to write a macro that transforms the new syntax into existing syntax. In this recipe, we show how to write macros for new syntax for terms and commands.
+
+One of the nice features of the syntax of Python is the `for` comprehension syntax, which provides a concise way to create lists. For example, the expression `[x^2 for x in [1,2,3,4,5]]` generates a list of the squares of the first five natural numbers. While this is not part of Lean, we show that it is easy to add.
+
+We will start with a simple example of parsing Python exponentiation syntax and then move on to the more complex example of parsing Python `for` loop syntax.
 
 # Syntax for Python exponentiation
 %%%
@@ -61,7 +65,7 @@ tag := "macro-for-python-for-loop"
 number := false
 %%%
 
-Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {name}`List.map`. The {name}`ident` is a placeholder for the variable name used in the comprehension, and the two {name}`term` placeholders represent the expression being generated and the collection being iterated over.
+Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {name}`List.map`. The {name}`ident` is a placeholder for the variable name used in the comprehension, and the two {name}`term` placeholders represent the expression being generated and the collection being iterated over. To avoid conflicts with the `for` keyword in Lean, we use `pyfor` instead.
 
 ```lean
 macro "[" t:term "pyfor" x:ident "in" l:term "]": term => do

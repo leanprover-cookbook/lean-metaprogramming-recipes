@@ -22,6 +22,8 @@ Lean 4 provides several built-in data structures and tools for managing them. Th
 
 *Note:* We will avoid covering basic operations on data structures like `Array` and `List` since they are fairly straightforward and multiple resources are available online for them.
 
+*Recipes:*
+
 {include 1 Cookbook.DataStructures.JSON}
 
 {include 1 Cookbook.DataStructures.TOML}

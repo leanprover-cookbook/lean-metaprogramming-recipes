@@ -23,13 +23,13 @@ htmlSplit := .never
 
 # A Basic Tactic
 
-This is a very basic tactic that does nothing. This is just to show how to define a tactic in Lean.
-
+This is a very basic tactic that does nothing. This is just to show how to define a tactic in Lean. Note that we should begin a tactic with {lean}`Lean.Elab.Tactic.withMainContext` to ensure that the tactic is executed in the context of the main goal.
 
 ```lean
 open Lean Elab Tactic
 
-elab "hello_tactic" : tactic => do
+elab "hello_tactic" : tactic =>
+  withMainContext do
   return
 
 example : 1 = 1 := by
