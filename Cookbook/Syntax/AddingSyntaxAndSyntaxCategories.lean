@@ -22,7 +22,9 @@ htmlSplit := .never
 
 {index}[Adding syntax (categories)]
 
-In Lean, we can create syntax categories that are like a bunch of custom grammatical rules bundled into a single object. Lean already includes built-in syntax categories like `term` (for expressions like 1+2), `tactic` (for tactics), and `command` (for commands). The syntax categories fit perfectly into Lean's extensibility framework. They are particularly helpful when implementing Domain Specific Languages (DSLs).
+While the Lean objects we care about are typically terms, tactics, and commands, the syntax has to represent various intermediate objects involved in their constructions, such as arguments to functions, patterns in match statements, and so on. To represent these various objects, Lean's syntax system has the notion of _syntax categories_. A syntax category is a collection of parsing rules that describe how to parse a certain kind of syntax. For example, the `term` syntax category includes rules for parsing expressions like `1 + 2`, while the `tactic` syntax category includes rules for parsing tactics like `simp`.
+
+Lean already includes built-in syntax categories like `term` (for expressions like 1+2), `tactic` (for tactics), and `command` (for commands). The syntax categories fit perfectly into Lean's extensibility framework. They are particularly helpful when implementing Domain Specific Languages (DSLs).
 
 # Declaring a syntax category
 
@@ -53,7 +55,7 @@ number := false
 
 {index}[DSL for HTML unordered lists]
 
-In this recipe, we will parse HTML syntax for unordered lists by creating a custom syntax category called `listItem`. We will also write a macro that converts this custom syntax into a standard Lean {name}`List`.
+In this recipe, we will parse HTML syntax for unordered lists by creating a custom syntax category called `listItem`. We will also write a macro that converts this custom syntax into a standard Lean {name}`List`. Since we want to define a list as a collection of list-items, it is convenient to define a syntax category for list-items, and then define the syntax for lists in terms of this category. This way, we can easily extend our DSL to include more complex list items in the future, such as lists with items with attributes.
 
 We start by declaring the syntax category `listItem`.
 
