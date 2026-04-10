@@ -149,7 +149,7 @@ You might notice the use of `.block` in the example. What does this do?
 
 - *Local vs. Global Blocking:* `computation.block` executes the current Task, but it does not block the underlying OS Thread.
 
-- *The Event Loop:* When you call `.block` on an Async object, you are essentially telling the Lean runtime: "I am going to sit here and wait for this specific result. In the meantime, use my thread to run any other tasks in the queue.". Since the AsyncThread went to sleep, after it is done sleeping and yieldscontrol(via an interrupt), the original task is continue, computing the sum of the first N numbers, which when done goes back to the taskPulse task and finished it.
+- *The Event Loop:* When you call `.block` on an Async object, you are essentially telling the Lean runtime, "I am going to sit here and wait for this specific result. In the meantime, use my thread to run any other tasks in the queue." Since the async thread went to sleep, after it is done sleeping and yields control(via an interrupt), the original task is continued, computing the sum of the first N numbers, which when done goes back to the {lean}`taskPulse` task and finished it.
 
 *If the thread is not blocked, who is waking up the sleeping task?*
 

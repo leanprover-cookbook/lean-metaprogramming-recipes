@@ -42,9 +42,7 @@ def heavyWork (name : String) (iters : Nat) : IO Unit := do
     IO.println s!"{name}: step {i}"
 
 def runParallel : IO Unit := do
-  let stdout ← IO.getStdout
   IO.println "Starting heavy work..."
-  stdout.flush
 
   -- Spawn Task A
   let taskA ← IO.asTask (heavyWork "Task A" 5)
@@ -70,4 +68,6 @@ Both tasks finished!
 -- #eval runParallel
 ```
 
-In this example, the outputs of A and B are interleaved, demonstrating that they are running concurrently. However in many cases due to spawning too many threads, you might create a deadlock. Check out the {ref "deadlocking-the-task-system"}[Deadlocking the Task System] section for more information on how to avoid deadlocks when spawning too many threads.
+In this example, the outputs of A and B are interleaved, demonstrating that they are running concurrently. Notice that even when flushed, the "Starting heavy work..." is coming later. When printing the output do to the terminal, but to a buffer and so does other worker thread's output too, and hence based on more interrupts and thread behaviour, the order may differ among main thread and worker threads {margin}[If you have a better explanation, Please share].
+
+However in many cases due to spawning too many threads, you might create a deadlock. Check out the {ref "deadlocking-the-task-system"}[Deadlocking the Task System] section for more information on how to avoid deadlocks when spawning too many threads.

@@ -27,7 +27,7 @@ number := false
 
 {index}[Spawning Tasks and Worker Threads]
 
-Lean 4 supports lightweight concurrency through {lean}`Task`. You can spawn tasks to perform {lean}`IO` in the background and wait for their results later. {lean}`Task` `α` is a primitive for asynchronous computation. It represents a computation that will resolve to a value of `type α`, possibly being computed on another thread. For each {lean}`Task` spawned, it is done by a separate worker thread.
+Lean 4 supports lightweight concurrency through {lean}`Task`. You can spawn tasks to perform {lean}`IO` in the background and wait for their results later. {lean}`Task` `α` is a primitive for asynchronous computation. It represents a computation that will resolve to a value of `type α`, possibly being computed on another thread.
 
 Do check out information about the {lean}`Task` API can be found in the Lean 4 reference manual [Task and Threads](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads) section.
 
@@ -143,7 +143,7 @@ def realDiv (n d : Int) : IO Int := do
 -- This is designed to catch the error.
 def computeWithIO : IO Unit := do
   let task ← IO.asTask (realDiv 10 0)
-  -- wait returns Except IO.Error (Except IO.Error Int)
+  -- wait returns Except IO.Error Int
   -- because realDiv is IO
   let result ← IO.wait task 
   IO.println s!"IO.asTask result: {result}"
@@ -171,9 +171,10 @@ number := false
 
 {index}[Get Thread IDs]
 
-Lean spawns worker threads to execute tasks in parallel for the same process for performing any {lean}`Task`. Thus there can be multiple threads running for the same process. Since these are all asynchronous tasks, the output may come in any order as well. Note, you can get the Thread ID using {lean}`IO.getTID`.
+Lean spawns worker threads to execute tasks in parallel for the same process for performing any {lean}`Task`. Thus there can be multiple threads running for the same process. Since these are all asynchronous tasks, the output may come in any order as well.{lean}`Task` execution is scheduled on a bounded worker thread pool, hence it maynot be always done by a separate worker thread. 
 
-This example illustrates that separate worker threads run for each {lean}`Task` hence having different TID's but same PID.
+This example illustrates that separate worker threads run for each {lean}`Task` hence having different TID's but same PID. You can get the Thread ID using {lean}`IO.getTID`.
+
 
 ```lean
 /- 
@@ -204,7 +205,7 @@ Task 3 has TID: 348179 (PID: 23379)
 Main Process PID: 23379
 For the main thread, TID: 348175 (PID: 23379)
 -/
--- #eval showMultiThreadInfo
+-- #eval showWorkerThreadInfo
 ```
 
 

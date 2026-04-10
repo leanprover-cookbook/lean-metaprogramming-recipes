@@ -111,7 +111,7 @@ which will look like this:
 
 ## Errors and Warnings
 
-If your code snippet will throw errors, you can indicate that using the usual `#guard_msgs` jus above your code. The below example is taken from {ref "displaying-in-the-infoview"}[Displaying in the Infoview] recipe.
+If your code snippet will throw errors, you can indicate that using the usual `#guard_msgs` just above your code. The below example is taken from {ref "displaying-in-the-infoview"}[Displaying in the Infoview] recipe.
 
 ```
 def errorMessage' (msg : String) : CoreM Unit := do
@@ -122,7 +122,7 @@ def errorMessage' (msg : String) : CoreM Unit := do
 #eval errorMessage' "something went wrong"
 ```
 
-will give the following output:
+This will look like this:
 
 ```lean
 def errorMessage' (msg : String) : CoreM Unit := do

@@ -81,7 +81,7 @@ number := false
 
 {index}[Get PID of a Process]
 
-To get the PID a process you spawn, you use {lean}`IO.Process.getPID` method.
+To get the PID a process you spawn, you use {lean}`IO.Process.Child.pid` method.
 
 ```lean
 def getProcessInfo (cmd : String) (args : Array String) 
@@ -90,7 +90,10 @@ def getProcessInfo (cmd : String) (args : Array String)
     cmd := cmd
     args := args
   }
-  IO.println s!"Process PID: {proc.pid}"
+  -- for current process
+  let cpid ← IO.Process.getPID
+  IO.println s!"Current Process PID: {cpid}"
+  IO.println s!"Child Process PID: {proc.pid}"
 ```
 
 To check the status of a child process if it is still running, you can use the {lean}`IO.Process.Child.tryWait` method

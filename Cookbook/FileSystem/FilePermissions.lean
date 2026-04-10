@@ -33,7 +33,7 @@ number := false
 Writing permissions for files is quite confusing since the API is not quite intuitive. Here is an example of how to set file permissions for a file path using the {lean}`IO.AccessRight`, {lean}`IO.FileRight`, and {lean}`IO.setAccessRights` APIs provided [here](https://lean-lang.org/doc/reference/latest/IO/Files___-File-Handles___-and-Streams/#IO___AccessRight___mk) in the Lean4 reference manual.
 
 ```lean
-def SetFilePermissions (path : System.FilePath) : 
+def setFilePermissions (path : System.FilePath) : 
     IO Unit := do
   -- Define specific access rights
   let rw : IO.AccessRight := 
@@ -54,13 +54,12 @@ def SetFilePermissions (path : System.FilePath) :
   IO.println s!"Access rights for {path} have been updated."
 ```
 
-
 # Reading File Permissions
 
 To read the permissions of a file, Lean does not provide a built-in API for it(if you know one, please let us know!, I could not find one in the documentation). However, we can use the Linux `stat` command to get the permissions in octal format and then convert it to an {lean}`IO.FileRight` structure.
 
 ```lean
-/-- Convert an octal digit to an IO.AccessRight stucture. -/
+/-- Convert an octal digit to an IO.AccessRight structure. -/
 def octalToAccessRight (c : Char) : IO.AccessRight :=
   let val := c.toString.toNat!
   { 
@@ -81,7 +80,7 @@ def getFilePermissions (path : System.FilePath) :
     then throw <| 
       IO.userError s!"Failed to run stat: {out.stderr}"
 
-  -- The output is usually 3 or 4 digits (e.g., "644\n")
+  -- The output is usually 3 digits
   let s := out.stdout.trimAscii.toString
   let chars := s.toList
 
@@ -103,9 +102,9 @@ def demoPermissions (path : System.FilePath) : IO Unit := do
 
   -- Modify permissions: Add execution for the user
   let updated := { current with 
-    user := { current.user with execution := true } 
-    group := { current.group with write := true }
-    other := { current.other with execution := true }
+    user := { current.user with execution := true },
+    group := { current.group with write := true },
+    other := { current.other with execution := true },
   }
   
   -- Apply updated permissions

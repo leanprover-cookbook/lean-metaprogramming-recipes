@@ -54,6 +54,7 @@ Unlike {name}`Lean.throwError`, none of these logging functions interrupt or abo
 ## {name}`Lean.logInfo`
 
 {index}[`logInfo`]
+
 {name}`logInfo` displays standard informational messages in the Infoview. Because it is monadic, it can be used in tactics, commands, and other elaboration contexts.
 
 ```lean
@@ -62,6 +63,7 @@ def message (msg: String) : MetaM Unit :=
 
 #eval message "logInfo worked"
 ```
+
 Below is an example of a tactic called `readGoal` that fetches the expected type of the current goal using {name}`getMainTarget`. It then uses `logInfo` together with the `m!` macro to pretty-print that goal directly in the Infoview.
 
 ```lean
@@ -74,15 +76,17 @@ example : 2 + 3 = 5 := by
   rfl
 ```
 
-Notice how the `m!` macro handles the interpolation expression: `m!"Current goal: {goal}"` expands into a {name}`MessageData` object containing both a text part (`Current goal: "`) and an expression part (the pretty-printed `goal`). {name}`logInfo` accepts this object and pushes it to the Infoview.
+Notice how the `m!` macro handles the interpolation expression: `m!"Current goal: {goal}"` expands into a {name}`MessageData` object containing both a text part (`"Current goal: "`) and an expression part (the pretty-printed `goal`). {name}`logInfo` accepts this object and pushes it to the Infoview.
 
 ## {name}`Lean.logWarning`
+
 {index}[`logWarning`]
-`logWarning` displays warning messages in yellow in the Infoview. It is ideal for flagging noncritical issues or edge cases.
+
+{name}`logWarning` displays warning messages in yellow in the Infoview. It is ideal for flagging noncritical issues or edge cases.
 
 ```lean
 def warningMessage (msg : String) : CoreM Unit := do
-  Lean.logWarning m!"Warning: {msg}"
+  logWarning m!"Warning: {msg}"
 
 #eval warningMessage "something might be wrong"
 ```
@@ -112,14 +116,14 @@ example : ∀ x : Nat, (x = x ↔ x - x = 0) := by
 
 ```lean
 def errorMessage (msg : String) : CoreM Unit := do
-  Lean.logError m!"Error: {msg}"
+  logError m!"Error: {msg}"
 
 /-- error: Error: something went wrong -/
 #guard_msgs in
 #eval errorMessage "something went wrong"
 ```
 
-This is particularly useful when you want to report an error but continue processing the rest of the file or command. For example, `#requireProp` is a command that checks whether a given term has type `Prop`. If it does not, it logs an error but still continues execution and logs the term's expression:
+This is particularly useful when you want to report an error but continue processing the rest of the file or command. For example, `#requireProp` is a command that checks whether a given term has type {lean}`Prop`. If it does not, it logs an error but still continues execution and logs the term's expression:
 
 ```lean
 elab "#requireProp" t:term : command => do
@@ -148,7 +152,7 @@ info: The expression of the term: Nat → Nat
 #requireProp 2 = 0
 ```
 
-Notice the difference if we replace `logError` with `throwError`. Because `throwError` immediately halts execution, the subsequent `logInfo` is never run when the term fails to be a proposition:
+Notice the difference if we replace {name}`Lean.logError` with {name}`Lean.throwError`. Because {name}`Lean.throwError` immediately halts execution, the subsequent {name}`logInfo` is never run when the term fails to be a proposition:
 
 ```lean
 elab "#requireProp" t:term : command => do

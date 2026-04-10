@@ -56,7 +56,9 @@ def terminateProcess (someCondition : Bool) : IO Unit := do
     IO.Process.exit 1
 ```
 
-You can also spawn a new process using {lean}`IO.Process.forceExit` to force kill current process. Also, you can kill any other process by spawning a child process and giving PID of victim process using Linux's `kill` command(or your machine's version for it) too.
+You can also spawn a new process using {lean}`IO.Process.forceExit` to force kill current process abrupty.
+
+Also, you can kill any other process by spawning a child process and giving PID of victim process using Linux's `kill` command(or your machine's version for it) too.
 
 # File Compression and Decompression
 
