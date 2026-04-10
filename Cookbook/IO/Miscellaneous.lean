@@ -124,7 +124,6 @@ def checkUser : IO Unit := do
   | none      => IO.println "Could not find USER variable."
 ```
 
-
 # Deadlocking the Task System
 
 %%%
@@ -132,56 +131,90 @@ tag := "deadlocking-the-task-system"
 number := false
 %%%
 
-{index}[Deadlock]
+{index}[Deadlocking the Task System]
 
-Lean 4's task system uses a fixed-size thread pool (typically equal to the number of CPU cores). A common pitfall is to call a blocking operation like {lean}`IO.wait` or {lean}`Task.get` from within another task. 
+::: contributors
+:::
 
-Because the thread pool is finite, if you have more tasks waiting on other tasks than there are available threads, the system will *deadlock*. The blocked tasks continue to occupy their threads while waiting for work that can never be scheduled because all threads are already full.
+Here we describe about deadlocks and how to prevent yourself from falling into this trap. This is less of a recipe but more of a conceptual understanding about blindly spawning too many Tasks.
 
-## Example of a Deadlock Scenario
+To know basics of about {lean}`Task`s, check out {ref "spawning-tasks-and-worker-threads"}[Spawning Tasks and Worker Threads] before this. 
 
-If you try to run more tasks than you have CPU cores, and each task waits for another task to finish, you might run into this issue:
+## What is a Deadlock? (The Stuck Pizza Shop)
+
+Imagine a pizza shop with only 4 chefs. These chefs are the Worker Threads. They are the only ones who can actually cook. 
+
+A *Deadlock* happens when all the chefs stop working because they are waiting for each other. Imagine 4 customers order a "Mystery Pizza."
+1. Each chef starts making the dough.
+2. Then, each chef realizes they need a secret sauce made by another chef.
+3. *The Mistake:* Instead of doing other work, every chef stands perfectly still with their hands out, saying: "I will not move until I get my sauce!"
+
+Because all 4 chefs are standing still waiting, there is nobody left to actually cook the sauce. The shop is stuck forever. In programming, we call this *Thread Starvation*.
+
+
+## The Deadlocked Code
+
+In this example, we try to run 100000 tasks, this will throw an error as mentioned below. Since today machine's are modern, more powerful with multithreading and multicore processing, this number increases before the thread creation stops.
 
 ```lean
--- This code will create a deadlock
-def potentialDeadlock : IO Unit := do
-  let tasks ← (List.range 100).mapM fun i => IO.asTask do
-    let subTask ← IO.asTask do
-      IO.sleep 100
-      return i
-    -- CRITICAL ERROR: Blocking wait inside a task
-    let res ← IO.wait subTask
-    return res
-  
-  let _ ← tasks.mapM (fun t => IO.wait t)
+def potentialDeadlock (n : Nat := 100000) : IO Unit := do
+  -- We try to start n tasks
+  let tasks ← (List.range n).mapM fun i => 
+    IO.asTask do
+      let subTask ← IO.asTask (pure i)
+      
+      -- ERROR: IO.wait blocks the Chef (Thread).
+      -- If all Chefs are waiting here,
+      -- nobody can start the subTask!
+      match (← IO.wait subTask) with
+      | .ok val => pure (val+1)
+      | .error e => throw e
+
+  -- The program will likely hang here forever
+  for t in tasks do
+    match (← IO.wait t) with
+    | .ok res => IO.println s!"Result: {res}"
+    | .error e => IO.println s!"Error: {e}"
+/-
+libc++abi: terminating due to uncaught exception of type
+lean::exception: failed to create thread
+-/
+-- #eval potentialDeadlock
 ```
 
-### Avoiding Deadlocks
+*Why it fails:*
+When you call {lean}`IO.wait` inside a task, you are telling the Worker Threads to sit down and wait. Since the number of threads is *finite* (limited), once they are all "sitting and waiting," there is no one left to run the subTask.
 
-To avoid deadlocks, prefer asynchronous composition using {lean}`IO.bindTask`. This allows you to chain tasks together without holding a thread idle while waiting for the result.
+## Solution Using {lean}`IO.bindTask` (The "Sticky Note" Way)
+
+The Safe Solution is to use *Asynchronous Composition*. Instead of making a chef wait, we give them a "Sticky Note." 
+
+When a chef finishes the dough, they write a note: "When the sauce is ready, whoever is free should finish this pizza." Then, the chef leaves the kitchen so another chef can use their spot to make the sauce!
 
 ```lean
-/--
-  Safe version: Instead of waiting inside a task, 
-  we chain the tasks together.
---/
-def safeAsyncComposition : IO Unit := do
-  let tasks ← (List.range 100).mapM fun i => do
-    -- 1. Create the first task
+def safeFromDeadlock (n : Nat := 1000000) : IO Unit := do
+  let tasks ← (List.range n).mapM fun i => do
     let t1 ← IO.asTask (pure i)
     
-    -- 2. Use bindTask to create a dependency.
-    -- This does NOT block a thread. It registers a callback.
-    IO.bindTask t1 (fun 
-      | .ok val => IO.asTask do 
-          IO.sleep 100
-          return val
-      | .error e => throw e)
+    -- Use bindTask to "chain" the next part.
+    -- does NOT block a thread but registers a callback.
+    IO.bindTask t1 fun
+      | .ok val => IO.asTask (pure (val + 1))
+      | .error e => throw e
 
-  -- 3. Wait for the final results from the main thread
+  -- Now it's safe to wait from the "Outside" (Main Thread)
   for t in tasks do
-    let res ← IO.wait t
-    IO.println s!"Finished task: {res}"
+    match (← IO.wait t) with
+    | .ok res => IO.println s!"Result: {res}"
+    | .error e => IO.println s!"Error: {e}"
+
+-- No error here, but it will take time since `n` is huge.
+-- #eval safeFromDeadlock
 ```
 
-By using {lean}`IO.bindTask`, the scheduler only runs the next part of the computation once the first task is complete, freeing up the thread in the meantime.
+## Why this is Better
+
+- *No Waiting:* {lean}`IO.bindTask` doesn't make a chef stand still. It tells the shop manager to handle the hand-off later.
+- *Thread Recycling:* As soon as the first part of the task is done, the *Worker Thread* is released. It can immediately go back to the pool to work on the next task or a sub-task.
+- *Efficiency:* This allows you to handle thousands of tasks even if you only have a few CPU cores, because no thread is ever wasted just "sitting and waiting."
+

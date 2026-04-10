@@ -95,49 +95,6 @@ def getProcessInfo (cmd : String) (args : Array String)
 
 To check the status of a child process if it is still running, you can use the {lean}`IO.Process.Child.tryWait` method
 
-## Get Thread IDs
-
-%%%
-tag := "get-thread-ids"
-number := false
-%%%
-
-{index}[Get Thread IDs]
-
-Lean spawns worker threads to execute tasks in parallel for the same process for performing any {lean}`Task`. Thus there can be multiple threads running for the same process. Since these are all asynchronous tasks, the output may come in any order as well.
-
-```lean
-/- 
-All will share the same PID but likely report distinct TIDs.
--/
-def showMultiThreadInfo : IO Unit := do
-  let pid ← IO.Process.getPID
-  IO.println s!"Main Process PID: {pid}"
-
-  -- Create a list of 4 asynchronous tasks
-  let tasks ← (List.range 4).mapM fun i => 
-    IO.asTask do
-      let tid ← IO.getTID
-      IO.println s!"Task {i} has TID: {tid} (PID: {pid})"
-
-  -- Wait for all tasks to complete
-  for t in tasks do
-    let _ ← IO.wait t
-
-  IO.println s!"For the main thread, 
-    TID: {← IO.getTID} (PID: {pid})"
-
-/-
-Task 1 has TID: 348178 (PID: 23379)
-Task 0 has TID: 348148 (PID: 23379)
-Task 2 has TID: 348177 (PID: 23379)
-Task 3 has TID: 348179 (PID: 23379)
-Main Process PID: 23379
-For the main thread, TID: 348175 (PID: 23379)
--/
--- #eval showMultiThreadInfo
-```
-
 
 # Setting Environment Variables for Child Process
 

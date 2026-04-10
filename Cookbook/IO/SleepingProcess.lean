@@ -11,6 +11,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "Putting a Process to Sleep" =>
 
+%%%
+htmlSplit := .never
+%%%
+
 ::: contributors
 :::
 

@@ -3,11 +3,12 @@ import Cookbook.Lean
 import Cookbook.IO.HandlingStdStreams
 import Cookbook.IO.CliArgs
 import Cookbook.IO.TimePerformanceMeasure
-import Cookbook.IO.TasksAndConcurrency
 import Cookbook.IO.SleepingProcess
 import Cookbook.IO.ProcessInterrupt
 import Cookbook.IO.Miscellaneous
 import Cookbook.IO.SpawningChildProcess
+import Cookbook.IO.RunningTasksInParallel
+import Cookbook.IO.SpawningTasks
 
 open Verso.Genre Manual Cookbook
 open Verso.Genre.Manual.InlineLean
@@ -33,7 +34,8 @@ In Lean, it is important to understand the difference in Process, Threads and Ta
 {include 1 Cookbook.IO.HandlingStdStreams}
 {include 1 Cookbook.IO.CliArgs}
 {include 1 Cookbook.IO.SpawningChildProcess}
-{include 1 Cookbook.IO.TasksAndConcurrency}
+{include 1 Cookbook.IO.SpawningTasks}
+{include 1 Cookbook.IO.RunningTasksInParallel}
 {include 1 Cookbook.IO.SleepingProcess}
 {include 1 Cookbook.IO.ProcessInterrupt}
 {include 1 Cookbook.IO.TimePerformanceMeasure}

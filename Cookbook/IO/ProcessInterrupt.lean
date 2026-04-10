@@ -69,7 +69,7 @@ def waitFirst (t1 t2 : Task α) : IO α := do
   IO.waitAny [t1, t2]
 ```
 
-You can also use IO.waitAny to implement a timeout mechanism by racing a computation task against a timer task.
+You can also use {name}`IO.waitAny` to implement a timeout mechanism by racing a computation task against a timer task.
 
 ```lean
 /-- Waits for a task to complete or 
