@@ -12,6 +12,7 @@ set_option pp.rawOnError true
 %%%
 tag := "kinds-of-expressions"
 number := false
+htmlSplit := .never
 %%%
 
 ::: contributors
