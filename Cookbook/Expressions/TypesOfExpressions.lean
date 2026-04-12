@@ -47,25 +47,32 @@ Using `#print Lean.Expr` we can see that Lean has the following constructors for
 
 The most important constructors for us are `const`, `app`, `lam`, and `forallE`, as these are the ones we will encounter most often when working with expressions in Lean. We first look at these constructors and then briefly mention the others.
 
+## Names
+
+Literal names in Lean can be written with a single back-tick like {lean}`` `f `` or with a double back-tick like {lean}``` ``Nat ```. The single back-tick means that we take the name as is, while the double back-tick means that we take the name and resolve it to a constant in the current environment. If we are referring to a global constant, it is safer to use the double back-tick to ensure that we do not make typos and to allow hover to resolve the name to the actual constant.
+
 ## `const` expressions
 
-These are given by the `const` constructor and represent constants in Lean. They consist of a name (which can be a qualified name) and a list of universe levels. For example, the expression `Nat` would be represented as ``Lean.Expr.const `Nat []``, while the expression `List Nat` would be represented as ``Lean.Expr.app (Lean.Expr.const `List []) (Lean.Expr.const `Nat [])``.
+These are given by the `const` constructor and represent constants in Lean. They consist of a name (which can be a qualified name) and a list of universe levels. For example, the expression `Nat` would be represented as {lean}```Lean.Expr.const ``Nat []```, while the expression `List Nat` would be represented as {lean}```Lean.Expr.app (Lean.Expr.const ``List []) (Lean.Expr.const ``Nat [])```.
 
 ## `app` expressions
 
-These are given by the `app` constructor and represent function applications. They consist of a function expression and an argument expression. For example, the expression `f x` would be represented as `Lean.Expr.app (Lean.Expr.const f []) (Lean.Expr.const x [])`.
+These are given by the `app` constructor and represent function applications. They consist of a function expression and an argument expression. For example, the expression `f x` would be represented as {lean}``Lean.Expr.app (Lean.Expr.const `f []) (Lean.Expr.const `x [])``.
 
 ## `lam` expressions
 
-These are given by the `lam` constructor and represent lambda abstractions, i.e., function definitions of the form `fun x ↦ y`. They consist of a name (which is the name of the bound variable), a type expression, a body expression, and a binder info (which indicates whether the variable is implicit or explicit). For example, the expression `fun x : Nat ↦ x + 1` would be represented as `Lean.Expr.lam x (Lean.Expr.const Nat []) (Lean.Expr.app (Lean.Expr.app (Lean.Expr.const Add []) (Lean.Expr.fvar x)) (Lean.Expr.const 1 [])) Lean.Expr.BinderInfo.default`.
+These are given by the `lam` constructor and represent lambda abstractions, i.e., function definitions of the form `fun x ↦ y`. They consist of a name (which is the name of the bound variable), a type expression, a body expression, and a binder info (which indicates whether the variable is implicit or explicit). The body expression cannot have free variables, but can refer to the bound variable using a de Bruijn index, which is a natural number that indicates how many binders away the variable is from its binding site. For example, the expression `fun x : Nat ↦ Nat.succ x` would be represented as {lean}```Lean.Expr.lam `x (Lean.Expr.const `Nat []) (Lean.Expr.app (Lean.Expr.const ``Nat.succ []) (Lean.Expr.bvar 0))  Lean.BinderInfo.default```.
+
+Constructing `lam` expressions directly can be tricky due to the need to manage de Bruijn indices and universes correctly. It is best to use Lean's monadic helper's for this, as we see in the recipe {ref "expressions-for-functions"}[Expressions for Functions].
 
 ## `forallE` expressions
 
-These are given by the `forallE` constructor and represent dependent function types, i.e., types of the form `(x : A) → B` or `∀ x : A, B`. They consist of a name (which is the name of the bound variable), a type expression, a body expression, and a binder info. For example, the expression `∀ x : Nat, List x` would be represented as `Lean.Expr.forallE x (Lean.Expr.const Nat []) (Lean.Expr.app (Lean.Expr.const List []) (Lean.Expr.fvar x)) Lean.Expr.BinderInfo.default`.
+These are given by the `forallE` constructor and represent dependent function types, i.e., types of the form `(x : A) → B` or `∀ x : A, B`. They consist of a name (which is the name of the bound variable), a type expression, a body expression, and a binder info. As in the case of `lam` expressions, the body expression cannot have free variables, but can refer to the bound variable using a de Bruijn index. In this case too, constructing `forallE` expressions directly can be tricky, and it is best to use Lean's monadic helpers for this, as we see in the recipe {ref "expressions-for-functions"}[Expressions for Functions].
+
 
 ## `sort` expressions
 
-These are given by the `sort` constructor and represent universe levels in Lean. They consist of a universe level expression. For example, the expression `Type` would be represented as `Lean.Expr.sort (Lean.Level.succ (Lean.Level.zero))`, while the expression `Prop` would be represented as `Lean.Expr.sort (Lean.Level.zero)`.
+These are given by the `sort` constructor and represent universe levels in Lean. They consist of a universe level expression. For example, the expression `Type` would be represented as {lean}`Lean.Expr.sort (Lean.Level.succ (Lean.Level.zero))`, while the expression `Prop` would be represented as {lean}`Lean.Expr.sort (Lean.Level.zero)`.
 
 ## `letE` expressions
 
@@ -73,7 +80,7 @@ These are given by the `letE` constructor and represent let expressions, i.e., e
 
 ## `lit` expressions
 
-These are given by the `lit` constructor and represent natural number or string literals, which are used in Lean for efficiency in place of, for example, expressions in the inductive type `Nat`. They consist of a literal value. For example, the expression `123` would be represented as `Lean.Expr.lit (Lean.Literal.natVal 123)`.
+These are given by the `lit` constructor and represent natural number or string literals, which are used in Lean for efficiency in place of, for example, expressions in the inductive type `Nat`. They consist of a literal value. For example, the expression `123` would be represented as {lean}`Lean.Expr.lit (Lean.Literal.natVal 123)`.
 
 ## `fvar` and `mvar` expressions
 
@@ -90,4 +97,3 @@ These are given by the `proj` constructor and represent projections from structu
 ## `mdata` expressions
 
 These are given by the `mdata` constructor and represent expressions with metadata. They consist of a metadata object and an expression. Metadata can be used to attach additional information to an expression, such as source location information or annotations.
-
