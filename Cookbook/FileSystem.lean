@@ -2,11 +2,11 @@ import VersoManual
 import Cookbook.Lean
 import Cookbook.FileSystem.ReadingFromFile
 import Cookbook.FileSystem.WritingToFile
-import Cookbook.FileSystem.RunningAnExternalProgram
 import Cookbook.FileSystem.CreatingDirectories
 import Cookbook.FileSystem.ListDirectory
 import Cookbook.FileSystem.DeletingFileOrDirectory
 import Cookbook.FileSystem.ReadWriteJsonl
+import Cookbook.FileSystem.FilePermissions
 import Cookbook.FileSystem.Miscellaneous
 
 open Verso.Genre Manual Cookbook
@@ -35,6 +35,6 @@ This chapter uses various {lean}`IO` recipes which you can checkout in {ref "io"
 {include 1 Cookbook.FileSystem.CreatingDirectories}
 {include 1 Cookbook.FileSystem.ListDirectory}
 {include 1 Cookbook.FileSystem.DeletingFileOrDirectory}
-{include 1 Cookbook.FileSystem.RunningAnExternalProgram}
+{include 1 Cookbook.FileSystem.FilePermissions}
 {include 1 Cookbook.FileSystem.ReadWriteJsonl}
 {include 1 Cookbook.FileSystem.Miscellaneous}

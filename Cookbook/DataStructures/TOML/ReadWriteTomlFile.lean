@@ -81,5 +81,5 @@ def egRoundTrip : CoreM String := do
   let loaded ← loadTomlConfig path
   return s!"Loaded config for: {loaded.name}"
 
-#eval egRoundTrip
+-- #eval egRoundTrip
 ```

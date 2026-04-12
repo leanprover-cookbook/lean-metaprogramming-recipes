@@ -64,6 +64,10 @@ This way, you can refer to this section later using the tag.
 
 # Formatting Text
 
+%%%
+htmlSplit := .never
+%%%
+
 A detailed information on formatting on Verso is explained at [Verso Markup](https://verso-user-manual.netlify.app/Verso-Markup/?terms=--verso#verso-markup) page. Read below for a consise summary of some of the most commonly used formatting options.
 
 ## Adding inline Lean Code
@@ -107,12 +111,33 @@ which will look like this:
 
 ## Errors and Warnings
 
-Expected errors must be explicitly marked with `+error`. If the error message does not match exactly, the documentation build may fail.
+If your code snippet will throw errors, you can indicate that using the usual `#guard_msgs` just above your code. The below example is taken from {ref "displaying-in-the-infoview"}[Displaying in the Infoview] recipe.
 
+```
+def errorMessage' (msg : String) : CoreM Unit := do
+  Lean.logError m!"Error: {msg}"
+
+/-- error: Error: something went wrong -/
+#guard_msgs in
+#eval errorMessage' "something went wrong"
+```
+
+This will look like this:
+
+```lean
+def errorMessage' (msg : String) : CoreM Unit := do
+  Lean.logError m!"Error: {msg}"
+
+/-- error: Error: something went wrong -/
+#guard_msgs in
+#eval errorMessage' "something went wrong"
+```
 
 ## Cross-References
 
-You can link to other sections using their tags like: `{ref "tag-name"}[link text]`. This would give effect as: {ref "building-recipe"}[Back to top].
+You can link to other sections using their tags like: `{ref "tag-name"}[link text]`.
+
+An example would be ` {ref "building-recipe"}[Back to top] `. This would give effect as: {ref "building-recipe"}[Back to top].
 
 ## Marginal Notes
 

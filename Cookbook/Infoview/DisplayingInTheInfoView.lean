@@ -27,7 +27,7 @@ The functions described here rely on {name}`MessageData`, which allows you to lo
 
 The logging functions do not accept just any term directly. To print something in the Infoview, Lean must know how to turn it into {name}`MessageData`, usually via an instance of {name}`ToMessageData`. In many cases, these instances come for free. For example, a {name}`ToFormat` instance gives rise to a {name}`ToMessageData` instance, and a {name}`ToString` instance can in turn be used to build a {name}`ToFormat` instance.
 
-Built-in types like {name}`Nat` already have a {name}`ToMessageData` instance, so `m!"The number is {42}"` works out of the box. For a custom type, you need to tell Lean how it should appear in the Infoview:
+Built-in types like {name}`Nat` already have a {name}`ToMessageData` instance, so ` m!"The number is {42}" ` works out of the box. For a custom type, you need to tell Lean how it should appear in the Infoview:
 
 ```lean
 structure Point where
@@ -54,6 +54,7 @@ Unlike {name}`Lean.throwError`, none of these logging functions interrupt or abo
 ## {name}`Lean.logInfo`
 
 {index}[`logInfo`]
+
 {name}`logInfo` displays standard informational messages in the Infoview. Because it is monadic, it can be used in tactics, commands, and other elaboration contexts.
 
 ```lean
@@ -62,6 +63,7 @@ def message (msg: String) : MetaM Unit :=
 
 #eval message "logInfo worked"
 ```
+
 Below is an example of a tactic called `readGoal` that fetches the expected type of the current goal using {name}`getMainTarget`. It then uses `logInfo` together with the `m!` macro to pretty-print that goal directly in the Infoview.
 
 ```lean
@@ -73,20 +75,23 @@ example : 2 + 3 = 5 := by
   readGoal
   rfl
 ```
-Notice how the `m!` macro handles the interpolation expression: `m!"Current goal: {goal}"` expands into a `MessageData` object containing both a text part (`"Current goal: "`) and an expression part (the pretty-printed `goal`). `logInfo` accepts this object and pushes it to the Infoview.
+
+Notice how the `m!` macro handles the interpolation expression: `m!"Current goal: {goal}"` expands into a {name}`MessageData` object containing both a text part (`"Current goal: "`) and an expression part (the pretty-printed `goal`). {name}`logInfo` accepts this object and pushes it to the Infoview.
 
 ## {name}`Lean.logWarning`
+
 {index}[`logWarning`]
-`logWarning` displays warning messages in yellow in the Infoview. It is ideal for flagging noncritical issues or edge cases.
+
+{name}`logWarning` displays warning messages in yellow in the Infoview. It is ideal for flagging noncritical issues or edge cases.
 
 ```lean
 def warningMessage (msg : String) : CoreM Unit := do
-  Lean.logWarning m!"Warning: {msg}"
+  logWarning m!"Warning: {msg}"
 
 #eval warningMessage "something might be wrong"
 ```
 
-In this tactic example, we use `logWarning` to alert the user if a tactic splits the state into multiple goals:
+In this tactic example, we use {name}`logWarning` to alert the user if a tactic splits the state into multiple goals:
 
 ```lean
 elab "warnIfMultipleGoals" : tactic => do
@@ -104,20 +109,21 @@ example : ∀ x : Nat, (x = x ↔ x - x = 0) := by
 
 
 ## {name}`Lean.logError`
+
 {index}[`logError`]
 
 `Lean.logError` displays error messages in red in the Infoview. While it marks the associated code with a red squiggly line indicating an error, it does not interrupt execution.
 
 ```lean
 def errorMessage (msg : String) : CoreM Unit := do
-  Lean.logError m!"Error: {msg}"
+  logError m!"Error: {msg}"
 
 /-- error: Error: something went wrong -/
 #guard_msgs in
 #eval errorMessage "something went wrong"
 ```
 
-This is particularly useful when you want to report an error but continue processing the rest of the file or command. For example, `#requireProp` is a command that checks whether a given term has type `Prop`. If it does not, it logs an error but still continues execution and logs the term's expression:
+This is particularly useful when you want to report an error but continue processing the rest of the file or command. For example, `#requireProp` is a command that checks whether a given term has type {lean}`Prop`. If it does not, it logs an error but still continues execution and logs the term's expression:
 
 ```lean
 elab "#requireProp" t:term : command => do
@@ -146,7 +152,7 @@ info: The expression of the term: Nat → Nat
 #requireProp 2 = 0
 ```
 
-Notice the difference if we replace `logError` with `throwError`. Because `throwError` immediately halts execution, the subsequent `logInfo` is never run when the term fails to be a proposition:
+Notice the difference if we replace {name}`Lean.logError` with {name}`Lean.throwError`. Because {name}`Lean.throwError` immediately halts execution, the subsequent {name}`logInfo` is never run when the term fails to be a proposition:
 
 ```lean
 elab "#requireProp" t:term : command => do
