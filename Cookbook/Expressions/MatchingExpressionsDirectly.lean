@@ -21,7 +21,7 @@ number := false
 
 {index}[Pattern-matching expressions directly]
 
-In Meta-programming, for instance for writing tactics, it is often necessary to see whether an expression matches a certain pattern. Lean provides several [Recognizers](https://leanprover-community.github.io/mathlib4_docs/Lean/Util/Recognizers.html) that can be used to check if an expression matches a certain pattern and to extract the relevant sub-expressions. For example, the function {lean}`Expr.isAppOf` checks if an expression is an application of a certain function and extracts the arguments of the application.
+In Metaprogramming, for instance for writing tactics, it is often necessary to see whether an expression matches a certain pattern. Lean provides several [Recognizers](https://leanprover-community.github.io/mathlib4_docs/Lean/Util/Recognizers.html) that can be used to check if an expression matches a certain pattern and to extract the relevant sub-expressions. For example, the function {lean}`Expr.isAppOf` checks if an expression is an application of a certain function and extracts the arguments of the application.
 
 # Example : Splitting goals in `∧`
 

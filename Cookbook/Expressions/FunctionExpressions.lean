@@ -65,7 +65,7 @@ example : rflnat% := by -- goal `∀ (n : Nat), n = n`
 
 Let us put the above two constuctions together to prove the result `∀ (n : Nat), n = n`. We will construct an expression that gives a proof of this result, and then we check that the type of the expression is indeed `∀ (n : Nat), n = n`. This will use the functions `inferType` for inferring the type of an expression and `isDefEq` for checking whether two expressions are definitionally equal.
 
-We define a function `rflNatProof` that constructs an expression for a proof of the result `∀ (n : Nat), n = n` and checks that its type is correct:
+We define a function `rflNatExprProof` that constructs an expression for a proof of the result `∀ (n : Nat), n = n` and checks that its type is correct:
 
 ```lean
 def rflNatExprProof : MetaM Bool := do

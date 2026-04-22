@@ -25,7 +25,7 @@ tag := "code-syntax-expressions"
 number := false
 %%%
 
-Both `Syntax` and `Expr` are types defined in the Lean core library, and they are used extensively in meta programming. Lean provides a rich API for working with both `Syntax` and `Expr`.
+Both `Syntax` and `Expr` are types defined in the Lean core library, and they are used extensively in metaprogramming. Lean provides a rich API for working with both `Syntax` and `Expr`.
 
 ## Syntax
 
@@ -37,4 +37,4 @@ Manipulating syntax is done by _Macros_, which are functions that take syntax as
 
 Syntax is further processed by the _Elaborator_, which takes syntax as input and produces expressions as output. The elaborator performs type inference, resolves names, and performs other transformations to produce well-typed expressions.
 
-Expressions in Lean are represented by the `Expr` type, which is a recursive data structure that can represent a wide variety of expressions, including variables, constants, applications, lambda abstractions, and more. More sophisticated meta programming often involves manipulating expressions directly, and most of the recipes will be at this level.
+Expressions in Lean are represented by the `Expr` type, which is a recursive data structure that can represent a wide variety of expressions, including variables, constants, applications, lambda abstractions, and more. More sophisticated metaprogramming often involves manipulating expressions directly, and most of the recipes will be at this level.
