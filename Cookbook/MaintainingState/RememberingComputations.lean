@@ -30,7 +30,7 @@ def State (S A : Type) : Type := S → (A × S)
 ```
 This means that a value of type `State S A` is a function that takes a state of type `S` and returns a pair of a value of type `A` and a new state of type `S`.
 
-Using the `do` notation, we can write code that is concise and readble while handling state. As an example, we use a state monad to implement a memoized function computing so called _Catalan numbers_, which are a sequence of natural numbers that occur in various counting problems in combinatorics.
+Using the `do` notation, we can write code that is concise and readable while handling state. As an example, we use a state monad to implement a memoized function computing so called _Catalan numbers_, which are a sequence of natural numbers that occur in various counting problems in combinatorics.
 
 The Catalan numbers satisfy the recurrence relation:
 * `C(0) = 1`

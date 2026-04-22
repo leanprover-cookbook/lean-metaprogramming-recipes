@@ -23,8 +23,6 @@ htmlSplit := .never
 {index}[Writing a Macro]
 New syntax for a {name}`term`, `tactic`, {lean}`command` can be easily added in Lean. The easiest way to do this is to write a macro that transforms the new syntax into existing syntax. In this recipe, we show how to write macros for new syntax for terms and commands.
 
-One of the nice features of the syntax of Python is the `for` comprehension syntax, which provides a concise way to create lists. For example, the expression `[x^2 for x in [1,2,3,4,5]]` generates a list of the squares of the first five natural numbers. While this is not part of Lean, we show that it is easy to add.
-
 We will start with a simple example of parsing Python exponentiation syntax and then move on to the more complex example of parsing Python `for` loop syntax.
 
 # Syntax for Python exponentiation
@@ -87,4 +85,4 @@ macro_rules
 
 The `macro_rules` command is used to pattern-match on our custom syntax and define exactly how it should be translated (or "expanded") into standard Lean code. In this case, we take the term `t`, the identifier `x`, and the list `l` from our custom syntax and construct a new expression that applies `List.map` to a lambda function `fn`(created from `t` and `x`) and the list `l`.
 
-Macros only act as syntactic sugar and are only exapanded to a different "already-existing" syntax. In a later recipe, {ref "elaborator-for-python-for-loop"}[An elaborator that parses Python-like `for` loop], we will see how to write an elaborator that parses the same syntax and performs additional checks during elaboration.
+Macros only act as syntactic sugar and are only expanded to a different "already-existing" syntax. In a later recipe, {ref "elaborator-for-python-for-loop"}[An elaborator that parses Python-like `for` loop], we will see how to write an elaborator that parses the same syntax and performs additional checks during elaboration.

@@ -22,7 +22,7 @@ htmlSplit := .never
 
 # Monads in Practice: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`
 
-For meta-programming in Lean, we generally have to work with so called _Monads_. We will not attempt to explain these here, but instead give a simplified cartoonish version of the relevant Monads: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`.
+For metaprogramming in Lean, we generally have to work with so called _Monads_. We will not attempt to explain these here, but instead give a simplified cartoonish version of the relevant Monads: `MacroM`, `CoreM`, `MetaM`, `TermElabM`, and `TacticM`.
 
 ## State Monads
 
@@ -34,7 +34,7 @@ At the next level of refinement, note that the monads form a hierarchy, with the
 
 When working purely with Syntax we use the monad `MacroM α`, which has the state `Macro.State`. This is not part of the above hierarchy.
 
-Below the `CoreM` monad is the monad `IO α`, which is the monad of input/output operations. This cannot be used for meta-programming but rather handles side-effects like reading and writing files, printing to the console, etc.
+Below the `CoreM` monad is the monad `IO α`, which is the monad of input/output operations. This cannot be used for metaprogramming but rather handles side-effects like reading and writing files, printing to the console, etc.
 
 ## Error handling, logging and other features
 

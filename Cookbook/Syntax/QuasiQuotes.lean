@@ -24,7 +24,7 @@ htmlSplit := .never
 
 When working with syntax, we almost always use _quasi-quotes_, which are a convenient way to create and match syntax. Quasi-quotes are representations of syntax in the form `` `(<syntax>) `` or more generally `` `(<category>| <syntax>) ``. The `category` can be, for example, `command` or `tactic`. If the category is omitted, it defaults to `term`. We can use a parser in place of a category.
 
-Constructions of expressions using quasi-quote can only be done in a monad with `Lean.MonadQuotation`, which includes the meta-programming monads. They can represent either syntax or _typed syntax_. Thus, the following expressions all define syntax for commands:
+Constructions of expressions using quasi-quote can only be done in a monad with `Lean.MonadQuotation`, which includes the metaprogramming monads. They can represent either syntax or _typed syntax_. Thus, the following expressions all define syntax for commands:
 
 ```lean
 def egCommand : Lean.CoreM Lean.Syntax.Command := do
